@@ -59,7 +59,7 @@ function submitRemito(){
 
 
       <EntradaCaja items={items} itemsDescripciones={itemsDescripciones}/>
-      <Button onClick={submitRemito} sx={{ width: 400, mt: '30px'}} variant="contained">SUBIR REMITO</Button>
+      <Button onClick={submitRemito} sx={{ width: '350px', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
       
 
       <ListaCajasRemito items={items}/> 

@@ -70,7 +70,7 @@ export default function ListaCajasRemito() {
               // maxRows={4}
             />
         
-        <Button onClick={() => guardarEnStock(caja)} sx={{ width: 400, mt: '30px'}} variant="contained">GUARDAR</Button>
+        <Button onClick={() => guardarEnStock(caja)} sx={{ width: '350px', mt: '30px'}} variant="contained">GUARDAR</Button>
         </>
     
       )}
