@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
+
+:root {
+  --mui-blue: #1976d2; /* Azul de Material-UI */
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+
+}
+
+.landingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.landingContainer h1 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  color: var(--mui-blue);
+  text-align: center;
+}

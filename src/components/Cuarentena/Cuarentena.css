@@ -1,0 +1,14 @@
+.cajaContenedor{
+  display: flex;
+width: 400px;
+justify-content: space-between;
+flex-direction: column;
+}
+
+.caja{
+  display: flex;
+  width: 400px;
+  align-content: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
