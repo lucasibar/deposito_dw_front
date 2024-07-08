@@ -17,8 +17,8 @@ export default function LandingPage(props) {
   return (
     <div className='landingContainer'>
         <h1>Der Will</h1>
-        <NavLink to="/remito">  <Button variant="outlined" sx={{bgcolor:'white', width: '400px'}} >SUBIR REMITO</Button>  </NavLink>
-        <NavLink to="/cuarentena">  <Button variant="outlined" sx={{bgcolor:'white', width: '400px'}} >MERCADERIA EN CUARENTENA</Button>  </NavLink>
+        <NavLink to="/deposito_dw_front/remito">  <Button variant="outlined" sx={{bgcolor:'white', width: '400px'}} >SUBIR REMITO</Button>  </NavLink>
+        <NavLink to="/deposito_dw_front/cuarentena">  <Button variant="outlined" sx={{bgcolor:'white', width: '400px'}} >MERCADERIA EN CUARENTENA</Button>  </NavLink>
         <Button variant="outlined" sx={{bgcolor:'white', width: '400px' }} >CONTROL DE STOCK</Button>
         <Button variant="outlined" sx={{bgcolor:'white', width: '400px' }} >SALIDA DE MERCADERIA</Button>
         <Button variant="outlined" sx={{bgcolor:'white', width: '400px' }}  onClick={usuarioNohabilitado}>DASHBOARD ADMINISTRADOR</Button>

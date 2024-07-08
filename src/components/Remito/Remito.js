@@ -38,7 +38,7 @@ export default function Remito(props) {
 const navigate = useNavigate();
 function submitRemito(){
   dispatch(agragarCajaCuarentena())
-  navigate('/');
+  navigate('/deposito_dw_front');
 
 }
 

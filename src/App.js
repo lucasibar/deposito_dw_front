@@ -12,17 +12,28 @@ function App() {
       <Routes>
       <Route 
         exact  
-        path="/remito"
+        path="/deposito_dw_front/remito"
         element={<Remito />}
       /> 
       <Route 
         exact  
-        path="/cuarentena"
+        path="/deposito_dw_front/cuarentena"
         element={<Cuarentena />}
       /> 
+            <Route 
+        exact  
+        path="/deposito_dw_front/stock"
+        element={<LandingPage />}
+      /> 
+            <Route 
+        exact  
+        path="/deposito_dw_front/controlStock"
+        element={<LandingPage />}
+      /> 
+    
       <Route 
         exact  
-        path="/"
+        path="/deposito_dw_front/"
         element={<LandingPage />}
       /> 
  
