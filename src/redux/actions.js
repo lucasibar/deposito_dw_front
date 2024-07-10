@@ -64,14 +64,17 @@ export const agragarCaja =(caja)=>dispatch => {
 
 }
 
-export const agragarCajaCuarentena =(caja)=>dispatch => {
-    return axios.get(`${URL}`)
-  .then(data => {
-    console.log("QUE ONDA POR ACA EN LA PETICION DE MANDADO DE REMITO", data.data)
-    dispatch({type: AGREGAR_CAJA_CUARENTENA})
-  })
+// export const agragarCajaCuarentena =(caja)=>dispatch => {
+//     return axios.get(`${URL}`)
+//   .then(data => {
+//     console.log("QUE ONDA POR ACA EN LA PETICION DE MANDADO DE REMITO", data.data)
+//     dispatch({type: AGREGAR_CAJA_CUARENTENA})
+//   })
 }
+export const agragarCajaCuarentena =(caja)=>dispatch => {
+    return dispatch({type: AGREGAR_CAJA_CUARENTENA, payload: caja })
 
+}
   
 export const stockerCaja =(caja)=>dispatch => {
     return dispatch({type: STOCKEAR_CAJA, payload: caja })
