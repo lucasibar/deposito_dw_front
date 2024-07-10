@@ -3,6 +3,10 @@ export const DATA_LOAD= "DATA_LOAD"
 export const AGREGAR_CAJA= "AGREGAR_CAJA" 
 export const AGREGAR_CAJA_CUARENTENA= "AGREGAR_CAJA_CUARENTENA" 
 export const STOCKEAR_CAJA= "STOCKEAR_CAJA" 
+export const DATA_BASE_REMITO= "DATA_BASE_REMITO" 
+
+const URL = process.env.REACT_APP_BASE_URL_SERVIDOR
+
 
 const items = [
     {
@@ -61,11 +65,19 @@ export const agragarCaja =(caja)=>dispatch => {
 }
 
 export const agragarCajaCuarentena =(caja)=>dispatch => {
-    return dispatch({type: AGREGAR_CAJA_CUARENTENA})
-
+    return axios.get(`${URL}`)
+  .then(data => {
+    console.log("QUE ONDA POR ACA EN LA PETICION DE MANDADO DE REMITO", data.data)
+    dispatch({type: AGREGAR_CAJA_CUARENTENA})
+  })
 }
 
+  
 export const stockerCaja =(caja)=>dispatch => {
     return dispatch({type: STOCKEAR_CAJA, payload: caja })
+
+}
+export const datosBaseRemito =(numeroRemito, proveedor)=>dispatch => {
+    return dispatch({type: DATA_BASE_REMITO, payload: {numeroRemito, proveedor} })
 
 }

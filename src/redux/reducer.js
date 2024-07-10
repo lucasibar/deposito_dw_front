@@ -2,42 +2,62 @@ import {
   DATA_LOAD,
   AGREGAR_CAJA,
   AGREGAR_CAJA_CUARENTENA,
-  STOCKEAR_CAJA
+  STOCKEAR_CAJA,
+  DATA_BASE_REMITO
   } from './actions'
 
 const initialState = { 
   items: [], 
   proveedores:[{name:"Rontaltex", id: 1}, {name:"Galfione", id: 2}],
-  cajas: [],
+  
+  //REMITO
+  numeroRemito:0,
+  proveedor:undefined,
+  cajasRemito: [],
+
+
+  //CUARENTENA
   cajasCuarentena: [],
+
+  //STOCK
   cajasStockeadas:[]
   }
 
   const rootReducer = (state = initialState, action) => {
     switch(action.type) {
+
       case DATA_LOAD:
-        console.log(state)   
       return{         
           ...state,
-         items: action.payload
+        items: action.payload
+      }
+
+
+      //REMITOS
+      case DATA_BASE_REMITO:
+
+      return{         
+          ...state,
+        numeroRemito: action.payload.numeroRemito,
+        proveedor: action.payload.proveedor
       }
 
       case AGREGAR_CAJA:   
       return{         
           ...state,
-         cajas: [...state.cajas, action.payload]
+         cajasRemito: [...state.cajasRemito, action.payload]
       }
       case AGREGAR_CAJA_CUARENTENA:   
       return{         
           ...state,
-         cajasCuarentena: [...state.cajasCuarentena, ...state.cajas],
+         cajasCuarentena: [...state.cajasCuarentena, ...state.cajasRemito],
       }
 
 
       case STOCKEAR_CAJA:   
       return{         
           ...state,
-         cajas: state.cajasCuarentena.filter(caja=> caja.identificador!==action.payload.identificador),
+         cajasRemito: state.cajasCuarentena.filter(caja=> caja.identificador!==action.payload.identificador),
          cajasStockeadas:[...state.cajasStockeadas, action.payload]
       }
 

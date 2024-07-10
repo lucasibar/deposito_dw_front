@@ -25,11 +25,7 @@ export default function ListaCajasRemito() {
 
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
-
-
-  const cajas = useSelector((state) => state.cajas);
-
-
+  const cajas = useSelector((state) => state.cajasRemito);
 
   return (
     <div>

@@ -19,7 +19,8 @@ export default function LandingPage(props) {
         <h1>Der Will</h1>
         <NavLink to="/deposito_dw_front/remito">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >SUBIR REMITO</Button>  </NavLink>
         <NavLink to="/deposito_dw_front/cuarentena">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >MERCADERIA EN CUARENTENA</Button>  </NavLink>
-        <Button variant="outlined" sx={{bgcolor:'white', width: '350px' }} >CONTROL DE STOCK</Button>
+        <NavLink to="/deposito_dw_front/stock">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >STOCK</Button>  </NavLink>
+        <NavLink to="/deposito_dw_front/controlstock">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >CONTROL DE STOCK</Button>  </NavLink>
         <Button variant="outlined" sx={{bgcolor:'white', width: '350px' }} >SALIDA DE MERCADERIA</Button>
         <Button variant="outlined" sx={{bgcolor:'white', width: '350px' }}  onClick={usuarioNohabilitado}>DASHBOARD ADMINISTRADOR</Button>
     </div>

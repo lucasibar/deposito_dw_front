@@ -14,11 +14,12 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import './Remito.css';
+import CargarRemitoProveedor from './CargarRemitoProveedor';
 
 
 export default function Remito(props) {
   const [remito, setRemito] = useState(null);
-  const [proveedor, setProveedor] = useState("Rontaltex");
+  const [proveedor, setProveedor] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -36,9 +37,18 @@ export default function Remito(props) {
   }, [items, setIiemsDescripciones]);
 
 const navigate = useNavigate();
+
+
+const cajasRemito = useSelector((state) => state.cajasRemito);//PARA PROBAR LAS PETICIONES AL SERVER
 function submitRemito(){
-  dispatch(agragarCajaCuarentena())
-  navigate('/deposito_dw_front');
+  dispatch(agragarCajaCuarentena(cajasRemito))
+  //navigate('/deposito_dw_front/detalleremito');
+  console.log("MANDE UNA PETICION", "archivo Remito en boton submitRemito")
+}
+
+function cargarRemitoProveedor(numeroRemito, proveedor){
+  setRemito(numeroRemito)
+  setProveedor(proveedor)
 
 }
 
@@ -46,6 +56,9 @@ function submitRemito(){
     <div>
 
     
+
+      {remito && proveedor?
+      <>
       <AppBar position="static">
         <Toolbar variant="dense" className="toolbar">
           <Typography variant="h6" color="inherit" component="div" className="left">
@@ -56,13 +69,14 @@ function submitRemito(){
           </Typography>
         </Toolbar>
       </AppBar>
-
-
+        
       <EntradaCaja items={items} itemsDescripciones={itemsDescripciones}/>
       <Button onClick={submitRemito} sx={{ width: '350px', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
-      
-
       <ListaCajasRemito items={items}/> 
+      </>
+      :
+      <CargarRemitoProveedor confirmar={cargarRemitoProveedor}/>
+      }
         
 
 

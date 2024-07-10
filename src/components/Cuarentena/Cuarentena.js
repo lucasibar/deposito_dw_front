@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import './Cuarentena.css'
 import { stockerCaja } from '../../redux/actions'
+import Barcode from 'react-barcode';
 
 export default function ListaCajasRemito() {
   let dispatch= useDispatch()
@@ -18,7 +19,6 @@ export default function ListaCajasRemito() {
   
   
   function guardarEnStock(caja){
-    console.log(caja, "archivo de cuarentena linea 16 por ahora")
     dispatch(stockerCaja(caja))
   }
 
@@ -43,8 +43,13 @@ export default function ListaCajasRemito() {
         <>
         <div key={i} className='caja'>
           <h4>{caja.descripcionItem}</h4>
-          <h4>{caja.identificador}</h4>
         </div>
+          <Barcode
+          value={caja.identificador}
+          displayValue={false}
+          lineColor="#990000"
+        />
+          <h2>{caja.identificador}</h2>
         <TextField
               id="outlined-multiline-flexible"
               label="Rack"

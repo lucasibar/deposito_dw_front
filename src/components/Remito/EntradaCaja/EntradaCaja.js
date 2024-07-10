@@ -24,7 +24,9 @@ export default function EntradaCaja({itemsDescripciones}) {
     codigoItem: 0,
     descripcionItem:"",
     partida:"",
-    identificador: generarNumeroAleatorio()
+    identificador: generarNumeroAleatorio(),
+    pallet: 0,
+    palletKGs:0
   }
   const [caja, setCaja] = useState(initialSatate);
 
@@ -58,11 +60,13 @@ export default function EntradaCaja({itemsDescripciones}) {
     }));
   };
 
-
-  function generarNumeroAleatorio() {
-    const numeroAleatorio = Math.floor(10000000 + Math.random() * 90000000);
+  function generarNumeroAleatorio(){
+    // Genera un número aleatorio de 13 dígitos
+    const numeroAleatorio = Math.floor(1000000000000 + Math.random() * 9000000000000);
     return numeroAleatorio;
-  }
+  };
+
+
   const dispatch = useDispatch();
   function subirCaja(){
     dispatch(agragarCaja(caja))
@@ -70,15 +74,27 @@ export default function EntradaCaja({itemsDescripciones}) {
       ...state,
       identificador: generarNumeroAleatorio()
     }));
+  
   }
   function limpiar(){
     setCaja(initialSatate)
   }
-  function handleIdentificador(){}
+  const handlePallet = (e) => {
+    setCaja(state => ({
+      ...state,
+      pallet: e.target.value
+    }));
+  };
+  const handleKgsPallet = (e) => {
+    setCaja(state => ({
+      ...state,
+      palletKGs: e.target.value
+    }));
+  }
   return (
     <div className='formConteiner'>
  
-      <FormControl   sx={{width: '400px', marginTop:'10px'}} >
+      <FormControl   sx={{width: '350px', marginTop:'10px'}} >
         <InputLabel id="demo-simple-select-label">Descripcion Item</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -121,11 +137,29 @@ export default function EntradaCaja({itemsDescripciones}) {
               value={caja.partida}
               onChange={handlePartida}
               // maxRows={4}
-              sx={{width: '400px', marginTop:'10px'}} 
+              sx={{width: '350px', marginTop:'10px'}} 
+              />
+                        <TextField
+              id="outlined-multiline-flexible"
+              label="Pallet"
+              multiline
+              value={caja.pallet}
+              onChange={handlePallet}
+              // maxRows={4}
+              sx={{width: '350px', marginTop:'10px'}} 
+              />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Kilos Pallet para etiqueta por pallet"
+              multiline
+              value={caja.palletKGs}
+              onChange={handleKgsPallet}
+              // maxRows={4}
+              sx={{width: '350px', marginTop:'10px'}} 
               />
         <div className='textFieldContainer'>
-          <Button onClick={subirCaja} sx={{ width: 400, mt: '30px'}} variant="outlined">AGREGAR CAJA</Button>
-          <Button onClick={limpiar} sx={{ width: 400, mt: '30px'}} variant="outlined">LIMPIAR</Button>
+          <Button onClick={subirCaja} sx={{ width: '350px', mt: '30px'}} variant="outlined">AGREGAR CAJA</Button>
+          <Button onClick={limpiar} sx={{ width: '350px', mt: '30px'}} variant="outlined">LIMPIAR</Button>
         </div>  
         
     </div>

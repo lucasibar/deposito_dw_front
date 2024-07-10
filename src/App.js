@@ -1,9 +1,12 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
-import Login from './components/Login/Login'
+// import Login from './components/Login/Login'
+import DetalleRemito from './components/Remito/DetalleRemito/DetalleRemito'
 import Remito from './components/Remito/Remito'
 import LandingPage from './components/LandyngPage/LandingPage'
 import Cuarentena from './components/Cuarentena/Cuarentena'
+import Stock from './components/Stock/Stock'
+import ControlStock from './components/Stock/ControlStock/ControlStock';
 
 
 function App() {
@@ -17,18 +20,23 @@ function App() {
       /> 
       <Route 
         exact  
+        path="//deposito_dw_front/detalleremito"
+        element={<DetalleRemito />}
+      /> 
+      <Route 
+        exact  
         path="/deposito_dw_front/cuarentena"
         element={<Cuarentena />}
       /> 
             <Route 
         exact  
         path="/deposito_dw_front/stock"
-        element={<LandingPage />}
+        element={<Stock />}
       /> 
             <Route 
         exact  
-        path="/deposito_dw_front/controlStock"
-        element={<LandingPage />}
+        path="/deposito_dw_front/controlstock"
+        element={<ControlStock />}
       /> 
     
       <Route 
