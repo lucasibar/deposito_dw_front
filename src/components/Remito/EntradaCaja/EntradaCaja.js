@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Box from "@mui/material/Box";
+import { useDispatch } from 'react-redux';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import './EntradaCaja.css'
 import { agragarCaja } from '../../../redux/actions'
 
