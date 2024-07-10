@@ -2,29 +2,28 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dataLoad, agragarCajaCuarentena } from '../../redux/actions'
-import {  useNavigate } from 'react-router-dom';
+
 
 import EntradaCaja from './EntradaCaja/EntradaCaja'
 import ListaCajasRemito from './ListaCajasRemito/ListaCajasRemito'
 
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import './Remito.css';
 import CargarRemitoProveedor from './CargarRemitoProveedor';
 
 
 export default function Remito(props) {
+  
   const [remito, setRemito] = useState(null);
   const [proveedor, setProveedor] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(dataLoad())
-  }, []);
+  }, [dispatch]);
 
 
   const items = useSelector((state) => state.items);
@@ -36,7 +35,6 @@ export default function Remito(props) {
     }
   }, [items, setIiemsDescripciones]);
 
-const navigate = useNavigate();
 
 
 const cajasRemito = useSelector((state) => state.cajasRemito);//PARA PROBAR LAS PETICIONES AL SERVER

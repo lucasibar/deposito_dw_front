@@ -13,9 +13,9 @@ import './DetalleRemito.css';
 
 
 export default function DetalleRemito() {
-  let dispatch = useDispatch()  
-  const [remito, setRemito] = useState(null);
-    const [proveedor, setProveedor] = useState("Rontaltex");
+ 
+  const remito = useSelector((state) => state.numeroRemito)
+  const proveedor = useSelector((state) => state.proveedor)
 
   const [itemsRemito, setItemsRemito] = useState([]);
   const cajas = useSelector((state) => state.cajasCuarentena);

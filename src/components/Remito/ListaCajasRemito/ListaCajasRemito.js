@@ -19,7 +19,7 @@ export default function ListaCajasRemito() {
 
   return (
     <div>
-             <List dense={dense}>
+             <List >
               {cajas?.map((caja, i) => 
               <div key={i}>
 
@@ -37,7 +37,6 @@ export default function ListaCajasRemito() {
                   </ListItemAvatar>
                   <ListItemText
                     primary={`${caja.descripcionItem}`}
-                    secondary={secondary ? 'Secondary text' : null}
                   />
                 </ListItem>
               </div>

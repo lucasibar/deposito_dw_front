@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import './EntradaCaja.css'
@@ -14,7 +14,10 @@ export default function EntradaCaja({itemsDescripciones}) {
   useEffect(()=>{
     limpiar()
   },[])
-
+  
+  const limpiar = (e)=>{
+    setCaja(initialSatate)
+  }
 
   const initialSatate= {
     kilos: 0,
@@ -74,9 +77,7 @@ export default function EntradaCaja({itemsDescripciones}) {
     }));
   
   }
-  function limpiar(){
-    setCaja(initialSatate)
-  }
+
   const handlePallet = (e) => {
     setCaja(state => ({
       ...state,
