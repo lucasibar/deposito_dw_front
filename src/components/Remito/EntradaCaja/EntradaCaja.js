@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -11,23 +11,28 @@ import './EntradaCaja.css'
 import { agragarCaja } from '../../../redux/actions'
 
 export default function EntradaCaja({itemsDescripciones}) {
-  useEffect(()=>{
-    limpiar()
-  },[])
-  
   const limpiar = (e)=>{
     setCaja(initialSatate)
   }
+  
+  
+  
+  const items = useSelector((state) => state.items);
+  const [item, setItem] = useState({});
+  
+  const handleChange = (e) => {
+    const itemSeleccionado = e.target.value;
+    setItem(itemSeleccionado);
+  };
+
+
+
 
   const initialSatate= {
     kilos: 0,
-    conos:0,
-    codigoItem: 0,
-    descripcionItem:"",
-    partida:"",
-    identificador: generarNumeroAleatorio(),
-    pallet: 0,
-    palletKGs:0
+    codigoItem: "",
+    partida:0,
+    codigoDeBarras: 0
   }
   const [caja, setCaja] = useState(initialSatate);
 
@@ -35,59 +40,28 @@ export default function EntradaCaja({itemsDescripciones}) {
     const cantidadKilos = e.target.value;
     setCaja(state => ({
       ...state,
-      kilos: cantidadKilos
-    }));
-  }
-
-  function handleConos(e) {
-    const cantidadConos = e.target.value;
-    setCaja(state => ({
-      ...state,
-      conos: cantidadConos
+      kilos: parseInt(cantidadKilos)
     }));
   }
   function handlePartida(e) {
     const partida = e.target.value;
     setCaja(state => ({
       ...state,
-      partida
+      partida: parseInt(partida)
     }));
   }
-
-  const handleChange = (e) => {
-    setCaja(state => ({
-      ...state,
-      descripcionItem: e.target.value
-    }));
-  };
-
-  function generarNumeroAleatorio(){
-    // Genera un número aleatorio de 13 dígitos
-    const numeroAleatorio = Math.floor(1000000000000 + Math.random() * 9000000000000);
-    return numeroAleatorio;
-  };
 
 
   const dispatch = useDispatch();
   function subirCaja(){
+    caja.codigoItem = item.id
+    caja.descripcionItem = item.descripcion
     dispatch(agragarCaja(caja))
-    setCaja(state => ({
-      ...state,
-      identificador: generarNumeroAleatorio()
-    }));
-  
   }
-
-  const handlePallet = (e) => {
+  const handleKgsCodigoBarras = (e) => {
     setCaja(state => ({
       ...state,
-      pallet: e.target.value
-    }));
-  };
-  const handleKgsPallet = (e) => {
-    setCaja(state => ({
-      ...state,
-      palletKGs: e.target.value
+      codigoDeBarras: parseInt(e.target.value)
     }));
   }
   return (
@@ -98,37 +72,24 @@ export default function EntradaCaja({itemsDescripciones}) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={caja.descripcionItem}
+          value={item}
           onChange={handleChange}
         >
-        {itemsDescripciones?.map(((itemD, i)=>(
-          <MenuItem  key={i} value={itemD}>{itemD}</MenuItem>
+        
+        {items?.map(((item, i)=>(
+          <MenuItem  key={i} value={item}>{item.descripcion}</MenuItem>
         )))}
+        <MenuItem  key={"bla"} value={"agregar item nuevo"} style={{color:"blue"}}>Agregar item nuevo</MenuItem>
         </Select>
       </FormControl>
-
-
-
-          <div className='textFieldContainer'>
             <TextField
               id="outlined-multiline-flexible"
-              label="Kilos por caja"
+              label="Kilos por caja/pallet"
               multiline
               value={caja.kilos}
               onChange={handleKilos}
               // maxRows={4}
             />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Conos por caja"
-              multiline
-              value={caja.conos}
-              onChange={handleConos}
-              // maxRows={4}
-              sx={{marginLeft:'10px'}} 
-              />
-          </div>
-              
           <TextField
               id="outlined-multiline-flexible"
               label="Partida"
@@ -138,21 +99,12 @@ export default function EntradaCaja({itemsDescripciones}) {
               // maxRows={4}
               sx={{width: '350px', marginTop:'10px'}} 
               />
-                        <TextField
+              <TextField
               id="outlined-multiline-flexible"
-              label="Pallet"
+              label="Codigo de Barras"
               multiline
-              value={caja.pallet}
-              onChange={handlePallet}
-              // maxRows={4}
-              sx={{width: '350px', marginTop:'10px'}} 
-              />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Kilos Pallet para etiqueta por pallet"
-              multiline
-              value={caja.palletKGs}
-              onChange={handleKgsPallet}
+              value={caja.codigoDeBarras}
+              onChange={handleKgsCodigoBarras}
               // maxRows={4}
               sx={{width: '350px', marginTop:'10px'}} 
               />

@@ -3,7 +3,8 @@ import {
   AGREGAR_CAJA,
   AGREGAR_CAJA_CUARENTENA,
   STOCKEAR_CAJA,
-  DATA_BASE_REMITO
+  DATA_BASE_REMITO,
+  AGREGAR_CAJA_REMITO
   } from './actions'
 
 const initialState = { 
@@ -11,8 +12,8 @@ const initialState = {
   proveedores:[{name:"Rontaltex", id: 1}, {name:"Galfione", id: 2}],
   
   //REMITO
-  numeroRemito:0,
-  proveedor:undefined,
+  numeroRemito:"",
+  proveedor:"",
   cajasRemito: [],
 
 
@@ -35,19 +36,19 @@ const initialState = {
 
       //REMITOS
       case DATA_BASE_REMITO:
-
-      return{         
-          ...state,
-        numeroRemito: action.payload.numeroRemito,
-        proveedor: action.payload.proveedor
-      }
+      return state
+      // {         
+      //     ...state,
+      //   numeroRemito: action.payload.numeroRemito,
+      //   proveedor: action.payload.proveedor
+      // }
 
       case AGREGAR_CAJA:   
       return{         
           ...state,
          cajasRemito: [...state.cajasRemito, action.payload]
       }
-      case AGREGAR_CAJA_CUARENTENA:   
+      case AGREGAR_CAJA_REMITO:   
       return{         
           ...state,
          cajasCuarentena: [...state.cajasCuarentena, ...state.cajasRemito],

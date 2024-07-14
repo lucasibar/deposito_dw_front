@@ -1,24 +1,24 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { dataLoad, agragarCajaCuarentena } from '../../redux/actions'
+import { dataLoad, agragarCajasRemito } from '../../redux/actions'
+import './Remito.css';
 
 
 import EntradaCaja from './EntradaCaja/EntradaCaja'
 import ListaCajasRemito from './ListaCajasRemito/ListaCajasRemito'
+import CargarRemitoProveedor from './CargarRemitoProveedor';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import './Remito.css';
-import CargarRemitoProveedor from './CargarRemitoProveedor';
 
 
 export default function Remito(props) {
   
-  const [remito, setRemito] = useState(null);
-  const [proveedor, setProveedor] = useState("");
+  const [remito, setRemito] = useState(0);
+  const [proveedor, setProveedor] = useState(0);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -39,15 +39,17 @@ export default function Remito(props) {
 
 const cajasRemito = useSelector((state) => state.cajasRemito);//PARA PROBAR LAS PETICIONES AL SERVER
 function submitRemito(){
-  dispatch(agragarCajaCuarentena(cajasRemito))
+  for (let i=0; i<cajasRemito.length; i++){
+    cajasRemito[i].proveedor= proveedor
+    cajasRemito[i].numeroRemito= remito
+  }
+  dispatch(agragarCajasRemito(cajasRemito))
   //navigate('/deposito_dw_front/detalleremito');
-  console.log("MANDE UNA PETICION", "archivo Remito en boton submitRemito")
 }
 
 function cargarRemitoProveedor(numeroRemito, proveedor){
   setRemito(numeroRemito)
   setProveedor(proveedor)
-
 }
 
   return (

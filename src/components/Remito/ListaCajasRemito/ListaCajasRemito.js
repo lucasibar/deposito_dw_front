@@ -12,9 +12,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 
 export default function ListaCajasRemito() {
-
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
   const cajas = useSelector((state) => state.cajasRemito);
 
   return (
@@ -30,11 +27,14 @@ export default function ListaCajasRemito() {
                     </IconButton>
                   }
                 >
-                  <ListItemAvatar>
+                  {/* <ListItemAvatar>
                     <Avatar>
                       HOLA HOLA ACA
                     </Avatar>
-                  </ListItemAvatar>
+                  </ListItemAvatar> */}
+                  <ListItemText
+                    primary={`${caja.kilos}`}
+                  />
                   <ListItemText
                     primary={`${caja.descripcionItem}`}
                   />

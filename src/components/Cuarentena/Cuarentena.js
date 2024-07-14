@@ -12,7 +12,7 @@ export default function ListaCajasRemito() {
   const cajas = useSelector((state) => state.cajasCuarentena);
 
   const [rack, setRack] = useState("")
-  const [fila, setFila] = useState(0)
+  const [fila, setFila] = useState("")
   const [piso, setPiso] = useState("")
   
   
