@@ -1,11 +1,17 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { dataLoad } from '../../redux/actions'
 import Button from '@mui/material/Button';
 import './LandingPage.css';
 import Swal from 'sweetalert2';
 import { NavLink} from 'react-router-dom';
 
 
-export default function LandingPage(props) {
+export default function LandingPage(props) {  let dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(dataLoad())
+  },[dispatch])
     function usuarioNohabilitado(){
         Swal.fire({
             icon: "error",

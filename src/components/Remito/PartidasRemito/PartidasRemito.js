@@ -7,17 +7,13 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import './EntradaCaja.css'
-import { agragarCaja } from '../../../redux/actions'
+import './PartidasRemito.css'
+import { agragarPartidaAlRemito } from '../../../redux/actions'
+import { useNavigate } from 'react-router-dom'
 
-export default function EntradaCaja({itemsDescripciones}) {
-  const limpiar = (e)=>{
-    setCaja(initialSatate)
-  }
-  
-  
-  
-  const items = useSelector((state) => state.items);
+export default function PartidasRemito({itemsDescripciones}) {
+  const navigate = useNavigate();
+
   const [item, setItem] = useState({});
   
   const handleChange = (e) => {
@@ -25,45 +21,59 @@ export default function EntradaCaja({itemsDescripciones}) {
     setItem(itemSeleccionado);
   };
 
+  function nuevoItem(){
+    navigate('/deposito_dw_front/nuevoitem')
+  }
 
-
-
+  
+  
+  
+  
   const initialSatate= {
     kilos: 0,
-    codigoItem: "",
-    partida:0,
-    codigoDeBarras: 0
+    numeroPartida:0,
+    unidades: 0 
   }
-  const [caja, setCaja] = useState(initialSatate);
-
+  const [partida, setPartida] = useState(initialSatate);
+  const limpiar = (e)=>{
+    setPartida(initialSatate)
+  }
+  
+  function handleUnidades(e) {
+    const unidades = e.target.value;
+    setPartida(state => ({
+      ...state,
+      unidades: unidades 
+    }));
+  }
   function handleKilos(e) {
     const cantidadKilos = e.target.value;
-    setCaja(state => ({
+    setPartida(state => ({
       ...state,
       kilos: parseInt(cantidadKilos)
     }));
   }
   function handlePartida(e) {
     const partida = e.target.value;
-    setCaja(state => ({
+    setPartida(state => ({
       ...state,
-      partida: parseInt(partida)
+      numeroPartida: parseInt(partida)
     }));
   }
+
+
+
+
 
 
   const dispatch = useDispatch();
-  function subirCaja(){
-    caja.codigoItem = item.id
-    caja.descripcionItem = item.descripcion
-    dispatch(agragarCaja(caja))
+  async function subirPartida(){
+    partida.descripcionItem= item
+    dispatch(agragarPartidaAlRemito(partida))
   }
-  const handleKgsCodigoBarras = (e) => {
-    setCaja(state => ({
-      ...state,
-      codigoDeBarras: parseInt(e.target.value)
-    }));
-  }
+ 
+  
+
   return (
     <div className='formConteiner'>
  
@@ -76,40 +86,41 @@ export default function EntradaCaja({itemsDescripciones}) {
           onChange={handleChange}
         >
         
-        {items?.map(((item, i)=>(
-          <MenuItem  key={i} value={item}>{item.descripcion}</MenuItem>
+        {itemsDescripciones?.map(((item, i)=>(
+          <MenuItem  key={i} value={item}>{item}</MenuItem>
         )))}
-        <MenuItem  key={"bla"} value={"agregar item nuevo"} style={{color:"blue"}}>Agregar item nuevo</MenuItem>
+        <Button onClick={nuevoItem} key={"bla"} value={"agregar item nuevo"} style={{color:"blue"}}>Agregar item nuevo</Button>
         </Select>
       </FormControl>
-            <TextField
+          <TextField
               id="outlined-multiline-flexible"
-              label="Kilos por caja/pallet"
+              label="Numero de partida"
               multiline
-              value={caja.kilos}
+              value={partida.numeroPartida}
+              onChange={handlePartida}
+              // maxRows={4}
+              sx={{width: '350px', marginTop:'10px'}} 
+              />
+          <TextField
+              id="outlined-multiline-flexible"
+              label="Kilos"
+              multiline
+              value={partida.kilos}
               onChange={handleKilos}
               // maxRows={4}
             />
           <TextField
               id="outlined-multiline-flexible"
-              label="Partida"
+              label="Unidades"
               multiline
-              value={caja.partida}
-              onChange={handlePartida}
+              value={partida.unidades}
+              onChange={handleUnidades}
               // maxRows={4}
               sx={{width: '350px', marginTop:'10px'}} 
               />
-              <TextField
-              id="outlined-multiline-flexible"
-              label="Codigo de Barras"
-              multiline
-              value={caja.codigoDeBarras}
-              onChange={handleKgsCodigoBarras}
-              // maxRows={4}
-              sx={{width: '350px', marginTop:'10px'}} 
-              />
+   
         <div className='textFieldContainer'>
-          <Button onClick={subirCaja} sx={{ width: '350px', mt: '30px'}} variant="outlined">AGREGAR CAJA</Button>
+          <Button onClick={subirPartida} sx={{ width: '350px', mt: '30px'}} variant="outlined">AGREGAR PARTIDA</Button>
           <Button onClick={limpiar} sx={{ width: '350px', mt: '30px'}} variant="outlined">LIMPIAR</Button>
         </div>  
         

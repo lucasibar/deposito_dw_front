@@ -2,34 +2,38 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { datosBaseRemito } from '../../redux/actions'
-
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import './Remito.css';
+import CloseIcon from '@mui/icons-material/Close';
 
-export default function CargarRemitoProveedor({ confirmar }) {
+export default function CargarRemitoProveedor() {
+  const navigate = useNavigate();
+  
   const dispatch = useDispatch();
   const [numeroRemito, setNumeroRemito] = useState(0);
   const [proveedor, setProveedor] = useState("");
-
+  
   const handleNumeroRemito = (e) => {
     setNumeroRemito(parseInt(e.target.value, 10));
   };
-
+  
   const handleProveedor = (e) => {
     setProveedor(e.target.value);
   };
-
+  
   const confirmarNumeroProveedor = () => {
     dispatch(datosBaseRemito({ numeroRemito, proveedor }));
-    confirmar(numeroRemito, proveedor);
+    navigate('/deposito_dw_front/remito'); 
   };
-
+  
   return (
     <div>
+      <CloseIcon  onClick={()=>  navigate('/deposito_dw_front/') }/>
       <TextField
         id="outlined-multiline-flexible"
-        label="NUMERO REMITO"
+        label="Numero de remito"
         multiline
         value={numeroRemito}
         onChange={handleNumeroRemito}
@@ -37,7 +41,7 @@ export default function CargarRemitoProveedor({ confirmar }) {
       />
       <TextField
         id="outlined-multiline-flexible"
-        label="PROVEEDOR"
+        label="Nombre del proveedor"
         multiline
         value={proveedor}
         onChange={handleProveedor}

@@ -1,10 +1,10 @@
 import {
   DATA_LOAD,
-  AGREGAR_CAJA,
-  AGREGAR_CAJA_CUARENTENA,
-  STOCKEAR_CAJA,
+  AGREGAR_ITEM,
   DATA_BASE_REMITO,
-  AGREGAR_CAJA_REMITO
+  LIMPIAR_DATOS_BASE_REMITO,
+  AGREGAR_PARTIDA_AL_REMITO,
+  SUBIR_DATA_REMITO
   } from './actions'
 
 const initialState = { 
@@ -14,15 +14,8 @@ const initialState = {
   //REMITO
   numeroRemito:"",
   proveedor:"",
-  cajasRemito: [],
-
-
-  //CUARENTENA
-  cajasCuarentena: [],
-
-  //STOCK
-  cajasStockeadas:[]
-  }
+  partidasRemito:[],
+}
 
   const rootReducer = (state = initialState, action) => {
     switch(action.type) {
@@ -34,33 +27,47 @@ const initialState = {
       }
 
 
+
       //REMITOS
       case DATA_BASE_REMITO:
-      return state
-      // {         
+      return{         
+          ...state,
+        numeroRemito: action.payload.numeroRemito,
+        proveedor: action.payload.proveedor
+      }
+      
+      case LIMPIAR_DATOS_BASE_REMITO:
+      return{         
+          ...state,
+        proveedor: "",
+        numeroRemito:"",
+      }
+
+      //ITEMS
+      case AGREGAR_ITEM:   
+      return{         
+          ...state,
+         items: [...state.items, action.payload]
+      }
+      case SUBIR_DATA_REMITO:
+        return{         
+            ...state,
+          numeroRemito: action.payload.numeroRemito,
+          proveedor: action.payload.proveedor
+        }
+
+      //PARTIDAS
+      case AGREGAR_PARTIDA_AL_REMITO:   
+      return{         
+          ...state,
+         partidasRemito: [...state.partidasRemito, action.payload],
+      }
+      // case ELIMINAR_PARTIDA_AL_REMITO:   
+      // return{         
       //     ...state,
-      //   numeroRemito: action.payload.numeroRemito,
-      //   proveedor: action.payload.proveedor
+      //    partidas: state.partidas.filter(p=> p.numeroPartida== action.payload)
       // }
 
-      case AGREGAR_CAJA:   
-      return{         
-          ...state,
-         cajasRemito: [...state.cajasRemito, action.payload]
-      }
-      case AGREGAR_CAJA_REMITO:   
-      return{         
-          ...state,
-         cajasCuarentena: [...state.cajasCuarentena, ...state.cajasRemito],
-      }
-
-
-      case STOCKEAR_CAJA:   
-      return{         
-          ...state,
-         cajasRemito: state.cajasCuarentena.filter(caja=> caja.identificador!==action.payload.identificador),
-         cajasStockeadas:[...state.cajasStockeadas, action.payload]
-      }
 
         default: return state
   };
