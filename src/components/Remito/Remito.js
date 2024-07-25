@@ -76,7 +76,7 @@ function cambiarDatosRemito(){
 
     
 
-      {/* {numeroRemito && proveedor? */}
+      {numeroRemito && proveedor?
       <>
       <AppBar position="static">
         <Toolbar variant="dense" className="toolbar">
@@ -95,9 +95,9 @@ function cambiarDatosRemito(){
       <Button onClick={submitRemito} sx={{ width: '350px', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
       <ListaPartidasRemito /> 
       </>
-      {/* :
+      :
       <CargarRemitoProveedor />
-      } */}
+      }
         
 
 
