@@ -43,7 +43,7 @@ export default function PartidasRemito({itemsDescripciones}) {
     const unidades = e.target.value;
     setPartida(state => ({
       ...state,
-      unidades: unidades 
+      unidades: parseInt(unidades) 
     }));
   }
   function handleKilos(e) {

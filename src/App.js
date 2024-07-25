@@ -7,7 +7,7 @@ import NuevoItem from './components/NuevoItem/NuevoItem'
 import LandingPage from './components/LandyngPage/LandingPage'
 import Cuarentena from './components/Cuarentena/Cuarentena'
 import Stock from './components/Stock/Stock'
-import ControlStock from './components/Stock/ControlStock/ControlStock';
+import ArmadoPallets from './components/ArmadoPallets/ArmadoPallets';
 
 
 function App() {
@@ -34,12 +34,16 @@ function App() {
         path="/deposito_dw_front/stock"
         element={<Stock />}
       /> 
-            <Route 
+    {/* <Route 
         exact  
         path="/deposito_dw_front/controlstock"
-        element={<ControlStock />}
+        element={<Stock />}
+      />  */}
+      <Route 
+        exact  
+        path="/deposito_dw_front/armadoPallets"
+        element={<ArmadoPallets />}
       /> 
-    
       <Route 
         exact  
         path="/deposito_dw_front/nuevoitem"

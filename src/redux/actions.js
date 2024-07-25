@@ -7,11 +7,12 @@ export const LIMPIAR_DATOS_BASE_REMITO= "LIMPIAR_DATOS_BASE_REMITO"
 export const AGREGAR_PARTIDA_AL_REMITO = "AGREGAR_PARTIDA_AL_REMITO"
 export const ELIMINAR_PARTIDA_AL_REMITO = "ELIMINAR_PARTIDA_AL_REMITO"
 export const SUBIR_DATA_REMITO = "SUBIR_DATA_REMITO"
+export const PARTIDAS_SIN_PALLET_ASIGNADO = "PARTIDAS_SIN_PALLET_ASIGNADO"
+export const GET_PARTIDAS = "GET_PARTIDAS"
 
 const URL = process.env.BASE_URL_SERVIDOR
 
 export const agregarNuevoItem =(nuevoItem)=> dispatch => {
-    console.log(nuevoItem)
     return axios.post(`http://localhost:3001/items`, nuevoItem)
     .then(data => {
         dispatch({ type: AGREGAR_ITEM, payload: data.data });
@@ -38,13 +39,30 @@ export const agregarNuevoItem =(nuevoItem)=> dispatch => {
 };
 
 
+export const getPartidas =()=> dispatch => {
+    return axios.get(`http://localhost:3001/partidas`) 
+    .then(data => {
+        dispatch({ type: GET_PARTIDAS, payload: data.data });
+    })
+    .catch(error => {
+        console.error("Error in datosBaseRemito:", error);
+    });};
+
+export const partidasSinPallet =()=> dispatch => {
+    return axios.get(`http://localhost:3001/partidas/sinpallet`) 
+    .then(data => {
+        console.log(data.data)
+        dispatch({ type: PARTIDAS_SIN_PALLET_ASIGNADO, payload: data.data });
+    })
+    .catch(error => {
+        console.error("Error in datosBaseRemito:", error);
+    });};
 
 
 
-
-
-export const subirPartidasDelRemito =(partidas)=> dispatch => {
-    return axios.post(`http://localhost:3001/partidas/remito`, partidas )
+export const subirRemito =(remito)=> dispatch => {
+    console.log(remito)
+    return axios.post(`http://localhost:3001/movimientos/entrada`, remito ) 
     .then(data => {
         dispatch({ type: SUBIR_DATA_REMITO, payload: data.data });
     })

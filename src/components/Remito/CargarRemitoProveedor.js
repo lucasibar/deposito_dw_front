@@ -14,6 +14,7 @@ export default function CargarRemitoProveedor() {
   const dispatch = useDispatch();
   const [numeroRemito, setNumeroRemito] = useState(0);
   const [proveedor, setProveedor] = useState("");
+  const [fecha, setFecha] = useState("");
   
   const handleNumeroRemito = (e) => {
     setNumeroRemito(parseInt(e.target.value, 10));
@@ -22,9 +23,13 @@ export default function CargarRemitoProveedor() {
   const handleProveedor = (e) => {
     setProveedor(e.target.value);
   };
+
+  const handleFecha = (e) => {
+    setFecha(e.target.value);
+  };
   
   const confirmarNumeroProveedor = () => {
-    dispatch(datosBaseRemito({ numeroRemito, proveedor }));
+    dispatch(datosBaseRemito({ numeroRemito, proveedor, fecha }));
     navigate('/deposito_dw_front/remito'); 
   };
   
@@ -45,6 +50,14 @@ export default function CargarRemitoProveedor() {
         multiline
         value={proveedor}
         onChange={handleProveedor}
+        // maxRows={4}
+      />
+      <TextField
+        id="outlined-multiline-flexible"
+        label="Fecha"
+        multiline
+        value={fecha}
+        onChange={handleFecha}
         // maxRows={4}
       />
       <Button

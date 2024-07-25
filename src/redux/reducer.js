@@ -4,7 +4,9 @@ import {
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
   AGREGAR_PARTIDA_AL_REMITO,
-  SUBIR_DATA_REMITO
+  SUBIR_DATA_REMITO,
+  PARTIDAS_SIN_PALLET_ASIGNADO,
+  GET_PARTIDAS
   } from './actions'
 
 const initialState = { 
@@ -12,9 +14,15 @@ const initialState = {
   proveedores:[{name:"Rontaltex", id: 1}, {name:"Galfione", id: 2}],
   
   //REMITO
-  numeroRemito:"",
+  numeroRemito:0,
   proveedor:"",
   partidasRemito:[],
+  fechaRemito:"",
+  
+
+  //PARTIDAS
+  partidas:[]
+
 }
 
   const rootReducer = (state = initialState, action) => {
@@ -26,15 +34,22 @@ const initialState = {
         items: action.payload
       }
 
-
-
+      
+      
       //REMITOS
       case DATA_BASE_REMITO:
-      return{         
+        return{         
           ...state,
-        numeroRemito: action.payload.numeroRemito,
-        proveedor: action.payload.proveedor
-      }
+          numeroRemito: action.payload.numeroRemito,
+          proveedor: action.payload.proveedor,
+          fechaRemito: action.payload.fecha
+        }
+
+      case AGREGAR_PARTIDA_AL_REMITO:   
+        return{         
+            ...state,
+           partidasRemito: [...state.partidasRemito, action.payload],
+        }
       
       case LIMPIAR_DATOS_BASE_REMITO:
       return{         
@@ -52,16 +67,18 @@ const initialState = {
       case SUBIR_DATA_REMITO:
         return{         
             ...state,
-          numeroRemito: action.payload.numeroRemito,
-          proveedor: action.payload.proveedor
+            partidas:action.payload
         }
 
       //PARTIDAS
-      case AGREGAR_PARTIDA_AL_REMITO:   
-      return{         
-          ...state,
-         partidasRemito: [...state.partidasRemito, action.payload],
-      }
+
+      case GET_PARTIDAS:
+        return{         
+            ...state,
+          partidas: action.payload,
+        }
+      case PARTIDAS_SIN_PALLET_ASIGNADO:
+        return state
       // case ELIMINAR_PARTIDA_AL_REMITO:   
       // return{         
       //     ...state,

@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dataLoad } from '../../redux/actions'
 import Button from '@mui/material/Button';
-import './LandingPage.css';
 import Swal from 'sweetalert2';
 import { NavLink} from 'react-router-dom';
 
@@ -24,6 +23,7 @@ export default function LandingPage(props) {  let dispatch = useDispatch()
     <div className='landingContainer'>
         <h1>Der Will</h1>
         <NavLink to="/deposito_dw_front/remito">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >SUBIR REMITO</Button>  </NavLink>
+        <NavLink to="/deposito_dw_front/armadoPallets">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >ARMADO DE PALLETS</Button>  </NavLink>
         <NavLink to="/deposito_dw_front/cuarentena">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >MERCADERIA EN CUARENTENA</Button>  </NavLink>
         <NavLink to="/deposito_dw_front/stock">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >STOCK</Button>  </NavLink>
         <NavLink to="/deposito_dw_front/controlstock">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >CONTROL DE STOCK</Button>  </NavLink>

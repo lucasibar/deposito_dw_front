@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { subirPartidasDelRemito, limpiarDatosRemito, dataLoad } from '../../redux/actions'
+import { subirRemito, limpiarDatosRemito, dataLoad } from '../../redux/actions'
 import './Remito.css';
 
 
@@ -21,8 +21,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 export default function Remito(props) {
   const navigate = useNavigate();
   
-  const remito = useSelector((state) => state.numeroRemito); 
+  const numeroRemito = useSelector((state) => state.numeroRemito); 
   const proveedor = useSelector((state) => state.proveedor);
+  const fechaRemito = useSelector((state) => state.fechaRemito);
 
   const dispatch = useDispatch();
 
@@ -43,11 +44,13 @@ export default function Remito(props) {
 
 const partidasRemito = useSelector((state) => state.partidasRemito);//PARA PROBAR LAS PETICIONES AL SERVER
 function submitRemito(){
-  for (let i=0; i<partidasRemito.length; i++){
-    partidasRemito[i].proveedor= proveedor
-    partidasRemito[i].numeroRemito= remito
-  }
-  dispatch(subirPartidasDelRemito(partidasRemito))
+  
+    let datosRemito= {
+      proveedor: proveedor,
+      numeroRemito: numeroRemito,
+      fechaRemito:fechaRemito
+    }
+  dispatch(subirRemito({partidasRemito, datosRemito}))
   //navigate('/deposito_dw_front/detalleremito');
 }
 
@@ -73,12 +76,12 @@ function cambiarDatosRemito(){
 
     
 
-      {remito && proveedor?
+      {/* {numeroRemito && proveedor? */}
       <>
       <AppBar position="static">
         <Toolbar variant="dense" className="toolbar">
           <Typography  variant="h6" color="inherit" component="div" className="left">
-            Remito {remito ? `${remito}` : "00000"}
+            Remito {numeroRemito ? `${numeroRemito}` : "00000"}
           </Typography>
           <Typography variant="h6" color="inherit" component="div" className="right">
             {proveedor}
@@ -92,9 +95,9 @@ function cambiarDatosRemito(){
       <Button onClick={submitRemito} sx={{ width: '350px', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
       <ListaPartidasRemito /> 
       </>
-      :
+      {/* :
       <CargarRemitoProveedor />
-      }
+      } */}
         
 
 
