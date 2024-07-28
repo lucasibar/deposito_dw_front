@@ -9,8 +9,47 @@ export const ELIMINAR_PARTIDA_AL_REMITO = "ELIMINAR_PARTIDA_AL_REMITO"
 export const SUBIR_DATA_REMITO = "SUBIR_DATA_REMITO"
 export const PARTIDAS_SIN_PALLET_ASIGNADO = "PARTIDAS_SIN_PALLET_ASIGNADO"
 export const GET_PARTIDAS = "GET_PARTIDAS"
+export const AGREGAR_PALLET_A_LISTA_PARA_SUBIR = 'AGREGAR_PALLET_A_LISTA_PARA_SUBIR';
+export const SUBMIT_PALLETS = 'SUBMIT_PALLETS';
+
 
 const URL = process.env.BASE_URL_SERVIDOR
+import { saveAs } from 'file-saver';
+import { pdf } from '@react-pdf/renderer';
+import PalletPDF from '../components/ArmadoPallets/PalletPDF/PalletPDF';
+
+
+
+//ARMADO PALLET-------------------------------
+export const submitGeneratedPallets = (pallets) => async (dispatch) => {
+    try {
+      const generatedPdfs = await Promise.all(
+        pallets.map(async (pallet) => {
+          const blob = await pdf(<PalletPDF pallet={pallet} />).toBlob();
+          return {
+            filename: `pallet-${pallet.id}.pdf`,
+            blob,
+          };
+        })
+      );
+  
+      generatedPdfs.forEach((pdf) => {
+        saveAs(pdf.blob, pdf.filename);
+      });
+  
+      dispatch({ type: 'SUBMIT_PALLETS' });
+    } catch (error) {
+      console.error('Error generating pallets:', error);
+    }
+  };
+  
+  export const addPallet =(pallet)=>dispatch => {
+    return dispatch({type: AGREGAR_PALLET_A_LISTA_PARA_SUBIR, payload: pallet })
+
+}
+  
+//ARMADO PALLET-------------------------------
+
 
 export const agregarNuevoItem =(nuevoItem)=> dispatch => {
     return axios.post(`http://localhost:3001/items`, nuevoItem)
@@ -51,7 +90,6 @@ export const getPartidas =()=> dispatch => {
 export const partidasSinPallet =()=> dispatch => {
     return axios.get(`http://localhost:3001/partidas/sinpallet`) 
     .then(data => {
-        console.log(data.data)
         dispatch({ type: PARTIDAS_SIN_PALLET_ASIGNADO, payload: data.data });
     })
     .catch(error => {
@@ -61,7 +99,6 @@ export const partidasSinPallet =()=> dispatch => {
 
 
 export const subirRemito =(remito)=> dispatch => {
-    console.log(remito)
     return axios.post(`http://localhost:3001/movimientos/entrada`, remito ) 
     .then(data => {
         dispatch({ type: SUBIR_DATA_REMITO, payload: data.data });

@@ -53,12 +53,14 @@ export default function CargarRemitoProveedor() {
         // maxRows={4}
       />
       <TextField
-        id="outlined-multiline-flexible"
+        fullWidth
+        margin="normal"
         label="Fecha"
-        multiline
+        type="date"
         value={fecha}
-        onChange={handleFecha}
-        // maxRows={4}
+        onChange={(e) => setFecha(e.target.value)}
+        InputLabelProps={{ shrink: true }}
+        required
       />
       <Button
         onClick={confirmarNumeroProveedor}

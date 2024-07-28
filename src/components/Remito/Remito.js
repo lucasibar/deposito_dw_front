@@ -51,7 +51,7 @@ function submitRemito(){
       fechaRemito:fechaRemito
     }
   dispatch(subirRemito({partidasRemito, datosRemito}))
-  //navigate('/deposito_dw_front/detalleremito');
+  navigate('/deposito_dw_front/detalleremito');
 }
 
 function cambiarDatosRemito(){

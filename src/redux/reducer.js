@@ -6,7 +6,9 @@ import {
   AGREGAR_PARTIDA_AL_REMITO,
   SUBIR_DATA_REMITO,
   PARTIDAS_SIN_PALLET_ASIGNADO,
-  GET_PARTIDAS
+  GET_PARTIDAS,
+  AGREGAR_PALLET_A_LISTA_PARA_SUBIR,
+  SUBMIT_PALLETS
   } from './actions'
 
 const initialState = { 
@@ -18,10 +20,11 @@ const initialState = {
   proveedor:"",
   partidasRemito:[],
   fechaRemito:"",
+  partidas:[],
   
 
-  //PARTIDAS
-  partidas:[]
+  //PALLETS
+  pallets: [],
 
 }
 
@@ -33,7 +36,18 @@ const initialState = {
           ...state,
         items: action.payload
       }
+      case SUBMIT_PALLETS:
+        return{         
+            ...state,
+          pallets:[]
+        }
 
+
+    case AGREGAR_PALLET_A_LISTA_PARA_SUBIR:
+      return {
+        ...state,
+        pallets: [...state.pallets, action.payload],
+      };
       
       
       //REMITOS
