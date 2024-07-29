@@ -16,6 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import axios from 'axios';
 
 
 export default function Remito(props) {
@@ -43,33 +44,33 @@ export default function Remito(props) {
 
 
 const partidasRemito = useSelector((state) => state.partidasRemito);//PARA PROBAR LAS PETICIONES AL SERVER
-function submitRemito(){
+async function submitRemito(){
   
     let datosRemito= {
       proveedor: proveedor,
       numeroRemito: numeroRemito,
       fechaRemito:fechaRemito
     }
-  dispatch(subirRemito({partidasRemito, datosRemito}))
+
+   await axios.post(`http://localhost:3001/movimientos/entrada`, {partidasRemito, datosRemito} ) 
+    .then(data => {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: data.message,
+        showConfirmButton: false,
+        timer: 1500
+      });
+      })
+      .catch(error => {
+          console.error("Error in datosBaseRemito:", error);
+      });
   navigate('/deposito_dw_front/detalleremito');
 }
 
-function cambiarDatosRemito(){
-    Swal.fire({
-    title: "Queres cambiar los datos del remito?",
-    text: "",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!"
-  }).then((result) => {
-    if (result.isConfirmed) {
-      dispatch(limpiarDatosRemito());
-      navigate('/deposito_dw_front/remito'); 
+function volverHome(){
+      navigate('/deposito_dw_front/'); 
     }
-  });
-}
 
   return (
     <div>
@@ -86,7 +87,7 @@ function cambiarDatosRemito(){
           <Typography variant="h6" color="inherit" component="div" className="right">
             {proveedor}
           </Typography>
-          <ChevronLeftIcon onClick={cambiarDatosRemito}/>
+          <ChevronLeftIcon onClick={volverHome}/>
 
         </Toolbar>
       </AppBar>

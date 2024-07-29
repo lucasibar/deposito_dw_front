@@ -26,8 +26,7 @@ export default function LandingPage(props) {  let dispatch = useDispatch()
         <NavLink to="/deposito_dw_front/armadoPallets">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >ARMADO DE PALLETS</Button>  </NavLink>
         <NavLink to="/deposito_dw_front/cuarentena">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >MERCADERIA EN CUARENTENA</Button>  </NavLink>
         <NavLink to="/deposito_dw_front/stock">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >STOCK</Button>  </NavLink>
-        <NavLink to="/deposito_dw_front/controlstock">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >CONTROL DE STOCK</Button>  </NavLink>
-        <Button variant="outlined" sx={{bgcolor:'white', width: '350px' }} >SALIDA DE MERCADERIA</Button>
+        <NavLink to="/deposito_dw_front/salidas">  <Button variant="outlined" sx={{bgcolor:'white', width: '350px'}} >SALIDA DE MERCADERIA</Button>  </NavLink>
         <Button variant="outlined" sx={{bgcolor:'white', width: '350px' }}  onClick={usuarioNohabilitado}>DASHBOARD ADMINISTRADOR</Button>
     </div>
   );

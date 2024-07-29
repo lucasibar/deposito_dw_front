@@ -1,30 +1,56 @@
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import * as React from 'react';
-
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { buscarStockPorIdItem } from '../../redux/actions';
 
 export default function Stock() {
+  const dispatch = useDispatch();
+  const kilosTotales = useSelector((state) => state.stockItemSeleccionado);
+  
+  const items = useSelector((state) => state.items);
+  const [itemsDescripciones, setItemsDescripciones] = React.useState([]); 
 
-  let racks = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
-  let filas = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
-  let piso = ["A", "B"]
+  useEffect(() => {
+    if (items.length > 0) {
+      const descripcionItems = items.map((item) => item.descripcion);
+      setItemsDescripciones(descripcionItems);
+    }
+  }, [items]);
 
-  let posiciones = []
+  const [item, setItem] = React.useState(''); 
 
+  const handleChange = (e) => {
+    const itemSeleccionado = e.target.value;
+    setItem(itemSeleccionado);
+  };
 
-  for (let i=0; i<racks.length; i++){
-    for (let j=0; j<filas.length; j++){
-      for (let p =0; p<piso.length; p++){
-      let codigoPosicion = `${i} - ${j} - ${p}`
-      posiciones.push(codigoPosicion)
-      }
-    } 
-  }
-
+  const buscarStock = () => {
+    const itemSeleccionadoBuscar = items.find(itemObj => itemObj.descripcion === item);
+    if (itemSeleccionadoBuscar) {
+      dispatch(buscarStockPorIdItem(itemSeleccionadoBuscar.id));
+    } else {
+      console.log("No se encontró el item con la descripción proporcionada");
+    }
+  };
 
   return (
     <div className='cajaContenedor'>
-      {posiciones?.map((posicion, i)=>
-      <button>{posicion}</button>
-      )}
+      <FormControl sx={{ width: '350px', marginTop: '10px' }} >
+        <InputLabel id="demo-simple-select-label">Descripcion Item</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={item}
+          onChange={handleChange}
+        >
+          {itemsDescripciones?.map((itemDesc, i) => (
+            <MenuItem key={i} value={itemDesc}>{itemDesc}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <Button onClick={buscarStock} style={{ color: "blue" }}>Stock</Button>
+      <h1>Kilos Totales {kilosTotales}</h1>
     </div>
   );
 }

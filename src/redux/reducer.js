@@ -8,7 +8,8 @@ import {
   PARTIDAS_SIN_PALLET_ASIGNADO,
   GET_PARTIDAS,
   AGREGAR_PALLET_A_LISTA_PARA_SUBIR,
-  SUBMIT_PALLETS
+  SUBMIT_PALLETS,
+  STOCK_ITEM_SELECCIONADO
   } from './actions'
 
 const initialState = { 
@@ -26,10 +27,20 @@ const initialState = {
   //PALLETS
   pallets: [],
 
+
+  stockItemSeleccionado:0
+
 }
 
   const rootReducer = (state = initialState, action) => {
     switch(action.type) {
+      case STOCK_ITEM_SELECCIONADO:   
+      return{         
+          ...state,
+         stockItemSeleccionado: action.payload
+      }
+
+
 
       case DATA_LOAD:
       return{         
@@ -81,7 +92,7 @@ const initialState = {
       case SUBIR_DATA_REMITO:
         return{         
             ...state,
-            partidas:action.payload
+            partidas: action.payload
         }
 
       //PARTIDAS

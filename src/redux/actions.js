@@ -1,3 +1,6 @@
+import { saveAs } from 'file-saver';
+import { pdf } from '@react-pdf/renderer';
+import PalletPDF from '../components/ArmadoPallets/PalletPDF/PalletPDF';
 import axios from 'axios' 
 import Swal from 'sweetalert2'
 export const DATA_LOAD= "DATA_LOAD" 
@@ -11,44 +14,72 @@ export const PARTIDAS_SIN_PALLET_ASIGNADO = "PARTIDAS_SIN_PALLET_ASIGNADO"
 export const GET_PARTIDAS = "GET_PARTIDAS"
 export const AGREGAR_PALLET_A_LISTA_PARA_SUBIR = 'AGREGAR_PALLET_A_LISTA_PARA_SUBIR';
 export const SUBMIT_PALLETS = 'SUBMIT_PALLETS';
+export const STOCK_ITEM_SELECCIONADO = 'STOCK_ITEM_SELECCIONADO';
 
 
 const URL = process.env.BASE_URL_SERVIDOR
-import { saveAs } from 'file-saver';
-import { pdf } from '@react-pdf/renderer';
-import PalletPDF from '../components/ArmadoPallets/PalletPDF/PalletPDF';
+
+export const buscarStockPorIdItem =(idItem)=> async dispatch => {
+  
+  return axios.get(`http://localhost:3001/movimientos/total-kilos/${idItem}`)
+  .then(data => {
+
+      dispatch({ type: STOCK_ITEM_SELECCIONADO, payload: data.data.totalKilos });
+  })
+  .catch(error => {
+    Swal.fire({
+      title: "No se pudo encontrar el item",
+      showClass: {
+        popup: `
+              animate__animated
+              animate__fadeInUp
+              animate__faster
+            `
+      },
+      hideClass: {
+        popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `
+      }
+    })
+  })
+};
 
 
 
-//ARMADO PALLET-------------------------------
+
+
 export const submitGeneratedPallets = (pallets) => async (dispatch) => {
-    try {
-      const generatedPdfs = await Promise.all(
-        pallets.map(async (pallet) => {
-          const blob = await pdf(<PalletPDF pallet={pallet} />).toBlob();
-          return {
-            filename: `pallet-${pallet.id}.pdf`,
-            blob,
-          };
-        })
-      );
-  
-      generatedPdfs.forEach((pdf) => {
-        saveAs(pdf.blob, pdf.filename);
-      });
-  
-      dispatch({ type: 'SUBMIT_PALLETS' });
-    } catch (error) {
-      console.error('Error generating pallets:', error);
-    }
-  };
+  try {
+    const response = await axios.post(`http://localhost:3001/armadopallets`, pallets);
+
+    const generatedPdfs = await Promise.all(
+      pallets.map(async (pallet) => {
+        const blob = await pdf(<PalletPDF pallet={pallet} />).toBlob();
+        return {
+          filename: `pallet-${pallet.id}.pdf`,
+          blob,
+        };
+      })
+    );
+
+    generatedPdfs.forEach((pdf) => {
+      saveAs(pdf.blob, pdf.filename);
+    });
+
+    dispatch({ type: 'SUBMIT_PALLETS' });
+  } catch (error) {
+    console.error('Error generating pallets:', error);
+  }
+}
+
   
   export const addPallet =(pallet)=>dispatch => {
     return dispatch({type: AGREGAR_PALLET_A_LISTA_PARA_SUBIR, payload: pallet })
 
 }
-  
-//ARMADO PALLET-------------------------------
 
 
 export const agregarNuevoItem =(nuevoItem)=> dispatch => {
@@ -99,8 +130,9 @@ export const partidasSinPallet =()=> dispatch => {
 
 
 export const subirRemito =(remito)=> dispatch => {
-    return axios.post(`http://localhost:3001/movimientos/entrada`, remito ) 
-    .then(data => {
+  return axios.post(`http://localhost:3001/movimientos/entrada`, remito ) 
+  .then(data => {
+      console.log(data.data)
         dispatch({ type: SUBIR_DATA_REMITO, payload: data.data });
     })
     .catch(error => {
