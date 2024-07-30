@@ -52,7 +52,7 @@ async function submitRemito(){
       fechaRemito:fechaRemito
     }
 
-   await axios.post(`http://localhost:3001/movimientos/entrada`, {partidasRemito, datosRemito} ) 
+   await axios.post(`${process.env.BASE_URL_SERVIDOR}/entrada`, {partidasRemito, datosRemito} ) 
     .then(data => {
       Swal.fire({
         position: "top-end",
