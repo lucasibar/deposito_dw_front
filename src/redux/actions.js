@@ -85,7 +85,7 @@ export const submitGeneratedPallets = (pallets) => async (dispatch) => {
 
 
 export const agregarNuevoItem =(nuevoItem)=> dispatch => {
-    return axios.post(`${URL}/items`, nuevoItem)
+    return axios.post(`https://derwill-deposito-backend.onrender.com/items`, nuevoItem)
     .then(data => {
         dispatch({ type: AGREGAR_ITEM, payload: data.data });
     })
