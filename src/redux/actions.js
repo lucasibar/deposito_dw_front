@@ -17,7 +17,7 @@ export const SUBMIT_PALLETS = 'SUBMIT_PALLETS';
 export const STOCK_ITEM_SELECCIONADO = 'STOCK_ITEM_SELECCIONADO';
 
 
-const URL = process.env.BASE_URL_SERVIDOR
+const URL = "https://derwill-deposito-backend.onrender.com"
 
 export const buscarStockPorIdItem =(idItem)=> async dispatch => {
   
