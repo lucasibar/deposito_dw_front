@@ -52,7 +52,7 @@ async function submitRemito(){
       fechaRemito:fechaRemito
     }
 
-   await axios.post(`${process.env.BASE_URL_SERVIDOR}/entrada`, {partidasRemito, datosRemito} ) 
+   await axios.post(`https://derwill-deposito-backend.onrender.com/entrada`, {partidasRemito, datosRemito} ) 
     .then(data => {
       Swal.fire({
         position: "top-end",

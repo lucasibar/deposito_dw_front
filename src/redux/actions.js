@@ -55,7 +55,7 @@ export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
 
 export const submitGeneratedPallets = (pallets) => async (dispatch) => {
   try {
-    const response = await axios.post(`${URL}/armadopallets`, pallets);
+    const response = await axios.post(`https://derwill-deposito-backend.onrender.com/armadopallets`, pallets);
 
     const generatedPdfs = await Promise.all(
       pallets.map(async (pallet) => {
@@ -112,7 +112,7 @@ export const agregarNuevoItem =(nuevoItem)=> dispatch => {
 
 
 export const getPartidas =()=> dispatch => {
-    return axios.get(`${URL}/partidas`) 
+    return axios.get(`https://derwill-deposito-backend.onrender.com/partidas`) 
     .then(data => {
         dispatch({ type: GET_PARTIDAS, payload: data.data });
     })
@@ -121,7 +121,7 @@ export const getPartidas =()=> dispatch => {
     });};
 
 export const partidasSinPallet =()=> dispatch => {
-    return axios.get(`${URL}/partidas/sinpallet`) 
+    return axios.get(`https://derwill-deposito-backend.onrender.com/partidas/sinpallet`) 
     .then(data => {
         dispatch({ type: PARTIDAS_SIN_PALLET_ASIGNADO, payload: data.data });
     })
@@ -132,7 +132,7 @@ export const partidasSinPallet =()=> dispatch => {
 
 
 export const subirRemito =(remito)=> dispatch => {
-  return axios.post(`${URL}/movimientos/entrada`, remito ) 
+  return axios.post(`https://derwill-deposito-backend.onrender.com/movimientos/entrada`, remito ) 
   .then(data => {
       console.log(data.data)
         dispatch({ type: SUBIR_DATA_REMITO, payload: data.data });
@@ -142,7 +142,7 @@ export const subirRemito =(remito)=> dispatch => {
     });};
 
 export const dataLoad =()=>dispatch => {
-    return axios.get(`${URL}/items`)
+    return axios.get(`https://derwill-deposito-backend.onrender.com/items`)
     .then(data => {
         dispatch({ type: DATA_LOAD, payload: data.data });
     })
