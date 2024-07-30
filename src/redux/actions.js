@@ -48,7 +48,9 @@ export const buscarStockPorIdItem =(idItem)=> async dispatch => {
 };
 
 
-
+export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
+  return dispatch({ type: ELIMINAR_PARTIDA_AL_REMITO, payload: numeroPartida });
+};
 
 
 export const submitGeneratedPallets = (pallets) => async (dispatch) => {

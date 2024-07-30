@@ -10,15 +10,9 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 export default function FormularioPallet({ onAddPallet, partidas }) {
+  const dispatch = useDispatch();
   const items = useSelector((state) => state.items);
-  const [itemsDescripciones, setItemsDescripciones] = useState([]); 
-  useEffect(() => {
-    if (items.length > 0) {
-      const descripcionItems = items.map((item) => item.descripcion);
-      setItemsDescripciones(descripcionItems);
-    }
-  }, [items, setItemsDescripciones]);
-
+  const [itemsDescripciones, setItemsDescripciones] = useState([]);
   const [selectedPartida, setSelectedPartida] = useState(0);
   const [kilos, setKilos] = useState(0);
   const [unidades, setUnidades] = useState(0);
@@ -28,20 +22,25 @@ export default function FormularioPallet({ onAddPallet, partidas }) {
   const [fila, setFila] = useState('');
   const [positionAB, setPositionAB] = useState('A');
   const [pasillo, setPasillo] = useState(false);
+  const [itemSelected, setItemSelected] = useState('');
 
-  const [itemSelected, setItemSelected] = useState("");
+  useEffect(() => {
+    if (items.length > 0) {
+      const descripcionItems = items.map((item) => item.descripcion);
+      setItemsDescripciones(descripcionItems);
+    }
+  }, [items]);
 
   const handleChange = (e) => {
-    const itemSeleccionado = e.target.value;
-    setItemSelected(itemSeleccionado);
+    setItemSelected(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
       kilos: parseFloat(kilos),
-      unidades: parseInt(unidades),
-      numeroPartida: parseInt(selectedPartida),
+      unidades: parseInt(unidades, 10),
+      numeroPartida: parseInt(selectedPartida, 10),
       idItem: itemSelected,
       fecha: fecha,
       numeroPallet: numeroPallet,
@@ -51,28 +50,29 @@ export default function FormularioPallet({ onAddPallet, partidas }) {
       pasillo: pasillo,
     };
     onAddPallet(data);
+    // Reset form fields
     setKilos(0);
     setUnidades(0);
     setSelectedPartida(0);
     setFecha('');
     setNumeroPallet(0);
-    setRack(0);
-    setFila(0);
+    setRack('');
+    setFila('');
     setPositionAB('A');
     setPasillo(false);
   };
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
-      <FormControl sx={{ width: '350px', marginTop: '10px' }}>
-        <InputLabel id="demo-simple-select-label">Descripcion Item</InputLabel>
+      <FormControl sx={{ width: '100%', marginBottom: '16px' }}>
+        <InputLabel id="descripcion-item-label">Descripción Item</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="descripcion-item-label"
+          id="descripcion-item-select"
           value={itemSelected}
           onChange={handleChange}
         >
-          {itemsDescripciones?.map((item, i) => (
+          {itemsDescripciones.map((item, i) => (
             <MenuItem key={i} value={item}>{item}</MenuItem>
           ))}
         </Select>
