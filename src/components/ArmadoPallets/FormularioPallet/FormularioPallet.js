@@ -13,6 +13,7 @@ export default function FormularioPallet({ onAddPallet, partidas }) {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.items);
   const [itemsDescripciones, setItemsDescripciones] = useState([]);
+  
   const [selectedPartida, setSelectedPartida] = useState(0);
   const [kilos, setKilos] = useState(0);
   const [unidades, setUnidades] = useState(0);

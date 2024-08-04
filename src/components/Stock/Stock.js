@@ -6,8 +6,8 @@ import { buscarStockPorIdItem } from '../../redux/actions';
 
 export default function Stock() {
   const dispatch = useDispatch();
-  const kilosTotales = useSelector((state) => state.stockItemSeleccionado);
-  
+  const stockItemSeleccionado = useSelector((state) => state.stockItemSeleccionado);
+
   const items = useSelector((state) => state.items);
   const [itemsDescripciones, setItemsDescripciones] = React.useState([]); 
 
@@ -29,10 +29,13 @@ export default function Stock() {
     const itemSeleccionadoBuscar = items.find(itemObj => itemObj.descripcion === item);
     if (itemSeleccionadoBuscar) {
       dispatch(buscarStockPorIdItem(itemSeleccionadoBuscar.id));
-    } else {
-      console.log("No se encontró el item con la descripción proporcionada");
     }
   };
+
+  const totalKilos = stockItemSeleccionado.reduce((total, item) => total + item.totalKilos, 0);
+  const totalKilosEntrada = stockItemSeleccionado
+    .filter(item => item.posicion.entrada)
+    .reduce((total, item) => total + item.totalKilos, 0);
 
   return (
     <div className='cajaContenedor'>
@@ -50,7 +53,33 @@ export default function Stock() {
         </Select>
       </FormControl>
       <Button onClick={buscarStock} style={{ color: "blue" }}>Stock</Button>
-      <h1>Kilos Totales {kilosTotales}</h1>
+      <h1>Kilos Totales: {totalKilos}</h1>
+      <hr />
+      <h2>Entrada</h2>
+      <p>Kilos en poscicion entrada: {totalKilosEntrada}</p>
+      <hr />
+      <table style={{ width: '100%', textAlign: 'left' }}>
+        <thead>
+          <tr>
+            <th>Rack</th>
+            <th>Fila</th>
+            <th>A-B</th>
+            <th>Pasillo</th>
+            <th>Total Kilos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stockItemSeleccionado.map((item, i) => (
+            <tr key={i}>
+              <td>{item.posicion.rack ?? '-'}</td>
+              <td>{item.posicion.fila ?? '-'}</td>
+              <td>{item.posicion.AB ?? '-'}</td>
+              <td>{item.posicion.numeroPasillo ?? '-'}</td>
+              <td>{item.totalKilos}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

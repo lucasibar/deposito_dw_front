@@ -30,8 +30,8 @@ export default function ListaPartidasRemito() {
               }
             >
               <ListItemText primary={`${partida.descripcionItem}`} />
-              <ListItemText primary={`${partida.kilos}`} />
-              <ListItemText primary={`${partida.unidades}`} />
+              <ListItemText primary={`${partida.kilos} kilos`} />
+              <ListItemText primary={`${partida.unidades} unidades`} />
             </ListItem>
           </div>
         ))}
