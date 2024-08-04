@@ -15,12 +15,30 @@ export const GET_PARTIDAS = "GET_PARTIDAS"
 export const AGREGAR_PALLET_A_LISTA_PARA_SUBIR = 'AGREGAR_PALLET_A_LISTA_PARA_SUBIR';
 export const SUBMIT_PALLETS = 'SUBMIT_PALLETS';
 export const STOCK_ITEM_SELECCIONADO = 'STOCK_ITEM_SELECCIONADO';
+export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
+export const AGREGAR_KILOS_DE_PARTIDA_A_POSICION = 'AGREGAR_KILOS_DE_PARTIDA_A_POSICION';
+export const ELIMINAR_KILOS_ASIGNADOS_A_POSICION = 'ELIMINAR_KILOS_ASIGNADOS_A_POSICION';
+
 
 
 // export const URL = "https://derwill-deposito-backend.onrender.com"
 export const URL = "http://localhost:3001"
 
+//----------------------------------------------------------------------------------
+export const agragarKilosPartidaAPosicion =(movimiento)=>dispatch => {
+  return dispatch({type: AGREGAR_KILOS_DE_PARTIDA_A_POSICION, payload: movimiento })
+}
+export const deleteKilosDePosicion = (partidaPosicion) => dispatch => {
+  return dispatch({ type: ELIMINAR_KILOS_ASIGNADOS_A_POSICION, payload: partidaPosicion });
+};
 
+//----------------------------------------------------------------------------------
+
+export const movimientoPosicion1Posicion2 =(movimiento)=>dispatch => {
+  // return dispatch({type: AGREGAR_KILOS_DE_PARTIDA_A_POSICION, payload: movimiento })
+}
+
+//----------------------------------------------------------------------------------
 export const agregarNuevoItem =(nuevoItem)=> dispatch => {  
   return axios.post(`${URL}/items`, nuevoItem)
   .then(data => {
@@ -68,8 +86,57 @@ export const subirRemito =(remito)=> dispatch => {
     });
   }
 
+export const partidasEnCuarentena =()=> dispatch => {  
+    return axios.get(`${URL}/partidas/cuarentena`)
+    .then(data => {
+        dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
+    })
+    .catch(error => {
+        Swal.fire({
+            title: "No hay partidas en cuarentena",
+            showClass: {
+              popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `
+            },
+            hideClass: {
+              popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `
+            }
+          });
+    });
+  };
 
-
+  export const partidaAprobada =(partida)=> dispatch => {  
+    return axios.put(`${URL}/partidas/cuarentena-stock`, partida)
+    .then(data => {
+        dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
+    })
+    .catch(error => {
+        Swal.fire({
+            title: "No hay partidas en cuarentena",
+            showClass: {
+              popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `
+            },
+            hideClass: {
+              popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `
+            }
+          });
+    });
+  };
 
 
 

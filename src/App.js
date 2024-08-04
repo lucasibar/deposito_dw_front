@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
 // import Login from './components/Login/Login'
-import DetalleRemito from './components/Remito/DetalleRemito/DetalleRemito'
 import Remito from './components/Remito/Remito'
 import NuevoItem from './components/NuevoItem/NuevoItem'
 import LandingPage from './components/LandyngPage/LandingPage'
 import Cuarentena from './components/Cuarentena/Cuarentena'
 import Stock from './components/Stock/Stock'
-import ArmadoPallets from './components/ArmadoPallets/ArmadoPallets';
 import Salidas from './components/Salidas/Salidas';
+import MovimientoInterno from './components/MovimientoInterno/MovimientoInterno';
+import AsignarPosicionAEntrada from './components/AsignarPosicionAEntrada/AsignarPosicionAEntrada';
 
 
 function App() {
@@ -21,22 +21,15 @@ function App() {
         path="/deposito_dw_front/"
         element={<LandingPage />}
       /> 
-
-
-
-
-
-
-      {/* //----------------------------------------------------------------------------------------------------------------------- */}
       <Route 
         exact  
         path="/deposito_dw_front/remito"
         element={<Remito />}
       /> 
-      <Route 
+       <Route 
         exact  
-        path="//deposito_dw_front/detalleremito"
-        element={<DetalleRemito />}
+        path="/deposito_dw_front/asignar-posicion"
+        element={<AsignarPosicionAEntrada />}
       /> 
       <Route 
         exact  
@@ -55,8 +48,8 @@ function App() {
       /> 
       <Route 
         exact  
-        path="/deposito_dw_front/armadoPallets"
-        element={<ArmadoPallets />}
+        path="/deposito_dw_front/movimiento-interno"
+        element={<MovimientoInterno />}
       /> 
       <Route 
         exact  

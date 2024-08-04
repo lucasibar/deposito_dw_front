@@ -10,23 +10,66 @@ import {
   AGREGAR_PALLET_A_LISTA_PARA_SUBIR,
   SUBMIT_PALLETS,
   STOCK_ITEM_SELECCIONADO,
-  ELIMINAR_PARTIDA_AL_REMITO // Importar la nueva acción
+  ELIMINAR_PARTIDA_AL_REMITO,
+  PARTIDAS_EN_CUARENTENA,
+  AGREGAR_KILOS_DE_PARTIDA_A_POSICION,
+  ELIMINAR_KILOS_ASIGNADOS_A_POSICION
 } from './actions';
 
 const initialState = { 
-  items: [], 
-  proveedores: [{name: "Rontaltex", id: 1}, {name: "Galfione", id: 2}],
-  numeroRemito: 0,
-  proveedor: "",
-  partidasRemito: [],
-  fechaRemito: "",
-  partidas: [],
+//----Para eliminar-------------
   pallets: [],
-  stockItemSeleccionado: 0
+  stockItemSeleccionado: 0,
+//------------------------------
+  items: [], 
+  numeroRemito: 0,
+//---------------
+  proveedor: "",
+  fechaRemito: "",
+//---------------
+  partidasRemito: [],
+  partidas: [],
+//1---------------
+    partidasDeEntradaAPosicion:[],
+//2---------------
+  partidasCuarentena:[],
+
+
+
+
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+//1----------------------------------------------------------------------------------
+    case AGREGAR_KILOS_DE_PARTIDA_A_POSICION:   
+    return {         
+      ...state,
+      partidasDeEntradaAPosicion: [ ...state.partidasDeEntradaAPosicion, action.payload]
+    };
+    case ELIMINAR_KILOS_ASIGNADOS_A_POSICION:   
+      return {         
+        ...state,
+        partidasDeEntradaAPosicion: state.partidasDeEntradaAPosicion.filter(p => p!== action.payload)
+      };
+
+
+
+//2----------------------------------------------------------------------------------
+    case PARTIDAS_EN_CUARENTENA:   
+    return {         
+      ...state,
+      partidasCuarentena: action.payload
+    };
+    
+    
+
+
+
+
+
+
+//-------------------------------------------------------
     case STOCK_ITEM_SELECCIONADO:   
       return {         
         ...state,

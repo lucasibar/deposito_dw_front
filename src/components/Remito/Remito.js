@@ -49,7 +49,7 @@ async function submitRemito(){
       fechaRemito:fechaRemito
     }
     dispatch(subirRemito({tipoMovimiento:"entrada", partidasRemito, datosRemito}))
-  // navigate('/deposito_dw_front/');
+  navigate('/deposito_dw_front/');
 }
 
 function volverHome(){

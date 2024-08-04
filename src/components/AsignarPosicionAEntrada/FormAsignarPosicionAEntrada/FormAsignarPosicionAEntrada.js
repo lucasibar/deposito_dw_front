@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,13 +6,14 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { useState, useEffect } from 'react';
 import Divider from '@mui/material/Divider';
 
 
-import { agragarPartidaAlRemito } from '../../redux/actions'
+import { agragarKilosPartidaAPosicion } from '../../../redux/actions'
 import { useNavigate } from 'react-router-dom'
 
-export default function Salidas() {
+export default function FormAsignarPosicionAEntrada() {
   const navigate = useNavigate();
 
   const items = useSelector((state) => state.items);
@@ -116,32 +116,21 @@ export default function Salidas() {
     }));
   }
   
-  const [proveedor, setProveedor] = useState("");
-
   const limpiar = (e)=>{
     setPartida(initialStatePartida)
-    setProveedor("")
     setPosicion(initialStatePosicion)
   }
   const dispatch = useDispatch();
-  async function subirPartida(){
-    partida.descripcionItem= item
-    dispatch(agragarPartidaAlRemito({partida, posicion,proveedor}))
+  async function addPartidaKilosAPosicion(){
+    partida.itemDescripcion= item
+    dispatch(agragarKilosPartidaAPosicion({partida, posicion1:"entrada", posicion2:posicion}))
   }
   
   
   
   return (
     <div className='formConteiner'>
-        <TextField
-          id="outlined-multiline-flexible"
-          label="Proveedor"
-          multiline
-          value={proveedor}
-          onChange={(e) => setProveedor(e.target.value)}
-          // maxRows={4}
-          sx={{width: '350px', marginTop:'10px'}} 
-        />
+        
       <FormControl   sx={{width: '350px', marginTop:'10px'}} >
         <InputLabel id="demo-simple-select-label">Descripcion Item</InputLabel>
         <Select
@@ -246,15 +235,10 @@ export default function Salidas() {
       </FormControl>
 
 
-
-
-
-
-
       
    
         <div className='textFieldContainer'>
-          <Button onClick={subirPartida} sx={{ width: '350px', mt: '30px'}} variant="outlined">AGREGAR PARTIDA</Button>
+          <Button onClick={addPartidaKilosAPosicion} sx={{ width: '350px', mt: '30px'}} variant="outlined">KILOS A POSICION</Button>
           <Button onClick={limpiar} sx={{ width: '350px', mt: '30px'}} variant="outlined">LIMPIAR</Button>
         </div>  
         
