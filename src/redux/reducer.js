@@ -19,7 +19,7 @@ import {
 const initialState = { 
 //----Para eliminar-------------
   pallets: [],
-  stockItemSeleccionado: 0,
+  stockItemSeleccionado: [],
 //------------------------------
   items: [], 
   numeroRemito: 0,
@@ -67,7 +67,7 @@ const rootReducer = (state = initialState, action) => {
 
 
 
-
+    
 
 //-------------------------------------------------------
     case STOCK_ITEM_SELECCIONADO:   

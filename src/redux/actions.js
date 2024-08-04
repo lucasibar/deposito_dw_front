@@ -35,8 +35,21 @@ export const deleteKilosDePosicion = (partidaPosicion) => dispatch => {
 //----------------------------------------------------------------------------------
 
 export const movimientoPosicion1Posicion2 =(movimiento)=>dispatch => {
-  // return dispatch({type: AGREGAR_KILOS_DE_PARTIDA_A_POSICION, payload: movimiento })
-}
+    console.log(movimiento)
+  return axios.post(`${URL}/movimientos/interno`, movimiento ) 
+  .then(data => {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: data.message,
+      showConfirmButton: false,
+      timer: 1500
+    });
+    })
+    .catch(error => {
+        console.error("Error in datosBaseRemito:", error);
+    });
+  }
 
 //----------------------------------------------------------------------------------
 export const agregarNuevoItem =(nuevoItem)=> dispatch => {  
@@ -70,7 +83,6 @@ export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
 };
 
 export const subirRemito =(remito)=> dispatch => {
-  console.log(remito)
   return axios.post(`${URL}/movimientos/remito-entrada`, remito ) 
   .then(data => {
     Swal.fire({
@@ -147,10 +159,9 @@ export const partidasEnCuarentena =()=> dispatch => {
 //-----------------------------------------------------------------------------------------------------------------------------------
 export const buscarStockPorIdItem =(idItem)=> async dispatch => {
   
-  return axios.get(`${URL}/movimientos/total-kilos/${idItem}`)
+  return axios.get(`${URL}/stock/${idItem}`)
   .then(data => {
-
-      dispatch({ type: STOCK_ITEM_SELECCIONADO, payload: data.data.totalKilos });
+      dispatch({ type: STOCK_ITEM_SELECCIONADO, payload: data.data });
   })
   .catch(error => {
     Swal.fire({

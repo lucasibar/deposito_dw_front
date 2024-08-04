@@ -44,7 +44,8 @@ export default function FormAsignarPosicionAEntrada() {
     kilos: "",
     numeroPartida:"",
     unidades:"",
-    fecha:""
+    fecha:"",
+    proveedor:""
   }
   const [partida, setPartida] = useState(initialStatePartida);
   
@@ -74,6 +75,14 @@ export default function FormAsignarPosicionAEntrada() {
     setPartida(state => ({
       ...state,
       fecha: fecha
+    }));
+  }
+
+  function handleProveedor(e) {
+    const proveedor = e.target.value;
+    setPartida(state => ({
+      ...state,
+      proveedor
     }));
   }
   
@@ -123,13 +132,31 @@ export default function FormAsignarPosicionAEntrada() {
   const dispatch = useDispatch();
   async function addPartidaKilosAPosicion(){
     partida.itemDescripcion= item
-    dispatch(agragarKilosPartidaAPosicion({partida, posicion1:"entrada", posicion2:posicion}))
+    dispatch(agragarKilosPartidaAPosicion({
+      partida, 
+      posicion1:{
+        rack: null,
+        fila:null,
+        pasillo:null,
+        AB:null,
+        entrada: true
+      }, 
+      posicion2:posicion}))
   }
   
   
   
   return (
     <div className='formConteiner'>
+      <TextField
+              id="outlined-multiline-flexible"
+              label="Proveedor"
+              multiline
+              value={partida.proveedor}
+              onChange={handleProveedor}
+              // maxRows={4}
+              sx={{width: '350px', marginTop:'10px'}} 
+              />
         
       <FormControl   sx={{width: '350px', marginTop:'10px'}} >
         <InputLabel id="demo-simple-select-label">Descripcion Item</InputLabel>

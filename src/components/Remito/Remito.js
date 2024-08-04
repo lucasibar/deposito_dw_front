@@ -48,7 +48,7 @@ async function submitRemito(){
       numeroRemito: numeroRemito,
       fechaRemito:fechaRemito
     }
-    dispatch(subirRemito({tipoMovimiento:"entrada", partidasRemito, datosRemito}))
+    dispatch(subirRemito({tipoMovimiento:"remito", partidasRemito, datosRemito}))
   navigate('/deposito_dw_front/');
 }
 

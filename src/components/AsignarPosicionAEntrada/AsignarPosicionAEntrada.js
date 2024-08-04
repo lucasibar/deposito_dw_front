@@ -11,7 +11,7 @@ export default function AsignarPosicionAEntrada() {
   const partidasDeEntradaAPosicion = useSelector((state) => state.partidasDeEntradaAPosicion);
   const dispatch = useDispatch();
 
-  const cambiarPosicion = (partidasDeEntradaAPosicion) => {
+  const cambiarPosicion = () => {
     dispatch(movimientoPosicion1Posicion2(partidasDeEntradaAPosicion));
   };
   return (
@@ -20,7 +20,7 @@ export default function AsignarPosicionAEntrada() {
       <FormAsignarPosicionAEntrada />
       <KilosAPosicion/>
 
-      <Button onClick={cambiarPosicion(partidasDeEntradaAPosicion)} sx={{ width: '350px', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
+      <Button onClick={cambiarPosicion} sx={{ width: '350px', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
 
     </>
   );
