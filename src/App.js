@@ -15,6 +15,19 @@ function App() {
   return (
     <div className="App">
       <Routes>
+
+      <Route 
+        exact  
+        path="/deposito_dw_front/"
+        element={<LandingPage />}
+      /> 
+
+
+
+
+
+
+      {/* //----------------------------------------------------------------------------------------------------------------------- */}
       <Route 
         exact  
         path="/deposito_dw_front/remito"
@@ -49,11 +62,6 @@ function App() {
         exact  
         path="/deposito_dw_front/nuevoitem"
         element={<NuevoItem />}
-      /> 
-      <Route 
-        exact  
-        path="/deposito_dw_front/"
-        element={<LandingPage />}
       /> 
  
       </Routes>

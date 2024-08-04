@@ -17,8 +17,67 @@ export const SUBMIT_PALLETS = 'SUBMIT_PALLETS';
 export const STOCK_ITEM_SELECCIONADO = 'STOCK_ITEM_SELECCIONADO';
 
 
-const URL = "https://derwill-deposito-backend.onrender.com"
+// export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
 
+
+export const agregarNuevoItem =(nuevoItem)=> dispatch => {  
+  return axios.post(`${URL}/items`, nuevoItem)
+  .then(data => {
+      dispatch({ type: AGREGAR_ITEM, payload: data.data });
+  })
+  .catch(error => {
+      Swal.fire({
+          title: "No se pudo crear el item",
+          showClass: {
+            popup: `
+              animate__animated
+              animate__fadeInUp
+              animate__faster
+            `
+          },
+          hideClass: {
+            popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `
+          }
+        });
+  });
+};
+
+export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
+  return dispatch({ type: ELIMINAR_PARTIDA_AL_REMITO, payload: numeroPartida });
+};
+
+export const subirRemito =(remito)=> dispatch => {
+  console.log(remito)
+  return axios.post(`${URL}/movimientos/remito-entrada`, remito ) 
+  .then(data => {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: data.message,
+      showConfirmButton: false,
+      timer: 1500
+    });
+    })
+    .catch(error => {
+        console.error("Error in datosBaseRemito:", error);
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------
 export const buscarStockPorIdItem =(idItem)=> async dispatch => {
   
   return axios.get(`${URL}/movimientos/total-kilos/${idItem}`)
@@ -48,14 +107,12 @@ export const buscarStockPorIdItem =(idItem)=> async dispatch => {
 };
 
 
-export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
-  return dispatch({ type: ELIMINAR_PARTIDA_AL_REMITO, payload: numeroPartida });
-};
+
 
 
 export const submitGeneratedPallets = (pallets) => async (dispatch) => {
   try {
-    const response = await axios.post(`https://derwill-deposito-backend.onrender.com/armadopallets`, pallets);
+    const response = await axios.post(`${URL}/armadopallets`, pallets);
 
     const generatedPdfs = await Promise.all(
       pallets.map(async (pallet) => {
@@ -84,35 +141,10 @@ export const submitGeneratedPallets = (pallets) => async (dispatch) => {
 }
 
 
-export const agregarNuevoItem =(nuevoItem)=> dispatch => {
-    return axios.post(`https://derwill-deposito-backend.onrender.com/items`, nuevoItem)
-    .then(data => {
-        dispatch({ type: AGREGAR_ITEM, payload: data.data });
-    })
-    .catch(error => {
-        Swal.fire({
-            title: "No se pudo crear el item",
-            showClass: {
-              popup: `
-                animate__animated
-                animate__fadeInUp
-                animate__faster
-              `
-            },
-            hideClass: {
-              popup: `
-                animate__animated
-                animate__fadeOutDown
-                animate__faster
-              `
-            }
-          });
-    });
-};
 
 
 export const getPartidas =()=> dispatch => {
-    return axios.get(`https://derwill-deposito-backend.onrender.com/partidas`) 
+    return axios.get(`${URL}/partidas`) 
     .then(data => {
         dispatch({ type: GET_PARTIDAS, payload: data.data });
     })
@@ -121,7 +153,7 @@ export const getPartidas =()=> dispatch => {
     });};
 
 export const partidasSinPallet =()=> dispatch => {
-    return axios.get(`https://derwill-deposito-backend.onrender.com/partidas/sinpallet`) 
+    return axios.get(`${URL}/partidas/sinpallet`) 
     .then(data => {
         dispatch({ type: PARTIDAS_SIN_PALLET_ASIGNADO, payload: data.data });
     })
@@ -131,18 +163,9 @@ export const partidasSinPallet =()=> dispatch => {
 
 
 
-export const subirRemito =(remito)=> dispatch => {
-  return axios.post(`https://derwill-deposito-backend.onrender.com/movimientos/entrada`, remito ) 
-  .then(data => {
-      console.log(data.data)
-        dispatch({ type: SUBIR_DATA_REMITO, payload: data.data });
-    })
-    .catch(error => {
-        console.error("Error in datosBaseRemito:", error);
-    });};
 
 export const dataLoad =()=>dispatch => {
-    return axios.get(`https://derwill-deposito-backend.onrender.com/items`)
+    return axios.get(`${URL}/items`)
     .then(data => {
         dispatch({ type: DATA_LOAD, payload: data.data });
     })

@@ -70,15 +70,18 @@ export default function LandingPage(props) {
       <NavLink to="/deposito_dw_front/remito" className="navButton">
         <Button variant="outlined">SUBIR REMITO</Button>
       </NavLink>
+      <NavLink to="/deposito_dw_front/stock" className="navButton">
+        <Button variant="outlined">STOCK</Button>
+      </NavLink>
+
+      {/* ------------------------------------------------------------------ */}
       <NavLink to="/deposito_dw_front/armadoPallets" className="navButton">
         <Button variant="outlined">ARMADO DE PALLETS</Button>
       </NavLink>
       <NavLink to="/deposito_dw_front/cuarentena" className="navButton">
         <Button variant="outlined">MERCADERIA EN CUARENTENA</Button>
       </NavLink>
-      <NavLink to="/deposito_dw_front/stock" className="navButton">
-        <Button variant="outlined">STOCK</Button>
-      </NavLink>
+
       <NavLink to="/deposito_dw_front/salidas" className="navButton">
         <Button variant="outlined">SALIDA DE MERCADERIA</Button>
       </NavLink>

@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { subirRemito, limpiarDatosRemito, dataLoad } from '../../redux/actions'
 import './Remito.css';
+import {URL} from '../../redux/actions'
 
 
-import PartidasRemito from './PartidasRemito/PartidasRemito'
+import DetalleRemito from './DetalleRemito/DetalleRemito'
 import ListaPartidasRemito from './ListaPartidasRemito/ListaPartidasRemito'
 import CargarRemitoProveedor from './CargarRemitoProveedor';
 
@@ -21,16 +22,12 @@ import axios from 'axios';
 
 export default function Remito(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   
   const numeroRemito = useSelector((state) => state.numeroRemito); 
   const proveedor = useSelector((state) => state.proveedor);
   const fechaRemito = useSelector((state) => state.fechaRemito);
 
-  const dispatch = useDispatch();
-
-  useEffect(()=>{
-    dispatch(dataLoad())
-  },[dispatch])
 
   const items = useSelector((state) => state.items);
   const [itemsDescripciones, setItemsDescripciones] = useState([]); 
@@ -51,21 +48,8 @@ async function submitRemito(){
       numeroRemito: numeroRemito,
       fechaRemito:fechaRemito
     }
-
-   await axios.post(`https://derwill-deposito-backend.onrender.com/entrada`, {partidasRemito, datosRemito} ) 
-    .then(data => {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: data.message,
-        showConfirmButton: false,
-        timer: 1500
-      });
-      })
-      .catch(error => {
-          console.error("Error in datosBaseRemito:", error);
-      });
-  navigate('/deposito_dw_front/detalleremito');
+    dispatch(subirRemito({tipoMovimiento:"entrada", partidasRemito, datosRemito}))
+  // navigate('/deposito_dw_front/');
 }
 
 function volverHome(){
@@ -88,12 +72,13 @@ function volverHome(){
             {proveedor}
           </Typography>
           <ChevronLeftIcon onClick={volverHome}/>
-
         </Toolbar>
       </AppBar>
         
-      <PartidasRemito itemsDescripciones={itemsDescripciones}/>
+      <DetalleRemito />
+
       <Button onClick={submitRemito} sx={{ width: '350px', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
+      
       <ListaPartidasRemito /> 
       </>
       :

@@ -11,21 +11,9 @@ import './Remito.css';
 export default function CargarRemitoProveedor() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [numeroRemito, setNumeroRemito] = useState(0);
+  const [numeroRemito, setNumeroRemito] = useState("");
   const [proveedor, setProveedor] = useState("");
   const [fecha, setFecha] = useState("");
-
-  const handleNumeroRemito = (e) => {
-    setNumeroRemito(parseInt(e.target.value, 10));
-  };
-
-  const handleProveedor = (e) => {
-    setProveedor(e.target.value);
-  };
-
-  const handleFecha = (e) => {
-    setFecha(e.target.value);
-  };
 
   const confirmarNumeroProveedor = () => {
     dispatch(datosBaseRemito({ numeroRemito, proveedor, fecha }));
@@ -35,12 +23,12 @@ export default function CargarRemitoProveedor() {
   return (
     <div className="formContainer">
       <CloseIcon className="closeIcon" onClick={() => navigate('/deposito_dw_front/')} />
+      
       <TextField
         id="outlined-multiline-flexible"
         label="Numero de remito"
-        multiline
         value={numeroRemito}
-        onChange={handleNumeroRemito}
+        onChange={(e) => setNumeroRemito(e.target.value)}
         sx={{ width: '350px', marginTop: '10px' }}
       />
       <TextField
@@ -48,7 +36,7 @@ export default function CargarRemitoProveedor() {
         label="Nombre del proveedor"
         multiline
         value={proveedor}
-        onChange={handleProveedor}
+        onChange={(e) =>  setProveedor(e.target.value)}
         sx={{ width: '350px', marginTop: '10px' }}
       />
       <TextField
@@ -58,7 +46,7 @@ export default function CargarRemitoProveedor() {
         value={fecha}
         onChange={(e) => setFecha(e.target.value)}
         InputLabelProps={{ shrink: true }}
-        sx={{ width: '350px', marginTop: '10px' }}  // Añadido ancho específico
+        sx={{ width: '350px', marginTop: '10px' }}  
         required
       />
       <Button

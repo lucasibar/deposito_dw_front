@@ -1,0 +1,32 @@
+.textFieldContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 350px;  
+}
+.formConteiner {
+  display: flex;
+  margin-top: 20px;
+  flex-direction:column;
+  align-content: space-around;
+  width: 100%;
+  padding-left: 10px;
+
+}
+
+.style {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  border: 2px solid #000;
+  box-shadow: 24px;
+  padding-top: 16px;
+  padding-bottom: 24px;
+  background-color: whitesmoke;
+}

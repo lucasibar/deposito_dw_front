@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import AppBar from '@mui/material/AppBar';
@@ -15,22 +15,14 @@ export default function NuevoItem() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const proveedor = useSelector((state) => state.proveedor);
-  
   const initialState = {
     codigo: "",
-    proveedor,
     descripcion: "",
     tono: "",
-    codigoColor: "",
+    color: "",
     material: ""
   };
-  
   const [nuevoItem, setNuevoItem] = useState(initialState);
-  
-  const limpiar = () => {
-    setNuevoItem(initialState);
-  };
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,11 +44,6 @@ export default function NuevoItem() {
           <Box sx={{ display: 'flex', flex: 1, alignItems: 'center' }}>
             <Typography variant="h6" sx={{ flex: 1 }}>
               Agregar Nuevo Item
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant="h6">
-              {proveedor}
             </Typography>
           </Box>
         </Toolbar>
@@ -82,20 +69,20 @@ export default function NuevoItem() {
           sx={{ width: '350px', marginTop: '10px' }}
         />
         <TextField
-          id="tono"
-          name="tono"
-          label="Tono"
+          id="color"
+          name="color"
+          label="Color"
           multiline
-          value={nuevoItem.tono}
+          value={nuevoItem.color}
           onChange={handleChange}
           sx={{ width: '350px', marginTop: '10px' }}
         />
         <TextField
           id="codigoColor"
-          name="codigoColor"
-          label="Código de Color"
+          name="tono"
+          label="Código de color proveedor"
           multiline
-          value={nuevoItem.codigoColor}
+          value={nuevoItem.tono}
           onChange={handleChange}
           sx={{ width: '350px', marginTop: '10px' }}
         />
@@ -117,8 +104,9 @@ export default function NuevoItem() {
           >
             AGREGAR ITEM
           </Button>
+
           <Button
-            onClick={limpiar}
+            onClick={()=>setNuevoItem(initialState)}
             sx={{ width: '350px', mt: '30px' }}
             variant="outlined"
           >
