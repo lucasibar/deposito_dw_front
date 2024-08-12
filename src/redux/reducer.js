@@ -13,7 +13,8 @@ import {
   ELIMINAR_PARTIDA_AL_REMITO,
   PARTIDAS_EN_CUARENTENA,
   AGREGAR_KILOS_DE_PARTIDA_A_POSICION,
-  ELIMINAR_KILOS_ASIGNADOS_A_POSICION
+  ELIMINAR_KILOS_ASIGNADOS_A_POSICION,
+  STOCK_ITEM_POSICION
 } from './actions';
 
 const initialState = { 
@@ -33,6 +34,8 @@ const initialState = {
     partidasDeEntradaAPosicion:[],
 //2---------------
   partidasCuarentena:[],
+//3---------------
+  partidasPorPosicion:[],
 
 
 
@@ -62,8 +65,12 @@ const rootReducer = (state = initialState, action) => {
       partidasCuarentena: action.payload
     };
     
-    
-
+//3----------------------------------------------------------------------------------    
+    case STOCK_ITEM_POSICION:   
+    return {         
+      ...state,
+      partidasPorPosicion: action.payload
+    };
 
 
 

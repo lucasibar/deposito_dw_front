@@ -16,11 +16,11 @@ export default function AsignarPosicionAEntrada() {
   };
   return (
     <>
-      <NavBar titulo={"Asignar posición a la mercadería que entró"} />
+      <NavBar titulo={"Asignar mercadería a posicion"} />
       <FormAsignarPosicionAEntrada />
       <KilosAPosicion/>
 
-      <Button onClick={cambiarPosicion} sx={{ width: '350px', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
+      <Button onClick={cambiarPosicion} sx={{ width: '350px', mt: '30px'}} variant="contained">ASIGNAR POSICION A PARTIDAS</Button>
 
     </>
   );
