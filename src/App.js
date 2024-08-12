@@ -9,6 +9,7 @@ import Stock from './components/Stock/Stock'
 import Salidas from './components/Salidas/Salidas';
 import MovimientoInterno from './components/MovimientoInterno/MovimientoInterno';
 import AsignarPosicionAEntrada from './components/AsignarPosicionAEntrada/AsignarPosicionAEntrada';
+import Posiciones from './components/Posiciones/Posiciones';
 
 
 function App() {
@@ -20,6 +21,11 @@ function App() {
         exact  
         path="/deposito_dw_front/"
         element={<LandingPage />}
+      /> 
+      <Route 
+        exact  
+        path="/deposito_dw_front/posiciones"
+        element={<Posiciones />}
       /> 
       <Route 
         exact  

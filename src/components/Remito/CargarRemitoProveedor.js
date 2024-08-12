@@ -15,9 +15,19 @@ export default function CargarRemitoProveedor() {
   const [proveedor, setProveedor] = useState("");
   const [fecha, setFecha] = useState("");
 
+  const handleNumeroRemitoChange = (e) => {
+    const input = e.target.value.replace(/\D/g, '');
+    const formattedInput = input.slice(0, 4) + (input.length >= 4 ? '-' : '') + input.slice(4, 12);
+    setNumeroRemito(formattedInput);
+  };
+
   const confirmarNumeroProveedor = () => {
-    dispatch(datosBaseRemito({ numeroRemito, proveedor, fecha }));
-    navigate('/deposito_dw_front/remito'); 
+    if (/^\d{4}-\d{8}$/.test(numeroRemito)) { 
+      dispatch(datosBaseRemito({ numeroRemito, proveedor, fecha }));
+      navigate('/deposito_dw_front/remito');
+    } else {
+      alert("El número de remito debe tener el formato 4 números, un guion, y 8 números.");
+    }
   };
 
   return (
@@ -26,9 +36,9 @@ export default function CargarRemitoProveedor() {
       
       <TextField
         id="outlined-multiline-flexible"
-        label="Numero de remito"
+        label="Número de remito"
         value={numeroRemito}
-        onChange={(e) => setNumeroRemito(e.target.value)}
+        onChange={handleNumeroRemitoChange}
         sx={{ width: '350px', marginTop: '10px' }}
       />
       <TextField
@@ -36,7 +46,7 @@ export default function CargarRemitoProveedor() {
         label="Nombre del proveedor"
         multiline
         value={proveedor}
-        onChange={(e) =>  setProveedor(e.target.value)}
+        onChange={(e) => setProveedor(e.target.value)}
         sx={{ width: '350px', marginTop: '10px' }}
       />
       <TextField

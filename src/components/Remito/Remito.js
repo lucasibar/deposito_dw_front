@@ -17,6 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import NavBar from '../NavBar/NavBar';
 
 
 export default function Remito(props) {
@@ -51,10 +52,6 @@ async function submitRemito(){
   navigate('/deposito_dw_front/');
 }
 
-function volverHome(){
-      navigate('/deposito_dw_front/'); 
-    }
-
   return (
     <div>
 
@@ -62,17 +59,7 @@ function volverHome(){
 
       {numeroRemito && proveedor?
       <>
-      <AppBar position="static">
-        <Toolbar variant="dense" className="toolbar">
-          <Typography  variant="h6" color="inherit" component="div" className="left">
-            Remito {numeroRemito ? `${numeroRemito}` : "00000"}
-          </Typography>
-          <Typography variant="h6" color="inherit" component="div" className="right">
-            {proveedor}
-          </Typography>
-          <ChevronLeftIcon onClick={volverHome}/>
-        </Toolbar>
-      </AppBar>
+      <NavBar titulo={ `Remito  ${numeroRemito}`} subtitulo={proveedor}/>
         
       <DetalleRemito />
 

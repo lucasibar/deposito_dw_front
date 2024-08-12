@@ -81,6 +81,9 @@ export default function LandingPage(props) {
       <NavLink to="/deposito_dw_front/stock" className="navButton">
         <Button variant="outlined">STOCK</Button>
       </NavLink>
+      <NavLink to="/deposito_dw_front/posiciones" className="navButton">
+        <Button variant="outlined">POSICIONES</Button>
+      </NavLink>
       <NavLink to="/deposito_dw_front/movimiento-interno" className="navButton">
         <Button variant="outlined">MOVIMIENTO INTERNO</Button>
       </NavLink>
