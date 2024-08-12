@@ -21,8 +21,8 @@ export const ELIMINAR_KILOS_ASIGNADOS_A_POSICION = 'ELIMINAR_KILOS_ASIGNADOS_A_P
 export const STOCK_ITEM_POSICION = 'STOCK_ITEM_POSICION';
 
 
-//  export const URL = "https://derwill-deposito-backend.onrender.com"
-export const URL = "http://localhost:3001"
+ export const URL = "https://derwill-deposito-backend.onrender.com"
+// export const URL = "http://localhost:3001"
 //----------------------------------------------------------------------------------
 
 export const buscarStockPorPosicion =(dataPosicion)=> async dispatch => {
