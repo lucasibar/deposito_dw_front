@@ -14,7 +14,8 @@ import {
   PARTIDAS_EN_CUARENTENA,
   AGREGAR_KILOS_DE_PARTIDA_A_POSICION,
   ELIMINAR_KILOS_ASIGNADOS_A_POSICION,
-  STOCK_ITEM_POSICION
+  STOCK_ITEM_POSICION,
+  LIMPIAR_ESTADO_REDUCER
 } from './actions';
 
 const initialState = { 
@@ -36,6 +37,8 @@ const initialState = {
   partidasCuarentena:[],
 //3---------------
   partidasPorPosicion:[],
+//4---------------
+  proximaPartidaConsumo:0
 
 
 
@@ -72,38 +75,44 @@ const rootReducer = (state = initialState, action) => {
       partidasPorPosicion: action.payload
     };
 
+//4-------------------------------------------------------
 
+case STOCK_ITEM_SELECCIONADO: 
+  const numerosDePartida = Object.values(action.payload)
+  .flatMap(posicion => Object.values(posicion.partidas).map(partida => partida.partida.numeroPartida));
 
-    
-
+  const numeroDePartidaMasChico = Math.min(...numerosDePartida);
+  return {         
+    ...state,
+    stockItemSeleccionado: action.payload,
+    proximaPartidaConsumo:numeroDePartidaMasChico
+  };
 //-------------------------------------------------------
-    case STOCK_ITEM_SELECCIONADO:   
-      return {         
-        ...state,
-        stockItemSeleccionado: action.payload
-      };
 
-    case DATA_LOAD:
-      return {         
-        ...state,
-        items: action.payload
-      };
+case LIMPIAR_ESTADO_REDUCER:   
+return initialState
 
-    case SUBMIT_PALLETS:
-      return {         
-        ...state,
-        pallets: []
-      };
-
+case DATA_LOAD:
+  return {         
+    ...state,
+    items: action.payload
+  };
+  
+  case SUBMIT_PALLETS:
+    return {         
+      ...state,
+      pallets: []
+    };
+    
     case AGREGAR_PALLET_A_LISTA_PARA_SUBIR:
       return {
         ...state,
         pallets: [...state.pallets, action.payload]
       };
-
-    case DATA_BASE_REMITO:
-      return {         
-        ...state,
+      
+      case DATA_BASE_REMITO:
+        return {         
+          ...state,
         numeroRemito: action.payload.numeroRemito,
         proveedor: action.payload.proveedor,
         fechaRemito: action.payload.fecha

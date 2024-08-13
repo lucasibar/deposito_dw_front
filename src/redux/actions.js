@@ -19,6 +19,7 @@ export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
 export const AGREGAR_KILOS_DE_PARTIDA_A_POSICION = 'AGREGAR_KILOS_DE_PARTIDA_A_POSICION';
 export const ELIMINAR_KILOS_ASIGNADOS_A_POSICION = 'ELIMINAR_KILOS_ASIGNADOS_A_POSICION';
 export const STOCK_ITEM_POSICION = 'STOCK_ITEM_POSICION';
+export const LIMPIAR_ESTADO_REDUCER = 'LIMPIAR_ESTADO_REDUCER';
 
 
  export const URL = "https://derwill-deposito-backend.onrender.com"
@@ -57,8 +58,9 @@ export const buscarStockPorPosicion =(dataPosicion)=> async dispatch => {
 
 //----------------------------------------------------------------------------------
 
-
-
+export const limpiarEstadoReducer =(movimiento)=>dispatch => {
+  return dispatch({type: LIMPIAR_ESTADO_REDUCER })
+}
 
 export const agragarKilosPartidaAPosicion =(movimiento)=>dispatch => {
   return dispatch({type: AGREGAR_KILOS_DE_PARTIDA_A_POSICION, payload: movimiento })

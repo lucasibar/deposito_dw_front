@@ -7,6 +7,8 @@ import NavBar from '../NavBar/NavBar';
 export default function Stock() {
   const dispatch = useDispatch();
   const stockItemSeleccionado = useSelector((state) => state.stockItemSeleccionado);
+  const proximaPartidaConsumo = useSelector((state) => state.proximaPartidaConsumo);
+
   const items = useSelector((state) => state.items);
   const [itemsDescripciones, setItemsDescripciones] = useState([]); 
   const [item, setItem] = useState(''); 
@@ -29,10 +31,10 @@ export default function Stock() {
     }
   };
 
-  const totalKilos = stockItemSeleccionado.reduce((total, item) => total + item.totalKilos, 0);
-  const totalKilosEntrada = stockItemSeleccionado
-    .filter(item => item.posicion.entrada)
-    .reduce((total, item) => total + item.totalKilos, 0);
+  // const totalKilos = stockItemSeleccionado.reduce((total, item) => total + item.totalKilos, 0);
+  // const totalKilosEntrada = stockItemSeleccionado
+  //   .filter(item => item.posicion.entrada)
+  //   .reduce((total, item) => total + item.totalKilos, 0);
 
   return (
     <>
@@ -66,38 +68,42 @@ export default function Stock() {
         Buscar Stock
       </Button>
       <Typography variant="h5" align="center" gutterBottom>
-        Kilos Totales: {totalKilos}
+        Partida en consumo: {proximaPartidaConsumo}
       </Typography>
       <Divider sx={{ marginY: '20px' }} />
-      <Typography variant="h6" align="center" gutterBottom>
+      {/* <Typography variant="h6" align="center" gutterBottom>
         Entrada
-      </Typography>
-      <Typography variant="body1" align="center" gutterBottom>
+      </Typography> */}
+      {/* <Typography variant="body1" align="center" gutterBottom>
         Kilos en posición entrada: {totalKilosEntrada}
-      </Typography>
+      </Typography> */}
       <Divider sx={{ marginY: '20px' }} />
       <TableContainer component={Paper} sx={{ marginTop: '20px' }}>
         <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center"><strong>Rack</strong></TableCell>
-              <TableCell align="center"><strong>Fila</strong></TableCell>
-              <TableCell align="center"><strong>A-B</strong></TableCell>
-              <TableCell align="center"><strong>Pasillo</strong></TableCell>
-              <TableCell align="center"><strong>Total Kilos</strong></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {stockItemSeleccionado.map((item, i) => (
-              <TableRow key={i}>
-                <TableCell align="center">{item.posicion.rack ?? '-'}</TableCell>
-                <TableCell align="center">{item.posicion.fila ?? '-'}</TableCell>
-                <TableCell align="center">{item.posicion.AB ?? '-'}</TableCell>
-                <TableCell align="center">{item.posicion.numeroPasillo ?? '-'}</TableCell>
-                <TableCell align="center">{item.totalKilos}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+        <TableHead>
+  <TableRow>
+    <TableCell align="center"><strong>Rack</strong></TableCell>
+    <TableCell align="center"><strong>Fila</strong></TableCell>
+    <TableCell align="center"><strong>A-B</strong></TableCell>
+    <TableCell align="center"><strong>Pasillo</strong></TableCell>
+    <TableCell align="center"><strong>Partida</strong></TableCell>
+    <TableCell align="center"><strong>Total Kilos</strong></TableCell>
+  </TableRow>
+</TableHead>
+<TableBody>
+  {stockItemSeleccionado.map((item, i) => (
+    item.partidas.map((partida, j) => (
+      <TableRow key={`${i}-${j}`}>
+        <TableCell align="center">{item.posicion.rack ?? '-'}</TableCell>
+        <TableCell align="center">{item.posicion.fila ?? '-'}</TableCell>
+        <TableCell align="center">{item.posicion.AB ?? '-'}</TableCell>
+        <TableCell align="center">{item.posicion.numeroPasillo ?? '-'}</TableCell>
+        <TableCell align="center">{partida.partida.numeroPartida}</TableCell>
+        <TableCell align="center">{partida.totalKilos}</TableCell>
+      </TableRow>
+    ))
+  ))}
+</TableBody>
         </Table>
       </TableContainer>
     </Box>
