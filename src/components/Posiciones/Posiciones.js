@@ -52,7 +52,7 @@ export default function Posiciones() {
 
   return (
     <Box>
-      <NavBar titulo="Stock" />
+      <NavBar titulo="Contenido de Posicion" />
       <Box className='cajaContenedor' sx={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
 
         <FormControl fullWidth sx={{ marginBottom: '20px' }}>
