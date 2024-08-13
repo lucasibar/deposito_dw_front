@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { agragarPartidaAlRemito } from '../../redux/actions';
+import { movimientoPosicion1Posicion2 } from '../../redux/actions';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import NavBar from '../NavBar/NavBar';
 
 const initialStatePartida = {
   kilos: "",
@@ -35,7 +36,7 @@ export default function MovimientoInterno() {
   const [partida, setPartida] = useState(initialStatePartida);
   const [posicion1, setPosicion1] = useState(initialStatePosicion);
   const [posicion2, setPosicion2] = useState(initialStatePosicion);
-  const [proveedor, setProveedor] = useState("");
+  // const [proveedor, setProveedor] = useState("");
 
   useEffect(() => {
     if (items.length > 0) {
@@ -47,7 +48,7 @@ export default function MovimientoInterno() {
 
   const limpiar = () => {
     setPartida(initialStatePartida);
-    setProveedor("");
+    // setProveedor("");
     setPosicion1(initialStatePosicion);
     setPosicion2(initialStatePosicion);
   };
@@ -57,18 +58,21 @@ export default function MovimientoInterno() {
       ...partida,
       descripcionItem: item
     };
-    dispatch(agragarPartidaAlRemito({ partida: partidaCompleta, posicion1, posicion2, proveedor }));
+    dispatch(movimientoPosicion1Posicion2({ partida: partidaCompleta, posicion1, posicion2 }));
   };
 
   return (
+    <>
+    <NavBar titulo="Movimiento interno" />
+
     <div className='formConteiner'>
       <Typography variant="h6" component="h2">Item</Typography>
-      <TextField
+      {/* <TextField
         label="Proveedor"
         value={proveedor}
         onChange={handleChange(setProveedor)}
         sx={{ width: '350px', marginTop: '10px' }}
-      />
+      /> */}
       <FormControl sx={{ width: '350px', marginTop: '10px' }}>
         <InputLabel>Descripcion Item</InputLabel>
         <Select value={item} onChange={handleChange(setItem)}>
@@ -159,5 +163,6 @@ export default function MovimientoInterno() {
         <Button onClick={limpiar} sx={{ width: '350px', mt: '30px' }} variant="outlined">LIMPIAR</Button>
       </div>
     </div>
+    </>
   );
 }

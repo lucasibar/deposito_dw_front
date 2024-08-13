@@ -24,12 +24,63 @@ export const LIMPIAR_ESTADO_REDUCER = 'LIMPIAR_ESTADO_REDUCER';
 
  export const URL = "https://derwill-deposito-backend.onrender.com"
 // export const URL = "http://localhost:3001"
+
+//----------------------------------------------------------------------------------
+export const movimientoEntradaPosicion2 =(movimiento)=>dispatch => {
+  console.log(movimiento)
+return axios.post(`${URL}/movimientos/entrada-posicion`, movimiento ) 
+.then(data => {
+  Swal.fire({
+    position: "top-end",
+    icon: "success",
+    title: data.message,
+    showConfirmButton: false,
+    timer: 1500
+  });
+  })
+  .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+}
+
+export const movimientoPosicion1Posicion2 =(movimiento)=>dispatch => {
+return axios.post(`${URL}/movimientos/interno`, movimiento ) 
+.then(data => {
+  Swal.fire({
+    position: "top-end",
+    icon: "success",
+    title: data.message,
+    showConfirmButton: false,
+    timer: 1500
+  });
+  })
+  .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+}
+
 //----------------------------------------------------------------------------------
 
 export const buscarStockPorPosicion =(dataPosicion)=> async dispatch => {
   return axios.post(`${URL}/stock/posicion`, dataPosicion)
   .then(data => {
-    console.log(data.data)
+    if(data.data.length == 0){Swal.fire({
+      title: "Posicion vacia",
+      showClass: {
+        popup: `
+              animate__animated
+              animate__fadeInUp
+              animate__faster
+            `
+      },
+      hideClass: {
+        popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `
+      }
+    })}
       dispatch({ type: STOCK_ITEM_POSICION, payload: data.data });
   })
   .catch(error => {
@@ -68,24 +119,6 @@ export const agragarKilosPartidaAPosicion =(movimiento)=>dispatch => {
 export const deleteKilosDePosicion = (partidaPosicion) => dispatch => {
   return dispatch({ type: ELIMINAR_KILOS_ASIGNADOS_A_POSICION, payload: partidaPosicion });
 };
-
-
-export const movimientoPosicion1Posicion2 =(movimiento)=>dispatch => {
-    console.log(movimiento)
-  return axios.post(`${URL}/movimientos/interno`, movimiento ) 
-  .then(data => {
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: data.message,
-      showConfirmButton: false,
-      timer: 1500
-    });
-    })
-    .catch(error => {
-        console.error("Error in datosBaseRemito:", error);
-    });
-  }
 
 //----------------------------------------------------------------------------------
 export const agregarNuevoItem =(nuevoItem)=> dispatch => {  
