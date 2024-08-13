@@ -111,7 +111,8 @@ export default function Posiciones() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Número de Partida</TableCell>
+                    <TableCell>Item</TableCell>
+                    <TableCell>Partida</TableCell>
                     <TableCell>Unidades</TableCell>
                     <TableCell>Kilos</TableCell>
                   </TableRow>
@@ -119,7 +120,8 @@ export default function Posiciones() {
                 <TableBody>
                   {partidasPorPosicion.map((partida, i) => (
                     <TableRow key={i}>
-                      <TableCell>{partida.partida.numeroPartida}</TableCell>
+                      <TableCell>{partida.itemNombre}</TableCell>
+                      <TableCell>{partida.numeroPartida}</TableCell>
                       <TableCell>{partida.unidades}</TableCell>
                       <TableCell>{partida.kilos}</TableCell>
                     </TableRow>
