@@ -15,7 +15,9 @@ import {
   AGREGAR_KILOS_DE_PARTIDA_A_POSICION,
   ELIMINAR_KILOS_ASIGNADOS_A_POSICION,
   STOCK_ITEM_POSICION,
-  LIMPIAR_ESTADO_REDUCER
+  LIMPIAR_ESTADO_REDUCER,
+  AGREGAR_AL_REMITO_SALIDA,
+  ELIMINAR_PARTIDA_AL_REMITO_SALIDA
 } from './actions';
 
 const initialState = { 
@@ -38,15 +40,30 @@ const initialState = {
 //3---------------
   partidasPorPosicion:[],
 //4---------------
-  proximaPartidaConsumo:0
-
-
+  proximaPartidaConsumo:0,
+//5---------------
+partidasRemitoSalida:[]
 
 
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case AGREGAR_AL_REMITO_SALIDA:   
+    return {         
+      ...state,
+      partidasRemitoSalida: [...state.partidasRemitoSalida, action.payload]
+    };
+
+    case ELIMINAR_PARTIDA_AL_REMITO_SALIDA:   
+      return {         
+        ...state,
+        partidasRemitoSalida: state.partidasRemitoSalida.filter(p => p.posicion !== action.posicion)
+      };
+
+
+
 //1----------------------------------------------------------------------------------
     case AGREGAR_KILOS_DE_PARTIDA_A_POSICION:   
     return {         

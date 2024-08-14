@@ -10,37 +10,34 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 
 
-import { agragarPartidaAlRemito } from '../../redux/actions'
+import { agragarAlRemitoDeSalida } from '../../../redux/actions'
 import { useNavigate } from 'react-router-dom'
 
-export default function Salidas() {
-  const navigate = useNavigate();
-
+export default function SalidasForm() {
+  const dispatch = useDispatch();
+  
   const items = useSelector((state) => state.items);
-  const [itemsDescripciones, setItemsDescripciones] = React.useState([]); 
-
-  useEffect(() => {
-    if (items.length > 0) {
-      const descripcionItems = items.map((item) => item.descripcion);
-      setItemsDescripciones(descripcionItems);
-    }
-  }, [items]);
-
   const [item, setItem] = React.useState(''); 
+  const [itemsDescripciones, setItemsDescripciones] = React.useState([]); 
 
   const handleChange = (e) => {
     const itemSeleccionado = e.target.value;
     setItem(itemSeleccionado);
   };
-  function nuevoItem(){
-    navigate('/deposito_dw_front/nuevoitem')
-  }
+
+  useEffect(() => {
+    if (items.length > 0) {
+      const descripcionItems = items.map((item) => item.descripcion);
+      setItemsDescripciones(descripcionItems);
+    }}, [items]);
 
   
   
   
   
+  
   const initialStatePartida= {
+    descripcionItem:"",
     kilos: "",
     numeroPartida:"",
     unidades:"",
@@ -116,32 +113,24 @@ export default function Salidas() {
     }));
   }
   
-  const [proveedor, setProveedor] = useState("");
-
   const limpiar = (e)=>{
     setPartida(initialStatePartida)
-    setProveedor("")
     setPosicion(initialStatePosicion)
   }
-  const dispatch = useDispatch();
+  
+
   async function subirPartida(){
     partida.descripcionItem= item
-    dispatch(agragarPartidaAlRemito({partida, posicion,proveedor}))
+    dispatch(agragarAlRemitoDeSalida({partida, posicion}))
   }
   
   
   
   return (
+    <>
+
     <div className='formConteiner'>
-        <TextField
-          id="outlined-multiline-flexible"
-          label="Proveedor"
-          multiline
-          value={proveedor}
-          onChange={(e) => setProveedor(e.target.value)}
-          // maxRows={4}
-          sx={{width: '350px', marginTop:'10px'}} 
-        />
+
       <FormControl   sx={{width: '350px', marginTop:'10px'}} >
         <InputLabel id="demo-simple-select-label">Descripcion Item</InputLabel>
         <Select
@@ -154,7 +143,6 @@ export default function Salidas() {
         {itemsDescripciones?.map(((item, i)=>(
           <MenuItem  key={i} value={item}>{item}</MenuItem>
         )))}
-        <Button onClick={nuevoItem} key={"bla"} value={"agregar item nuevo"} style={{color:"blue"}}>Agregar item nuevo</Button>
         </Select>
       </FormControl>
           <TextField
@@ -259,5 +247,6 @@ export default function Salidas() {
         </div>  
         
     </div>
+    </>
   );
 }

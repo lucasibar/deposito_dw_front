@@ -20,10 +20,44 @@ export const AGREGAR_KILOS_DE_PARTIDA_A_POSICION = 'AGREGAR_KILOS_DE_PARTIDA_A_P
 export const ELIMINAR_KILOS_ASIGNADOS_A_POSICION = 'ELIMINAR_KILOS_ASIGNADOS_A_POSICION';
 export const STOCK_ITEM_POSICION = 'STOCK_ITEM_POSICION';
 export const LIMPIAR_ESTADO_REDUCER = 'LIMPIAR_ESTADO_REDUCER';
+export const AGREGAR_AL_REMITO_SALIDA = 'AGREGAR_AL_REMITO_SALIDA';
+export const ELIMINAR_PARTIDA_AL_REMITO_SALIDA = 'ELIMINAR_PARTIDA_AL_REMITO_SALIDA';
+
 
 
  export const URL = "https://derwill-deposito-backend.onrender.com"
 // export const URL = "http://localhost:3001"
+
+
+
+export const agragarAlRemitoDeSalida =(mercaderia_posicion)=>dispatch => {
+  return dispatch({type: AGREGAR_AL_REMITO_SALIDA, payload: mercaderia_posicion })
+
+}
+
+
+export const deletePartidaSalida = (mercaderia) => dispatch => {
+  return dispatch({ type: ELIMINAR_PARTIDA_AL_REMITO_SALIDA, payload: mercaderia });
+};
+
+export const subirRemitoSalida =(remitoSalida)=> dispatch => {
+  console.log(remitoSalida)
+  return axios.post(`${URL}/movimientos/remito-salida`, remitoSalida ) 
+  .then(data => {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: data.message,
+      showConfirmButton: false,
+      timer: 1500
+    });
+    })
+    .catch(error => {
+        console.error("Error in datosBaseRemito:", error);
+    });
+};
+
+
 
 //----------------------------------------------------------------------------------
 export const movimientoEntradaPosicion2 =(movimiento)=>dispatch => {
