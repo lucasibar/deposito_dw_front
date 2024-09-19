@@ -27,17 +27,7 @@ export default function Remito(props) {
   const numeroRemito = useSelector((state) => state.numeroRemito); 
   const proveedor = useSelector((state) => state.proveedor);
   const fechaRemito = useSelector((state) => state.fechaRemito);
-
-
-  const items = useSelector((state) => state.items);
-  const [itemsDescripciones, setItemsDescripciones] = useState([]); 
-  useEffect(() => {
-    if (items.length > 0) {
-      const descripcionItems = items.map((item) => item.descripcion);
-      setItemsDescripciones(descripcionItems);
-    }
-  }, [items, setItemsDescripciones]);
-
+  // const categoriaMercaderiaRemito = useSelector((state) => state.categoriaMercaderiaRemito);
 
 
 const partidasRemito = useSelector((state) => state.partidasRemito);//PARA PROBAR LAS PETICIONES AL SERVER

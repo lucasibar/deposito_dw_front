@@ -17,7 +17,9 @@ import {
   STOCK_ITEM_POSICION,
   LIMPIAR_ESTADO_REDUCER,
   AGREGAR_AL_REMITO_SALIDA,
-  ELIMINAR_PARTIDA_AL_REMITO_SALIDA
+  ELIMINAR_PARTIDA_AL_REMITO_SALIDA,
+  GET_PROVEEDORES,
+  AGREGAR_NUEVO_PROVEEDOR
 } from './actions';
 
 const initialState = { 
@@ -26,9 +28,11 @@ const initialState = {
   stockItemSeleccionado: [],
 //------------------------------
   items: [], 
+  //---------------
   numeroRemito: 0,
-//---------------
   proveedor: "",
+  proveedores:[],
+  categoriaMercaderiaRemito:"",
   fechaRemito: "",
 //---------------
   partidasRemito: [],
@@ -49,6 +53,19 @@ partidasRemitoSalida:[]
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+
+
+
+    case GET_PROVEEDORES:
+      return {
+        ...state,
+        proveedores: action.payload
+      };
+    case AGREGAR_NUEVO_PROVEEDOR:
+      return {
+        ...state,
+        proveedores: [...state.proveedores, {nombre: action.payload}]
+      };
 
     case AGREGAR_AL_REMITO_SALIDA:   
     return {         
@@ -129,9 +146,10 @@ case DATA_LOAD:
       
       case DATA_BASE_REMITO:
         return {         
-          ...state,
+        ...state,
+        categoriaMercaderiaRemito: action.payload.categoriaMercaderiaRemito,
         numeroRemito: action.payload.numeroRemito,
-        proveedor: action.payload.proveedor,
+        proveedor: action.payload.proveedorSeleccionado,
         fechaRemito: action.payload.fecha
       };
 

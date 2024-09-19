@@ -15,23 +15,22 @@ export default function DetalleRemito() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   const items = useSelector((state) => state.items);
 
-  const [item, setItem] =useState(""); 
+  const [item, setItem] = useState(""); 
   const [itemsDescripciones, setItemsDescripciones] = useState([]); 
+
   useEffect(() => {
     if (items.length > 0) {
       const descripcionItems = items.map((item) => item.descripcion);
       setItemsDescripciones(descripcionItems);
     }
-  }, [items, setItemsDescripciones]);
+  }, [items]);
 
   const handleChange = (e) => {
     const itemSeleccionado = e.target.value;
     setItem(itemSeleccionado);
   };
-
 
   const [partida, setPartida] = useState({
     kilos: "",
@@ -39,9 +38,29 @@ export default function DetalleRemito() {
     unidades: "",
   });
 
-
   const handleInputChange = (field) => (e) => {
-    setPartida({ ...partida, [field]: parseInt(e.target.value, 10) });
+    const value = e.target.value;
+
+    setPartida({
+      ...partida,
+      [field]: field === 'kilos' ? formatKilos(value) : value === '' ? '' : parseInt(value, 10),
+    });
+  };
+
+  // Función para formatear y restringir "kilos" a dos decimales
+  const formatKilos = (value) => {
+    // Si el valor es vacío o no es un número, devolver el valor tal cual (permite borrar)
+    if (value === '' || isNaN(value)) {
+      return value;
+    }
+
+    // Limitar a dos decimales
+    const regex = /^\d*\.?\d{0,2}$/;
+    if (regex.test(value)) {
+      return value;
+    }
+
+    return parseFloat(value).toFixed(2);
   };
 
   const limpiar = () => {
@@ -86,6 +105,7 @@ export default function DetalleRemito() {
         value={partida.kilos}
         onChange={handleInputChange('kilos')}
         sx={{ width: '350px', marginTop: '10px' }}
+        type="text"
       />
       <TextField
         id="outlined-multiline-flexible"

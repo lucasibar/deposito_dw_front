@@ -22,14 +22,33 @@ export const STOCK_ITEM_POSICION = 'STOCK_ITEM_POSICION';
 export const LIMPIAR_ESTADO_REDUCER = 'LIMPIAR_ESTADO_REDUCER';
 export const AGREGAR_AL_REMITO_SALIDA = 'AGREGAR_AL_REMITO_SALIDA';
 export const ELIMINAR_PARTIDA_AL_REMITO_SALIDA = 'ELIMINAR_PARTIDA_AL_REMITO_SALIDA';
+export const GET_PROVEEDORES = 'GET_PROVEEDORES';
+export const AGREGAR_NUEVO_PROVEEDOR = 'AGREGAR_NUEVO_PROVEEDOR';
+
+
+//export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
 
 
 
- export const URL = "https://derwill-deposito-backend.onrender.com"
-// export const URL = "http://localhost:3001"
 
 
 
+export const loadProveedores =()=>dispatch => {
+    return axios.get(`${URL}/proveedores`)
+    .then(data => {
+        dispatch({ type: GET_PROVEEDORES, payload: data.data });
+    })
+    .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+  };
+
+  export const agregarNuevoProveedor =(nuevoProveedor)=> dispatch => {  
+    return dispatch({type: AGREGAR_NUEVO_PROVEEDOR, payload: nuevoProveedor })
+  };
+
+//------------------------------------------------------------------------------------------------------------------
 export const agragarAlRemitoDeSalida =(mercaderia_posicion)=>dispatch => {
   return dispatch({type: AGREGAR_AL_REMITO_SALIDA, payload: mercaderia_posicion })
 

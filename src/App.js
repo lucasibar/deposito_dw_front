@@ -10,6 +10,7 @@ import Salidas from './components/Salidas/Salida';
 import MovimientoInterno from './components/MovimientoInterno/MovimientoInterno';
 import AsignarPosicionAEntrada from './components/AsignarPosicionAEntrada/AsignarPosicionAEntrada';
 import Posiciones from './components/Posiciones/Posiciones';
+import NuevoProveedor from './components/NuevoProveedor/NuevoProveedor';
 
 
 function App() {
@@ -61,6 +62,11 @@ function App() {
         exact  
         path="/deposito_dw_front/nuevoitem"
         element={<NuevoItem />}
+      /> 
+      <Route 
+        exact  
+        path="/deposito_dw_front/nuevoproveedor"
+        element={<NuevoProveedor />}
       /> 
  
       </Routes>
