@@ -2,21 +2,14 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { subirRemito, limpiarDatosRemito, dataLoad } from '../../redux/actions'
+import { subirRemito} from '../../redux/actions'
 import './Remito.css';
-import {URL} from '../../redux/actions'
-
-
+import FormRemito from './FormRemito/FormRemito'
 import DetalleRemito from './DetalleRemito/DetalleRemito'
 import ListaPartidasRemito from './ListaPartidasRemito/ListaPartidasRemito'
 import CargarRemitoProveedor from './CargarRemitoProveedor';
 
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NavBar from '../NavBar/NavBar';
 
 
@@ -54,13 +47,11 @@ async function submitRemito(){
 
   return (
     <div>
-
-    
-
-      {numeroRemito && proveedor?
-      <>
-      <NavBar titulo={ `Remito  ${numeroRemito}`} subtitulo={proveedor}/>
+      <NavBar titulo={ `Remito recepcion`}/>
         
+      <FormRemito />
+      {/* {numeroRemito && proveedor?
+      <>
       <DetalleRemito />
 
       <Button onClick={submitRemito} sx={{ width: '350px', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
@@ -69,10 +60,8 @@ async function submitRemito(){
       </>
       :
       <CargarRemitoProveedor />
-      }
-        
-
-
+      } */}
+      
     </div>
   );
 }

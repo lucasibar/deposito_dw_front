@@ -3,7 +3,7 @@ import { pdf } from '@react-pdf/renderer';
 import PalletPDF from '../components/ArmadoPallets/PalletPDF/PalletPDF';
 import axios from 'axios' 
 import Swal from 'sweetalert2'
-export const DATA_LOAD= "DATA_LOAD" 
+export const DATA_LOAD_REMITO= "DATA_LOAD_REMITO" 
 export const DATA_BASE_REMITO= "DATA_BASE_REMITO" 
 export const AGREGAR_ITEM= "AGREGAR_ITEM" 
 export const LIMPIAR_DATOS_BASE_REMITO= "LIMPIAR_DATOS_BASE_REMITO" 
@@ -21,7 +21,7 @@ export const ELIMINAR_KILOS_ASIGNADOS_A_POSICION = 'ELIMINAR_KILOS_ASIGNADOS_A_P
 export const STOCK_ITEM_POSICION = 'STOCK_ITEM_POSICION';
 
 
-//  export const URL = "https://derwill-deposito-backend.onrender.com"
+ //export const URL = "https://derwill-deposito-backend.onrender.com"
 export const URL = "http://localhost:3001"
 //----------------------------------------------------------------------------------
 
@@ -277,12 +277,12 @@ export const partidasSinPallet =()=> dispatch => {
 
 
 export const dataRemitoLoad =()=>dispatch => {
-    return axios.get(`${URL}/dataRemitoLoad`)
+    return axios.get(`${URL}/remitos/dataload-remito-recepcion`)
     .then(data => {
-        dispatch({ type: DATA_LOAD, payload: data.data });
+        dispatch({ type: DATA_LOAD_REMITO, payload: data.data });
     })
     .catch(error => {
-        console.error("Error in datosBaseRemito:", error);
+        console.error("Error in dataRemitoLoad:", error);
     });
 };
 

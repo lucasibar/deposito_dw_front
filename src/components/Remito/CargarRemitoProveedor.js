@@ -32,8 +32,7 @@ export default function CargarRemitoProveedor() {
 
   return (
     <div className="formContainer">
-      <CloseIcon className="closeIcon" onClick={() => navigate('/deposito_dw_front/')} />
-      
+  
       <TextField
         id="outlined-multiline-flexible"
         label="Número de remito"

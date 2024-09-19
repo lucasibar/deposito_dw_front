@@ -1,5 +1,5 @@
 import {
-  DATA_LOAD,
+  DATA_LOAD_REMITO,
   AGREGAR_ITEM,
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
@@ -23,6 +23,7 @@ const initialState = {
   stockItemSeleccionado: [],
 //------------------------------
   items: [], 
+  proveedores: [], 
   numeroRemito: 0,
 //---------------
   proveedor: "",
@@ -83,10 +84,11 @@ const rootReducer = (state = initialState, action) => {
         stockItemSeleccionado: action.payload
       };
 
-    case DATA_LOAD:
+    case DATA_LOAD_REMITO:
       return {         
         ...state,
-        items: action.payload
+        items: action.payload.items,
+        proveedores: action.payload.proveedores
       };
 
     case SUBMIT_PALLETS:
