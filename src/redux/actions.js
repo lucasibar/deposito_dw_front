@@ -276,8 +276,8 @@ export const partidasSinPallet =()=> dispatch => {
 
 
 
-export const dataLoad =()=>dispatch => {
-    return axios.get(`${URL}/items`)
+export const dataRemitoLoad =()=>dispatch => {
+    return axios.get(`${URL}/dataRemitoLoad`)
     .then(data => {
         dispatch({ type: DATA_LOAD, payload: data.data });
     })

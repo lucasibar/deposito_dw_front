@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { dataLoad } from '../../redux/actions';
 import Button from '@mui/material/Button';
 import Swal from 'sweetalert2';
 import { NavLink } from 'react-router-dom';
@@ -51,11 +50,7 @@ const LandingContainer = styled.div`
 `;
 
 export default function LandingPage(props) {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(dataLoad());
-  }, [dispatch]);
+ 
 
   function usuarioNohabilitado() {
     Swal.fire({
