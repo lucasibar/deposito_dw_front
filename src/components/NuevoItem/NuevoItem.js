@@ -4,12 +4,10 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import { agregarNuevoItem } from '../../redux/actions';
 import './NuevoItem.css';
+import NavBar from '../NavBar/NavBar';
+
 
 export default function NuevoItem() {
   const dispatch = useDispatch();
@@ -39,15 +37,7 @@ export default function NuevoItem() {
   
   return (
     <>
-      <AppBar position="static">
-        <Toolbar>
-          <Box sx={{ display: 'flex', flex: 1, alignItems: 'center' }}>
-            <Typography variant="h6" sx={{ flex: 1 }}>
-              Agregar Nuevo Item
-            </Typography>
-          </Box>
-        </Toolbar>
-      </AppBar>
+ <NavBar titulo="Agregar nuevo item" />
 
       <div className="formContainer">
         <TextField

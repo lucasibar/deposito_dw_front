@@ -13,8 +13,7 @@ export default function NavBar({ titulo, subtitulo }) {
 
 
   function volverHome() {
-    dispatch(limpiarEstadoReducer())
-    navigate('/deposito_dw_front/');
+    navigate(-1);
   }
 
   return (
