@@ -9,7 +9,7 @@ export default function NavBar({ titulo, subtitulo }) {
   const navigate = useNavigate();
 
   function volverHome() {
-    navigate('/deposito_dw_front/');
+    navigate(-1);
   }
 
   return (

@@ -1,5 +1,5 @@
 import {
-  DATA_LOAD,
+  DATA_LOAD_REMITO,
   AGREGAR_ITEM,
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
@@ -14,7 +14,8 @@ import {
   PARTIDAS_EN_CUARENTENA,
   AGREGAR_KILOS_DE_PARTIDA_A_POSICION,
   ELIMINAR_KILOS_ASIGNADOS_A_POSICION,
-  STOCK_ITEM_POSICION
+  STOCK_ITEM_POSICION,
+  AGREGAR_PROVEEDOR
 } from './actions';
 
 const initialState = { 
@@ -23,6 +24,7 @@ const initialState = {
   stockItemSeleccionado: [],
 //------------------------------
   items: [], 
+  proveedores: [], 
   numeroRemito: 0,
 //---------------
   proveedor: "",
@@ -83,10 +85,11 @@ const rootReducer = (state = initialState, action) => {
         stockItemSeleccionado: action.payload
       };
 
-    case DATA_LOAD:
+    case DATA_LOAD_REMITO:
       return {         
         ...state,
-        items: action.payload
+        items: action.payload.items,
+        proveedores: action.payload.proveedores
       };
 
     case SUBMIT_PALLETS:
@@ -105,9 +108,16 @@ const rootReducer = (state = initialState, action) => {
       return {         
         ...state,
         numeroRemito: action.payload.numeroRemito,
-        proveedor: action.payload.proveedor,
+        proveedores: action.payload.proveedor,
         fechaRemito: action.payload.fecha
       };
+
+      case AGREGAR_PROVEEDOR:
+        return {         
+          ...state,
+          proveedores: [...state.proveedores, action.payload.proveedor],
+        };
+  
 
     case AGREGAR_PARTIDA_AL_REMITO:   
       return {         
