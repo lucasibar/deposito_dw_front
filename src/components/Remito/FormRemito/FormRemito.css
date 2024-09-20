@@ -19,7 +19,6 @@
 .descripcion-item {
   width: 100%; /* Hace que el campo ocupe el mismo ancho que los otros */
   margin-top: 10px; /* Asegura que tenga el mismo espaciado que los otros */
-  text-align: center; /* Centramos el contenido */
   display: flex;
   justify-content: center;
 }

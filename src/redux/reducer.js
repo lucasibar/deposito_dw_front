@@ -14,7 +14,8 @@ import {
   PARTIDAS_EN_CUARENTENA,
   AGREGAR_KILOS_DE_PARTIDA_A_POSICION,
   ELIMINAR_KILOS_ASIGNADOS_A_POSICION,
-  STOCK_ITEM_POSICION
+  STOCK_ITEM_POSICION,
+  AGREGAR_PROVEEDOR
 } from './actions';
 
 const initialState = { 
@@ -107,9 +108,16 @@ const rootReducer = (state = initialState, action) => {
       return {         
         ...state,
         numeroRemito: action.payload.numeroRemito,
-        proveedor: action.payload.proveedor,
+        proveedores: action.payload.proveedor,
         fechaRemito: action.payload.fecha
       };
+
+      case AGREGAR_PROVEEDOR:
+        return {         
+          ...state,
+          proveedores: [...state.proveedores, action.payload.proveedor],
+        };
+  
 
     case AGREGAR_PARTIDA_AL_REMITO:   
       return {         

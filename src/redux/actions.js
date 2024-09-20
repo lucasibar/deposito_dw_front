@@ -19,6 +19,7 @@ export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
 export const AGREGAR_KILOS_DE_PARTIDA_A_POSICION = 'AGREGAR_KILOS_DE_PARTIDA_A_POSICION';
 export const ELIMINAR_KILOS_ASIGNADOS_A_POSICION = 'ELIMINAR_KILOS_ASIGNADOS_A_POSICION';
 export const STOCK_ITEM_POSICION = 'STOCK_ITEM_POSICION';
+export const AGREGAR_PROVEEDOR = 'AGREGAR_PROVEEDOR';
 
 
  //export const URL = "https://derwill-deposito-backend.onrender.com"
@@ -57,7 +58,22 @@ export const buscarStockPorPosicion =(dataPosicion)=> async dispatch => {
 
 //----------------------------------------------------------------------------------
 
+export const generarNuevoProveedor =(nombre)=>dispatch => {
+  return axios.post(`${URL}/proveedores/${nombre}`) 
+  .then(data => {
+    dispatch({ type: AGREGAR_PROVEEDOR, payload: data.data });
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Se genero el proveedor",
+      showConfirmButton: false,
 
+    });
+    })
+    .catch(error => {
+        console.error("Error in datosBaseRemito:", error);
+    });
+}
 
 
 export const agragarKilosPartidaAPosicion =(movimiento)=>dispatch => {
