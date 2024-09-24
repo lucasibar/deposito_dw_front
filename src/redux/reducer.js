@@ -125,11 +125,7 @@ return initialState
         pallets: []
       };
 
-case DATA_LOAD:
-  return {         
-    ...state,
-    items: action.payload
-  };
+
   
   case SUBMIT_PALLETS:
     return {         
