@@ -22,11 +22,38 @@ export const STOCK_ITEM_POSICION = 'STOCK_ITEM_POSICION';
 export const LIMPIAR_ESTADO_REDUCER = 'LIMPIAR_ESTADO_REDUCER';
 export const AGREGAR_AL_REMITO_SALIDA = 'AGREGAR_AL_REMITO_SALIDA';
 export const ELIMINAR_PARTIDA_AL_REMITO_SALIDA = 'ELIMINAR_PARTIDA_AL_REMITO_SALIDA';
+export const AGREGAR_PROVEEDOR = 'AGREGAR_PROVEEDOR';
 
 
 
  export const URL = "https://derwill-deposito-backend.onrender.com"
 // export const URL = "http://localhost:3001"
+
+ export const generarNuevoProveedor =(nombreProveedor)=> dispatch => {  
+  return axios.post(`${URL}/proveedores/${nombreProveedor}`)
+  .then(data => {
+      dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
+  })
+  .catch(error => {
+      Swal.fire({
+          title: error,
+          showClass: {
+            popup: `
+              animate__animated
+              animate__fadeInUp
+              animate__faster
+            `
+          },
+          hideClass: {
+            popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `
+          }
+        });
+  });
+};
 
 
 
@@ -56,8 +83,6 @@ export const subirRemitoSalida =(remitoSalida)=> dispatch => {
         console.error("Error in datosBaseRemito:", error);
     });
 };
-
-
 
 //----------------------------------------------------------------------------------
 export const movimientoEntradaPosicion2 =(movimiento)=>dispatch => {
@@ -93,11 +118,9 @@ return axios.post(`${URL}/movimientos/interno`, movimiento )
   });
 }
 
-export const AGREGAR_PROVEEDOR = 'AGREGAR_PROVEEDOR';
 
 
- //export const URL = "https://derwill-deposito-backend.onrender.com"
-export const URL = "http://localhost:3001"
+
 //----------------------------------------------------------------------------------
 
 export const buscarStockPorPosicion =(dataPosicion)=> async dispatch => {
@@ -142,9 +165,6 @@ export const buscarStockPorPosicion =(dataPosicion)=> async dispatch => {
     })
   })
 };
-
-
-
 
 //----------------------------------------------------------------------------------
 
@@ -258,12 +278,6 @@ export const partidasEnCuarentena =()=> dispatch => {
     });
   };
 
-
-
-
-
-
-
 //-----------------------------------------------------------------------------------------------------------------------------------
 export const buscarStockPorIdItem =(idItem)=> async dispatch => {
   
@@ -292,10 +306,6 @@ export const buscarStockPorIdItem =(idItem)=> async dispatch => {
   })
 };
 
-
-
-
-
 export const submitGeneratedPallets = (pallets) => async (dispatch) => {
   try {
     const response = await axios.post(`${URL}/armadopallets`, pallets);
@@ -320,14 +330,10 @@ export const submitGeneratedPallets = (pallets) => async (dispatch) => {
   }
 }
 
-  
   export const addPallet =(pallet)=>dispatch => {
     return dispatch({type: AGREGAR_PALLET_A_LISTA_PARA_SUBIR, payload: pallet })
 
 }
-
-
-
 
 export const getPartidas =()=> dispatch => {
     return axios.get(`${URL}/partidas`) 
@@ -347,9 +353,6 @@ export const partidasSinPallet =()=> dispatch => {
         console.error("Error in datosBaseRemito:", error);
     });};
 
-
-
-
 export const dataRemitoLoad =()=>dispatch => {
     return axios.get(`${URL}/remitos/dataload-remito-recepcion`)
     .then(data => {
@@ -359,7 +362,6 @@ export const dataRemitoLoad =()=>dispatch => {
         console.error("Error in dataRemitoLoad:", error);
     });
 };
-
 
 export const datosBaseRemito =(datosBaseRemito)=> dispatch => {
     return dispatch({ type: DATA_BASE_REMITO, payload: datosBaseRemito });
