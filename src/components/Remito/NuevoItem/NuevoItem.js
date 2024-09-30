@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { agregarNuevoItem, generarNuevoProveedor } from '../../redux/actions';
+import { agregarNuevoItem, generarNuevoProveedor } from '../../../redux/actions';
 import './NuevoItem.css';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../../NavBar/NavBar';
 import Swal from 'sweetalert2';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
@@ -14,7 +14,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 export default function NuevoItem() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
   const initialState = {
     descripcion: "",
     codigoInterno: "",
@@ -24,14 +24,50 @@ export default function NuevoItem() {
   };
   const [nuevoItem, setNuevoItem] = useState(initialState);
   
+  
   const proveedores = useSelector((state) => state.proveedores);
+  const [listaProveedores, setListaProveedores] = useState([]);
+  useEffect(() => {
+    setListaProveedores(proveedores)
+  }, [proveedores]);
+  
+
   const handleChangeProveedor = (e) => {
     setNuevoItem(state => ({
       ...state,
       proveedor: e.target.value
     }));
   };
-
+  
+    const crearNuevoProveedor = () => {
+      Swal.fire({
+        title: "Nombre del nuevo proveedor",
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off"
+        },
+        showCancelButton: true,
+        confirmButtonText: "Cargar proveedor",
+        showLoaderOnConfirm: true,
+        preConfirm: async (nombreProveedor) => {
+          try {
+            dispatch(generarNuevoProveedor(nombreProveedor))
+          } catch (error) {
+            Swal.showValidationMessage(`
+              Request failed: ${error}
+              `);
+            }
+          },
+          allowOutsideClick: () => !Swal.isLoading()
+        })
+      };
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   const handleChangeMaterial = (e) => {
     setNuevoItem(state => ({
       ...state,
@@ -54,28 +90,10 @@ export default function NuevoItem() {
   
 
 
-  const crearNuevoProveedor = () => {
-    Swal.fire({
-      title: "Nombre del nuevo proveedor",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off"
-      },
-      showCancelButton: true,
-      confirmButtonText: "Cargar proveedor",
-      showLoaderOnConfirm: true,
-      preConfirm: async (nombreProveedor) => {
-        try {
-          dispatch(generarNuevoProveedor(nombreProveedor))
-        } catch (error) {
-          Swal.showValidationMessage(`
-            Request failed: ${error}
-            `);
-          }
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-      })
-    };
+
+
+
+
   return (
     <>
 
@@ -94,8 +112,8 @@ export default function NuevoItem() {
           value={nuevoItem.proveedor}
           onChange={handleChangeProveedor}
         >
-          {proveedores?.map((prov, i) => (
-            <MenuItem key={i} value={prov}>{prov}</MenuItem>
+          {listaProveedores?.map((prov, i) => (
+            <MenuItem key={i} value={prov.nombre}>{prov.nombre}</MenuItem>
           ))}
           <Button onClick={crearNuevoProveedor} style={{ color: "blue" }}>
             Agregar proveedor nuevo

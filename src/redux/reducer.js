@@ -1,9 +1,15 @@
 import {
+  LOAD_PROVEEDORES,
+  NUEVO_PROVEEDOR,
+  ITEMS_POR_PROVEEDOR_SELECCIONADO,
+  AGREGAR_PARTIDA_AL_REMITO,
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+
   DATA_LOAD_REMITO,
   AGREGAR_ITEM,
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
-  AGREGAR_PARTIDA_AL_REMITO,
   SUBIR_DATA_REMITO,
   PARTIDAS_SIN_PALLET_ASIGNADO,
   GET_PARTIDAS,
@@ -18,32 +24,30 @@ import {
   LIMPIAR_ESTADO_REDUCER,
   AGREGAR_AL_REMITO_SALIDA,
   ELIMINAR_PARTIDA_AL_REMITO_SALIDA,
-  AGREGAR_PROVEEDOR
+  AGREGAR_PROVEEDOR,
 } from './actions';
 
 const initialState = { 
-//----Para eliminar-------------
+  proveedores: [], 
+  proveedor: "",
+  itemsSegunProveedor:[],
+
+
+
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+
   pallets: [],
   stockItemSeleccionado: [],
-//------------------------------
   items: [], 
-  proveedores: [], 
   numeroRemito: 0,
-//---------------
-  proveedor: "",
   fechaRemito: "",
-//---------------
   partidasRemito: [],
   partidas: [],
-//1---------------
     partidasDeEntradaAPosicion:[],
-//2---------------
   partidasCuarentena:[],
-//3---------------
   partidasPorPosicion:[],
-//4---------------
   proximaPartidaConsumo:0,
-//5---------------
 partidasRemitoSalida:[]
 
 
@@ -51,6 +55,36 @@ partidasRemitoSalida:[]
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case LOAD_PROVEEDORES:   
+    return {         
+      ...state,
+      proveedores: action.payload
+    };
+    case NUEVO_PROVEEDOR:   
+    return {         
+      ...state,
+      proveedores: [...state.proveedores, action.payload],
+
+    };
+    case ITEMS_POR_PROVEEDOR_SELECCIONADO:  
+    return {         
+      ...state,
+      proveedor: action.payload.proveedor,
+      itemsSegunProveedor:[action.payload.data]
+    };
+    case AGREGAR_PARTIDA_AL_REMITO:   
+      return {         
+        ...state,
+        partidasRemito: [...state.partidasRemito, action.payload]
+      };
+
+
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+
+
+
 
     case AGREGAR_AL_REMITO_SALIDA:   
     return {         
@@ -154,11 +188,6 @@ return initialState
         };
   
 
-    case AGREGAR_PARTIDA_AL_REMITO:   
-      return {         
-        ...state,
-        partidasRemito: [...state.partidasRemito, action.payload]
-      };
 
     case LIMPIAR_DATOS_BASE_REMITO:
       return {         

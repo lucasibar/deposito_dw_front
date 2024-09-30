@@ -3,11 +3,25 @@ import { pdf } from '@react-pdf/renderer';
 import PalletPDF from '../components/ArmadoPallets/PalletPDF/PalletPDF';
 import axios from 'axios' 
 import Swal from 'sweetalert2'
-export const DATA_LOAD_REMITO= "DATA_LOAD_REMITO" 
+
+
+
+
+export const LOAD_PROVEEDORES= "LOAD_PROVEEDORES"
+export const NUEVO_PROVEEDOR = 'NUEVO_PROVEEDOR';
+export const ITEMS_POR_PROVEEDOR_SELECCIONADO= "ITEMS_POR_PROVEEDOR_SELECCIONADO"
+export const AGREGAR_PARTIDA_AL_REMITO = "AGREGAR_PARTIDA_AL_REMITO"
+
+
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+
+
+
+export const DATA_LOAD_REMITO= "DATA_LOAD_REMITO"
 export const DATA_BASE_REMITO= "DATA_BASE_REMITO" 
 export const AGREGAR_ITEM= "AGREGAR_ITEM" 
 export const LIMPIAR_DATOS_BASE_REMITO= "LIMPIAR_DATOS_BASE_REMITO" 
-export const AGREGAR_PARTIDA_AL_REMITO = "AGREGAR_PARTIDA_AL_REMITO"
 export const ELIMINAR_PARTIDA_AL_REMITO = "ELIMINAR_PARTIDA_AL_REMITO"
 export const SUBIR_DATA_REMITO = "SUBIR_DATA_REMITO"
 export const PARTIDAS_SIN_PALLET_ASIGNADO = "PARTIDAS_SIN_PALLET_ASIGNADO"
@@ -25,14 +39,58 @@ export const ELIMINAR_PARTIDA_AL_REMITO_SALIDA = 'ELIMINAR_PARTIDA_AL_REMITO_SAL
 export const AGREGAR_PROVEEDOR = 'AGREGAR_PROVEEDOR';
 
 
+// export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
 
- export const URL = "https://derwill-deposito-backend.onrender.com"
-// export const URL = "http://localhost:3001"
 
- export const generarNuevoProveedor =(nombreProveedor)=> dispatch => {  
+export const loadProveedores =()=> dispatch => {
+  return axios.get(`${URL}/proveedores`) 
+    .then(data => {
+    dispatch({ type: LOAD_PROVEEDORES, payload: data.data });
+    })
+    .catch(error => {
+        console.error("Error in datosBaseRemito:", error);
+    });
+};
+
+export const selectProveedor =(proveedorSeleccionado)=>dispatch => {
+  return axios.get(`${URL}/proveedores/${proveedorSeleccionado.id}`)
+  .then(data => {
+      dispatch({ type: ITEMS_POR_PROVEEDOR_SELECCIONADO, payload: { data: data.data, proveedor: proveedorSeleccionado} });
+  })
+  .catch(error => {
+      Swal.fire({
+          title: error,
+          showClass: {
+            popup: `
+              animate__animated
+              animate__fadeInUp
+              animate__faster
+            `
+          },
+          hideClass: {
+            popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `
+          }
+        });
+  });
+
+}
+
+export const generarNuevoProveedor =(nombreProveedor)=> dispatch => {  
   return axios.post(`${URL}/proveedores/${nombreProveedor}`)
   .then(data => {
-      dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
+      dispatch({ type: NUEVO_PROVEEDOR, payload: data.data });
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Nuevo proveedor generado correctamente",
+        showConfirmButton: false,
+        timer: 1500
+      });
   })
   .catch(error => {
       Swal.fire({
@@ -54,6 +112,48 @@ export const AGREGAR_PROVEEDOR = 'AGREGAR_PROVEEDOR';
         });
   });
 };
+
+
+export const agragarPartidaAlRemito =(partida)=>dispatch => {
+  return dispatch({type: AGREGAR_PARTIDA_AL_REMITO, payload: partida })
+
+}
+
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -367,10 +467,7 @@ export const datosBaseRemito =(datosBaseRemito)=> dispatch => {
     return dispatch({ type: DATA_BASE_REMITO, payload: datosBaseRemito });
 };
 
-export const agragarPartidaAlRemito =(partida)=>dispatch => {
-    return dispatch({type: AGREGAR_PARTIDA_AL_REMITO, payload: partida })
 
-}
 // export const deletePartidaDelRemito =(numeroPartida)=>dispatch => {
 //     return dispatch({type: ELIMINAR_PARTIDA_AL_REMITO, payload: numeroPartida })
 
