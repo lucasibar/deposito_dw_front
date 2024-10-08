@@ -90,9 +90,9 @@ export default function LandingPage(props) {
       <NavLink to="/deposito_dw_front/salidas" className="navButton">
         <Button variant="outlined">SALIDA DE MERCADERIA</Button>
       </NavLink>
-      {/* <NavLink to="/deposito_dw_front/salidas" className="navButton"> */}
-        <Button variant="outlined">CARGAR MERCADERIA "VIEJO"</Button>
-      {/* </NavLink> */}
+      <NavLink to="/deposito_dw_front/ajuste" className="navButton">
+        <Button variant="outlined">AJUSTE DE STOCK</Button>
+      </NavLink>
 
       <div className="navButton">
         <Button variant="outlined" onClick={usuarioNohabilitado}>

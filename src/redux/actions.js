@@ -25,8 +25,8 @@ export const ELIMINAR_PARTIDA_AL_REMITO_SALIDA = 'ELIMINAR_PARTIDA_AL_REMITO_SAL
 
 
 
- export const URL = "https://derwill-deposito-backend.onrender.com"
-// export const URL = "http://localhost:3001"
+//  export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
 
 
 

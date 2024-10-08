@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from "react-router-dom";
 // import Login from './components/Login/Login'
 import Remito from './components/Remito/Remito'
+import Ajuste from './components/Ajuste/Ajuste'
 import NuevoItem from './components/NuevoItem/NuevoItem'
 import LandingPage from './components/LandyngPage/LandingPage'
 import Cuarentena from './components/Cuarentena/Cuarentena'
@@ -10,6 +11,7 @@ import Salidas from './components/Salidas/Salida';
 import MovimientoInterno from './components/MovimientoInterno/MovimientoInterno';
 import AsignarPosicionAEntrada from './components/AsignarPosicionAEntrada/AsignarPosicionAEntrada';
 import Posiciones from './components/Posiciones/Posiciones';
+import Deposito from './components/Manejadores/Deposito';
 
 
 function App() {
@@ -21,6 +23,11 @@ function App() {
         exact  
         path="/deposito_dw_front/"
         element={<LandingPage />}
+      /> 
+       <Route 
+        exact  
+        path="/deposito_dw_front/deposito"
+        element={<Deposito />}
       /> 
       <Route 
         exact  
@@ -56,6 +63,11 @@ function App() {
         exact  
         path="/deposito_dw_front/movimiento-interno"
         element={<MovimientoInterno />}
+      /> 
+      <Route 
+        exact  
+        path="/deposito_dw_front/ajuste"
+        element={<Ajuste />}
       /> 
       <Route 
         exact  

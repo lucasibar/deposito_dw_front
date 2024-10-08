@@ -1,0 +1,40 @@
+.deposito {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.rack-paper {
+  padding: 16px;
+  text-align: center;
+  width: 100%;
+}
+
+.botones-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.posicion-boton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 12px;
+  padding: 0;
+  margin: 4px;
+}
+
+@media (max-width: 600px) {
+  .botones-grid {
+    flex-wrap: nowrap; /* Evitar que se divida en varias filas */
+    overflow-x: auto; /* Permite scroll horizontal si es necesario */
+  }
+  .posicion-boton {
+    width: 35px;
+    height: 35px;
+    font-size: 10px;
+  }
+}
