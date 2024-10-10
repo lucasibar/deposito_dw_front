@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button} from '@mui/material';
+import { Navigate } from 'react-router-dom';
 
 
 export default function SubirRemito() {
@@ -13,7 +14,7 @@ export default function SubirRemito() {
       //   fechaRemito: fecha
       // }
       // dispatch(subirRemito({tipoMovimiento:"remito", partidasRemito, datosRemito}))
-    navigate('/deposito_dw_front/');
+    Navigate(-1);
   }
 
 
