@@ -52,7 +52,7 @@ export default function Posiciones() {
 
   return (
     <Box>
-      <NavBar titulo="Stock" />
+      <NavBar titulo="Contenido de Posicion" />
       <Box className='cajaContenedor' sx={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
 
         <FormControl fullWidth sx={{ marginBottom: '20px' }}>
@@ -111,7 +111,8 @@ export default function Posiciones() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Número de Partida</TableCell>
+                    <TableCell>Item</TableCell>
+                    <TableCell>Partida</TableCell>
                     <TableCell>Unidades</TableCell>
                     <TableCell>Kilos</TableCell>
                   </TableRow>
@@ -119,7 +120,8 @@ export default function Posiciones() {
                 <TableBody>
                   {partidasPorPosicion.map((partida, i) => (
                     <TableRow key={i}>
-                      <TableCell>{partida.partida.numeroPartida}</TableCell>
+                      <TableCell>{partida.itemNombre}</TableCell>
+                      <TableCell>{partida.numeroPartida}</TableCell>
                       <TableCell>{partida.unidades}</TableCell>
                       <TableCell>{partida.kilos}</TableCell>
                     </TableRow>

@@ -19,17 +19,123 @@ export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
 export const AGREGAR_KILOS_DE_PARTIDA_A_POSICION = 'AGREGAR_KILOS_DE_PARTIDA_A_POSICION';
 export const ELIMINAR_KILOS_ASIGNADOS_A_POSICION = 'ELIMINAR_KILOS_ASIGNADOS_A_POSICION';
 export const STOCK_ITEM_POSICION = 'STOCK_ITEM_POSICION';
+export const LIMPIAR_ESTADO_REDUCER = 'LIMPIAR_ESTADO_REDUCER';
+export const AGREGAR_AL_REMITO_SALIDA = 'AGREGAR_AL_REMITO_SALIDA';
+export const ELIMINAR_PARTIDA_AL_REMITO_SALIDA = 'ELIMINAR_PARTIDA_AL_REMITO_SALIDA';
+export const GET_PROVEEDORES = 'GET_PROVEEDORES';
+export const AGREGAR_NUEVO_PROVEEDOR = 'AGREGAR_NUEVO_PROVEEDOR';
 export const AGREGAR_PROVEEDOR = 'AGREGAR_PROVEEDOR';
 
 
  //export const URL = "https://derwill-deposito-backend.onrender.com"
+//export const URL = "https://derwill-deposito-backend.onrender.com"
 export const URL = "http://localhost:3001"
+
+
+
+
+
+
+export const loadProveedores =()=>dispatch => {
+    return axios.get(`${URL}/proveedores`)
+    .then(data => {
+        dispatch({ type: GET_PROVEEDORES, payload: data.data });
+    })
+    .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+  };
+
+  export const agregarNuevoProveedor =(nuevoProveedor)=> dispatch => {  
+    return dispatch({type: AGREGAR_NUEVO_PROVEEDOR, payload: nuevoProveedor })
+  };
+
+//------------------------------------------------------------------------------------------------------------------
+export const agragarAlRemitoDeSalida =(mercaderia_posicion)=>dispatch => {
+  return dispatch({type: AGREGAR_AL_REMITO_SALIDA, payload: mercaderia_posicion })
+
+}
+
+
+export const deletePartidaSalida = (mercaderia) => dispatch => {
+  return dispatch({ type: ELIMINAR_PARTIDA_AL_REMITO_SALIDA, payload: mercaderia });
+};
+
+export const subirRemitoSalida =(remitoSalida)=> dispatch => {
+  console.log(remitoSalida)
+  return axios.post(`${URL}/movimientos/remito-salida`, remitoSalida ) 
+  .then(data => {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: data.message,
+      showConfirmButton: false,
+      timer: 1500
+    });
+    })
+    .catch(error => {
+        console.error("Error in datosBaseRemito:", error);
+    });
+};
+
+
+
+//----------------------------------------------------------------------------------
+export const movimientoEntradaPosicion2 =(movimiento)=>dispatch => {
+  console.log(movimiento)
+return axios.post(`${URL}/movimientos/entrada-posicion`, movimiento ) 
+.then(data => {
+  Swal.fire({
+    position: "top-end",
+    icon: "success",
+    title: data.message,
+    showConfirmButton: false,
+    timer: 1500
+  });
+  })
+  .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+}
+
+export const movimientoPosicion1Posicion2 =(movimiento)=>dispatch => {
+return axios.post(`${URL}/movimientos/interno`, movimiento ) 
+.then(data => {
+  Swal.fire({
+    position: "top-end",
+    icon: "success",
+    title: data.message,
+    showConfirmButton: false,
+    timer: 1500
+  });
+  })
+  .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+}
+
 //----------------------------------------------------------------------------------
 
 export const buscarStockPorPosicion =(dataPosicion)=> async dispatch => {
   return axios.post(`${URL}/stock/posicion`, dataPosicion)
   .then(data => {
-    console.log(data.data)
+    if(data.data.length == 0){Swal.fire({
+      title: "Posicion vacia",
+      showClass: {
+        popup: `
+              animate__animated
+              animate__fadeInUp
+              animate__faster
+            `
+      },
+      hideClass: {
+        popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `
+      }
+    })}
       dispatch({ type: STOCK_ITEM_POSICION, payload: data.data });
   })
   .catch(error => {
@@ -82,24 +188,6 @@ export const agragarKilosPartidaAPosicion =(movimiento)=>dispatch => {
 export const deleteKilosDePosicion = (partidaPosicion) => dispatch => {
   return dispatch({ type: ELIMINAR_KILOS_ASIGNADOS_A_POSICION, payload: partidaPosicion });
 };
-
-
-export const movimientoPosicion1Posicion2 =(movimiento)=>dispatch => {
-    console.log(movimiento)
-  return axios.post(`${URL}/movimientos/interno`, movimiento ) 
-  .then(data => {
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: data.message,
-      showConfirmButton: false,
-      timer: 1500
-    });
-    })
-    .catch(error => {
-        console.error("Error in datosBaseRemito:", error);
-    });
-  }
 
 //----------------------------------------------------------------------------------
 export const agregarNuevoItem =(nuevoItem)=> dispatch => {  
