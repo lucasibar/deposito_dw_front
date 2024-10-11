@@ -27,7 +27,6 @@ export const AGREGAR_NUEVO_PROVEEDOR = 'AGREGAR_NUEVO_PROVEEDOR';
 export const AGREGAR_PROVEEDOR = 'AGREGAR_PROVEEDOR';
 
 
- //export const URL = "https://derwill-deposito-backend.onrender.com"
 //export const URL = "https://derwill-deposito-backend.onrender.com"
 export const URL = "http://localhost:3001"
 

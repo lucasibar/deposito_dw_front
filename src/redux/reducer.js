@@ -1,5 +1,5 @@
 import {
-  DATA_LOAD,
+  // DATA_LOAD,
   AGREGAR_ITEM,
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
@@ -126,11 +126,11 @@ case STOCK_ITEM_SELECCIONADO:
 case LIMPIAR_ESTADO_REDUCER:   
 return initialState
 
-case DATA_LOAD:
-  return {         
-    ...state,
-    items: action.payload
-  };
+// case DATA_LOAD:
+//   return {         
+//     ...state,
+//     items: action.payload
+//   };
   
   case SUBMIT_PALLETS:
     return {         
