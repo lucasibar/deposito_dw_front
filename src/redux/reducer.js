@@ -1,13 +1,14 @@
 import {
-  LOAD_PROVEEDORES,
-  NUEVO_PROVEEDOR,
-  ITEMS_POR_PROVEEDOR_SELECCIONADO,
-  AGREGAR_PARTIDA_AL_REMITO,
-//-----------------------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------
-
-  DATA_LOAD_REMITO,
+  AGREGAR_PROVEEDOR,
+  PROVEEDOR_SELECCIONADO,
+  FECHA_SELECCIONADO,
+  NUMERO_REMITO_SELECCIONADO,
+  GET_PROVEEDORES,
+  GET_iTEMS,
   AGREGAR_ITEM,
+  AGREGAR_PARTIDA_AL_REMITO,
+  // DATA_LOAD,
+  DATA_LOAD_REMITO,
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
   SUBIR_DATA_REMITO,
@@ -24,67 +25,100 @@ import {
   LIMPIAR_ESTADO_REDUCER,
   AGREGAR_AL_REMITO_SALIDA,
   ELIMINAR_PARTIDA_AL_REMITO_SALIDA,
-  AGREGAR_PROVEEDOR,
+
+  AGREGAR_NUEVO_PROVEEDOR,
 } from './actions';
 
 const initialState = { 
-  proveedores: [], 
-  proveedor: "",
-  itemsSegunProveedor:[],
+
+  itemsProveedor: [], 
+  proveedores:[],
+  proveedorSeleccionado: "",
+  fechaSeleccionado:"",
+  numeroRemitoSeleccionado: 0,
+  partidasRemito: [],
 
 
-
-//-----------------------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
   pallets: [],
   stockItemSeleccionado: [],
-  items: [], 
-  numeroRemito: 0,
-  fechaRemito: "",
-  partidasRemito: [],
+  categoriaMercaderiaRemito:"",
   partidas: [],
-    partidasDeEntradaAPosicion:[],
+  partidasDeEntradaAPosicion:[],
   partidasCuarentena:[],
   partidasPorPosicion:[],
   proximaPartidaConsumo:0,
-partidasRemitoSalida:[]
+  partidasRemitoSalida:[]
 
 
 };
 
 const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-
-    case LOAD_PROVEEDORES:   
-    return {         
+switch (action.type) {
+  case GET_PROVEEDORES:
+    return {
       ...state,
       proveedores: action.payload
     };
-    case NUEVO_PROVEEDOR:   
+  case GET_iTEMS:
+    return {
+      ...state,
+      itemsProveedor: action.payload
+    };
+  
+  case AGREGAR_PROVEEDOR:
+    return {
+      ...state,
+      proveedores: [...state.proveedores, action.payload]
+    };
+  case PROVEEDOR_SELECCIONADO:
+    return {
+      ...state,
+      proveedorSeleccionado: action.payload,
+    };
+  case FECHA_SELECCIONADO:
+    return {
+      ...state,
+      fechaSeleccionado: action.payload,
+    };
+  case NUMERO_REMITO_SELECCIONADO:
+    return {
+      ...state,
+      numeroRemitoSeleccionado: action.payload,
+    };
+  case AGREGAR_ITEM:
     return {         
       ...state,
-      proveedores: [...state.proveedores, action.payload],
+      itemsProveedor: [...state.itemsProveedor, action.payload]
+    };
+  case AGREGAR_PARTIDA_AL_REMITO:   
+    return {         
+      ...state,
+      partidasRemito: [...state.partidasRemito, action.payload]
+    };
 
-    };
-    case ITEMS_POR_PROVEEDOR_SELECCIONADO:  
-    return {         
-      ...state,
-      proveedor: action.payload.proveedor,
-      itemsSegunProveedor:[action.payload.data]
-    };
-    case AGREGAR_PARTIDA_AL_REMITO:   
-      return {         
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+ 
+case DATA_LOAD_REMITO:
+      return {
         ...state,
-        partidasRemito: [...state.partidasRemito, action.payload]
+        proveedores: action.payload.proveedores,
+        items: action.payload.items
       };
 
-
-//-----------------------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------
-
-
-
+    case AGREGAR_NUEVO_PROVEEDOR:
+      return {
+        ...state,
+        proveedores: [...state.proveedores, {nombre: action.payload}]
+      };
 
     case AGREGAR_AL_REMITO_SALIDA:   
     return {         
@@ -142,24 +176,14 @@ case STOCK_ITEM_SELECCIONADO:
   };
 //-------------------------------------------------------
 
-
 case LIMPIAR_ESTADO_REDUCER:   
 return initialState
 
-    case DATA_LOAD_REMITO:
-      return {         
-        ...state,
-        items: action.payload.items,
-        proveedores: action.payload.proveedores
-      };
-
-    case SUBMIT_PALLETS:
-      return {         
-        ...state,
-        pallets: []
-      };
-
-
+// case DATA_LOAD:
+//   return {         
+//     ...state,
+//     items: action.payload
+//   };
   
   case SUBMIT_PALLETS:
     return {         
@@ -175,18 +199,13 @@ return initialState
       
       case DATA_BASE_REMITO:
         return {         
-          ...state,
+        ...state,
+        categoriaMercaderiaRemito: action.payload.categoriaMercaderiaRemito,
         numeroRemito: action.payload.numeroRemito,
-        proveedores: action.payload.proveedor,
+        proveedor: action.payload.proveedorSeleccionado,
         fechaRemito: action.payload.fecha
       };
 
-      case AGREGAR_PROVEEDOR:
-        return {         
-          ...state,
-          proveedores: [...state.proveedores, action.payload.proveedor],
-        };
-  
 
 
     case LIMPIAR_DATOS_BASE_REMITO:
@@ -196,11 +215,7 @@ return initialState
         numeroRemito: ""
       };
 
-    case AGREGAR_ITEM:   
-      return {         
-        ...state,
-        items: [...state.items, action.payload]
-      };
+
 
     case SUBIR_DATA_REMITO:
       return {         
