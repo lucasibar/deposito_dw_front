@@ -11,6 +11,10 @@ export const GET_PROVEEDORES = 'GET_PROVEEDORES';
 export const GET_iTEMS = 'GET_iTEMS';
 export const AGREGAR_ITEM= "AGREGAR_ITEM" 
 export const AGREGAR_PARTIDA_AL_REMITO = "AGREGAR_PARTIDA_AL_REMITO"
+export const DATA_LOAD_PROVEEDORES_ITEMS= "DATA_LOAD_PROVEEDORES_ITEMS" 
+export const LIMPIAR_PROVEEDOR_SELECCIONADO= "LIMPIAR_PROVEEDOR_SELECCIONADO" 
+export const POSICIONES_POR_PROVEEDOR= "POSICIONES_POR_PROVEEDOR" 
+
 
 //export const URL = "https://derwill-deposito-backend.onrender.com"
 export const URL = "http://localhost:3001"
@@ -115,13 +119,37 @@ export const subirRemitoBDD =(remito)=> dispatch => {
         console.error("Error in datosBaseRemito:", error);
     });
   }
+  export const dataProveedoresItems =()=>dispatch => {
+    return axios.get(`${URL}/remitos/dataload-remito-recepcion`)
+    .then(data => {
+        dispatch({ type: DATA_LOAD_PROVEEDORES_ITEMS, payload: data.data });
+    })
+    .catch(error => {
+        console.error("Error in dataRemitoLoad:", error);
+    });
+  };
+
+  export const limpiarProveedorSeleccionado =()=> dispatch => {  
+    return dispatch({type: LIMPIAR_PROVEEDOR_SELECCIONADO})
+  };
+
+
+  export const getPosicionesPorProveedor =(proveedor)=>dispatch => {
+    return axios.get(`${URL}/posiciones/${proveedor.id}`)
+    .then(data => {
+      console.log(data.data)  
+      dispatch({ type: POSICIONES_POR_PROVEEDOR, payload: data.data });
+    })
+    .catch(error => {
+        console.error("Error in dataRemitoLoad:", error);
+    });
+  };
 
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
-export const DATA_LOAD_REMITO= "DATA_LOAD_REMITO" 
 export const DATA_BASE_REMITO= "DATA_BASE_REMITO" 
 export const LIMPIAR_DATOS_BASE_REMITO= "LIMPIAR_DATOS_BASE_REMITO" 
 export const ELIMINAR_PARTIDA_AL_REMITO = "ELIMINAR_PARTIDA_AL_REMITO"
@@ -140,15 +168,7 @@ export const AGREGAR_AL_REMITO_SALIDA = 'AGREGAR_AL_REMITO_SALIDA';
 export const ELIMINAR_PARTIDA_AL_REMITO_SALIDA = 'ELIMINAR_PARTIDA_AL_REMITO_SALIDA';
 export const AGREGAR_NUEVO_PROVEEDOR = 'AGREGAR_NUEVO_PROVEEDOR';
 
-export const dataRemitoLoad =()=>dispatch => {
-  return axios.get(`${URL}/remitos/dataload-remito-recepcion`)
-  .then(data => {
-      dispatch({ type: DATA_LOAD_REMITO, payload: data.data });
-  })
-  .catch(error => {
-      console.error("Error in dataRemitoLoad:", error);
-  });
-};
+
 
 
 

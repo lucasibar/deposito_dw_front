@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { subirRemitoBDD } from '../../../redux/actions';
+import { subirRemitoBDD, limpiarProveedorSeleccionado } from '../../../redux/actions';
 import './FormRemito.css'; 
 import ProveedoresSearchBar from './ProveedoresSearchBar/ProveedoresSearchBar'
 import ItemsSearchBar from './ItemsSearchBar/ItemsSearchBar'
@@ -27,7 +27,8 @@ export default function FormRemito() {
         tipoMovimiento:"remitoEntrada"
       }
     dispatch(subirRemitoBDD(remito))
-    //navigate('/deposito_dw_front/');
+    dispatch(limpiarProveedorSeleccionado())
+    navigate('/deposito_dw_front/');
   }
 
 

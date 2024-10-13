@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {limpiarEstadoReducer} from '../../redux/actions'
+import { limpiarProveedorSeleccionado} from '../../redux/actions'
 
 export default function NavBar({ titulo, subtitulo }) {
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ export default function NavBar({ titulo, subtitulo }) {
 
 
   function volverHome() {
+    dispatch(limpiarProveedorSeleccionado())
     navigate(-1);
   }
 

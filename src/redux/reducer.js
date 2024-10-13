@@ -7,8 +7,10 @@ import {
   GET_iTEMS,
   AGREGAR_ITEM,
   AGREGAR_PARTIDA_AL_REMITO,
+  DATA_LOAD_PROVEEDORES_ITEMS,
+  LIMPIAR_PROVEEDOR_SELECCIONADO,
+  POSICIONES_POR_PROVEEDOR,
   // DATA_LOAD,
-  DATA_LOAD_REMITO,
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
   SUBIR_DATA_REMITO,
@@ -27,17 +29,21 @@ import {
   ELIMINAR_PARTIDA_AL_REMITO_SALIDA,
 
   AGREGAR_NUEVO_PROVEEDOR,
+  getPosicionesPorProveedor,
 } from './actions';
 
 const initialState = { 
-
-  itemsProveedor: [], 
   proveedores:[],
+  items: [],
+//esto se limpia con la flecha de NavBar--
+  itemsProveedor: [], 
   proveedorSeleccionado: "",
   fechaSeleccionado:"",
   numeroRemitoSeleccionado: 0,
   partidasRemito: [],
+  posicionesPorProveedor:[],
 
+//-----------------------------------------
 
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
@@ -100,19 +106,34 @@ switch (action.type) {
       ...state,
       partidasRemito: [...state.partidasRemito, action.payload]
     };
+    case DATA_LOAD_PROVEEDORES_ITEMS:
+      return {
+        ...state,
+        proveedores: action.payload.proveedores,
+        items: action.payload.items
+      };
+      case LIMPIAR_PROVEEDOR_SELECCIONADO:
+        return {
+          ...state,
+          itemsProveedor: [],
+          proveedorSeleccionado: "",
+          fechaSeleccionado:"",
+          numeroRemitoSeleccionado: 0,
+          partidasRemito: []
+        }
 
+        case POSICIONES_POR_PROVEEDOR:
+          return {
+            ...state,
+            posicionesPorProveedor: action.payload
+          };
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
  
-case DATA_LOAD_REMITO:
-      return {
-        ...state,
-        proveedores: action.payload.proveedores,
-        items: action.payload.items
-      };
+
 
     case AGREGAR_NUEVO_PROVEEDOR:
       return {
