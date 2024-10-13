@@ -29,9 +29,10 @@ export default function ListaPartidasRemito() {
                 </IconButton>
               }
             >
-              <ListItemText primary={`${partida.descripcionItem}`} />
-              <ListItemText primary={`${partida.kilos} kilos`} />
-              <ListItemText primary={`${partida.unidades} unidades`} />
+              <ListItemText primary={`${partida.item.categoria} ${partida.item.descripcion}`} />
+              <ListItemText primary={`LOTE ${partida.numeroPartida}`} />
+              <ListItemText primary={`${partida.kilos} kgs`} />
+              <ListItemText primary={`${partida.unidades} uds`} />
             </ListItem>
           </div>
         ))}

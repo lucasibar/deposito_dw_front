@@ -42,8 +42,8 @@
 /* Contenedor para los botones */
 .button-container {
   display: flex;
-  justify-content: center;
-  gap: 20px; /* Espacio entre los botones */
+  justify-content: space-between;
+  width: '100%';
   margin-top: 30px;
 }
 

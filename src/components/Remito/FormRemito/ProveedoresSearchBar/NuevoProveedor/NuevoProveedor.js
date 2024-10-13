@@ -8,7 +8,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { agregarNuevoItem } from '../../redux/actions';
+import { agregarNuevoItem } from '../../../../../redux/actions';
 import './NuevoProveedor.css';
 
 export default function NuevoProveedor() {

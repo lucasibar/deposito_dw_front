@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from "react-router-dom";
 // import Login from './components/Login/Login'
 import Remito from './components/Remito/Remito'
-import NuevoItem from './components/NuevoItem/NuevoItem'
+import NuevoItem from './components/Remito/FormRemito/ItemsSearchBar/NuevoItem/NuevoItem'
 import LandingPage from './components/LandyngPage/LandingPage'
 import Cuarentena from './components/Cuarentena/Cuarentena'
 import Stock from './components/Stock/Stock'
@@ -10,7 +10,7 @@ import Salidas from './components/Salidas/Salida';
 import MovimientoInterno from './components/MovimientoInterno/MovimientoInterno';
 import AsignarPosicionAEntrada from './components/AsignarPosicionAEntrada/AsignarPosicionAEntrada';
 import Posiciones from './components/Posiciones/Posiciones';
-import NuevoProveedor from './components/NuevoProveedor/NuevoProveedor';
+import NuevoProveedor from './components/Remito/FormRemito/ProveedoresSearchBar/NuevoProveedor/NuevoProveedor';
 
 
 function App() {

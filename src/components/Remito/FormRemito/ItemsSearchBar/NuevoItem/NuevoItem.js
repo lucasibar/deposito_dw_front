@@ -1,27 +1,32 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import { agregarNuevoItem } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { InputLabel, MenuItem, FormControl, Select, Button, TextField, Divider } from '@mui/material';
+import { agregarNuevoItem } from '../../../../../redux/actions';
 import './NuevoItem.css';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../../../../NavBar/NavBar';
 
 
 export default function NuevoItem() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const categorias =  ["costura", "algodon", "nylon", "laicra", "goma", "tarugo", "etiqueta", "bolsa", "percha", "ribbon", "caja", "cinta", "plantilla", "film", "consumibes(aceite y parafina)"]
   
+  const proveedorSeleccionado = useSelector((state) => state.proveedorSeleccionado);
+
   const initialState = {
-    codigo: "",
     descripcion: "",
-    tono: "",
-    color: "",
-    material: ""
+    categoria: ""
   };
   const [nuevoItem, setNuevoItem] = useState(initialState);
   
+  const handleChangeCategoria= (e) => {
+    setNuevoItem({
+      ...nuevoItem,
+      categoria: e.target.value
+    });
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNuevoItem(state => ({
@@ -31,6 +36,7 @@ export default function NuevoItem() {
   };
 
   const agregarItem = () => {
+    nuevoItem.proveedor= proveedorSeleccionado
     dispatch(agregarNuevoItem(nuevoItem));
     navigate('/deposito_dw_front/remito'); 
   };
@@ -38,6 +44,21 @@ export default function NuevoItem() {
   return (
     <>
  <NavBar titulo="Agregar nuevo item" />
+ <h1>{proveedorSeleccionado? `Proveedor: ${proveedorSeleccionado.nombre}`: "No seleccionaste proveedor"}</h1>
+ <FormControl className="descripcion-item">
+        <InputLabel id="item-label">Categoria</InputLabel>
+        <Select
+          labelId="item-label"
+          id="item"
+          value={nuevoItem.categoria}
+          onChange={handleChangeCategoria}
+        >
+          {categorias.map((cat, i) => (
+            <MenuItem key={i} value={cat}>{cat}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+   
 
       <div className="formContainer">
         <TextField
@@ -49,42 +70,7 @@ export default function NuevoItem() {
           onChange={handleChange}
           sx={{ width: '350px', marginTop: '10px' }}
         />
-        <TextField
-          id="codigo"
-          name="codigo"
-          label="Código Interno"
-          multiline
-          value={nuevoItem.codigo}
-          onChange={handleChange}
-          sx={{ width: '350px', marginTop: '10px' }}
-        />
-        <TextField
-          id="color"
-          name="color"
-          label="Color"
-          multiline
-          value={nuevoItem.color}
-          onChange={handleChange}
-          sx={{ width: '350px', marginTop: '10px' }}
-        />
-        <TextField
-          id="codigoColor"
-          name="tono"
-          label="Código de color proveedor"
-          multiline
-          value={nuevoItem.tono}
-          onChange={handleChange}
-          sx={{ width: '350px', marginTop: '10px' }}
-        />
-        <TextField
-          id="material"
-          name="material"
-          label="Material"
-          multiline
-          value={nuevoItem.material}
-          onChange={handleChange}
-          sx={{ width: '350px', marginTop: '10px' }}
-        />
+
         
         <div className='textFieldContainer'>
           <Button
