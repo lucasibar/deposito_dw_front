@@ -5,8 +5,7 @@ import Remito from './components/Remito/Remito'
 import NuevoItem from './components/Remito/FormRemito/ItemsSearchBar/NuevoItem/NuevoItem'
 import LandingPage from './components/LandyngPage/LandingPage'
 import Cuarentena from './components/Cuarentena/Cuarentena'
-import Stock1 from './components/Stock1/Stock1'
-import Stock from './components/Stock/Stock'
+import Home from './components/Home/Home'
 import Salidas from './components/Salidas/Salida';
 import MovimientoInterno from './components/MovimientoInterno/MovimientoInterno';
 import AsignarPosicionAEntrada from './components/AsignarPosicionAEntrada/AsignarPosicionAEntrada';
@@ -19,11 +18,16 @@ function App() {
     <div className="App">
       <Routes>
 
-      {/* <Route 
+      <Route 
         exact  
         path="/deposito_dw_front/"
         element={<LandingPage />}
-      />  */}
+      /> 
+        <Route 
+          exact  
+          path="/deposito_dw_front/home"
+          element={<Home />}
+        /> 
       <Route 
         exact  
         path="/deposito_dw_front/posiciones"
@@ -43,11 +47,6 @@ function App() {
         exact  
         path="/deposito_dw_front/cuarentena"
         element={<Cuarentena />}
-      /> 
-      <Route 
-        exact  
-        path="/deposito_dw_front/"
-        element={<Stock />}
       /> 
       <Route 
         exact  

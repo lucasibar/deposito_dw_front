@@ -14,97 +14,106 @@ export const AGREGAR_PARTIDA_AL_REMITO = "AGREGAR_PARTIDA_AL_REMITO"
 export const DATA_LOAD_PROVEEDORES_ITEMS= "DATA_LOAD_PROVEEDORES_ITEMS" 
 export const LIMPIAR_PROVEEDOR_SELECCIONADO= "LIMPIAR_PROVEEDOR_SELECCIONADO" 
 export const POSICIONES_POR_PROVEEDOR= "POSICIONES_POR_PROVEEDOR" 
-
+export const FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM= "FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM" 
+export const GET_POSICIONES= "GET_POSICIONES" 
 
 //export const URL = "https://derwill-deposito-backend.onrender.com"
-export const URL = "http://localhost:3001"
+  export const URL = "http://localhost:3001"
 
-
-export const getProveedores =()=>dispatch => {
-  return axios.get(`${URL}/proveedores`)
-  .then(data => {
-      dispatch({ type: GET_PROVEEDORES, payload: data.data });
-  })
-  .catch(error => {
-    console.error("Error in datosBaseRemito:", error);
-});
-};
-export const getItems =(proveedor)=>dispatch => {
-  return axios.get(`${URL}/items/${proveedor.id}`)
-  .then(data => {
-      dispatch({ type: GET_iTEMS, payload: data.data });
-  })
-  .catch(error => {
-    console.error("Error in datosBaseRemito:", error);
-});
-};
-export const generarNuevoProveedor =(nombre)=>dispatch => {
-  return axios.post(`${URL}/proveedores/${nombre}`) 
-  .then(data => {
-    dispatch({ type: AGREGAR_PROVEEDOR, payload: data.data });
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Se genero el proveedor",
-      showConfirmButton: false,
-
-    });
+  export const getPosiciones =()=>dispatch => {
+    return axios.get(`${URL}/posiciones`)
+    .then(data => {
+        dispatch({ type: GET_POSICIONES, payload: data.data });
     })
     .catch(error => {
-        console.error("Error in datosBaseRemito:", error);
-    });
-}
-
-//estos tres hay que arreglar para que sea una peticion------
-export const seleccionarProveedor =(proveedor)=> dispatch => {  
-  return dispatch({type: PROVEEDOR_SELECCIONADO, payload: proveedor })
-};
-export const seleccionarFecha =(fecha)=> dispatch => {  
-  return dispatch({type: FECHA_SELECCIONADO, payload: fecha })
-};
-export const seleccionarNumeroRemito =(numeroRemito)=> dispatch => {  
-  return dispatch({type: NUMERO_REMITO_SELECCIONADO, payload: numeroRemito })
-};
-//-----------------------------------------------------------
-
-export const agregarNuevoItem =(nuevoItem)=> dispatch => {  
-  return axios.post(`${URL}/items`, nuevoItem)
-  .then(data => {
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Se genero el item",
-      showConfirmButton: false,
-      
-    });
-    dispatch({ type: AGREGAR_ITEM, payload: data.data });
-  })
-  .catch(error => {
-      Swal.fire({
-          title: "No se pudo crear el item",
-          showClass: {
-            popup: `
-              animate__animated
-              animate__fadeInUp
-              animate__faster
-            `
-          },
-          hideClass: {
-            popup: `
-              animate__animated
-              animate__fadeOutDown
-              animate__faster
-            `
-          }
-        });
+      console.error("Error in datosBaseRemito:", error);
   });
-};
+  };
 
-export const agragarPartidaAlRemito =(partida)=>dispatch => {
-  return dispatch({type: AGREGAR_PARTIDA_AL_REMITO, payload: partida })
-}
 
-export const subirRemitoBDD =(remito)=> dispatch => {
+
+  
+  export const getProveedores =()=>dispatch => {
+    return axios.get(`${URL}/proveedores`)
+    .then(data => {
+        dispatch({ type: GET_PROVEEDORES, payload: data.data });
+    })
+    .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+  };
+  export const getItems =(proveedor)=>dispatch => {
+    return axios.get(`${URL}/items/${proveedor.id}`)
+    .then(data => {
+        dispatch({ type: GET_iTEMS, payload: data.data });
+    })
+    .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+  };
+  export const generarNuevoProveedor =(nombre)=>dispatch => {
+    return axios.post(`${URL}/proveedores/${nombre}`) 
+    .then(data => {
+      dispatch({ type: AGREGAR_PROVEEDOR, payload: data.data });
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Se genero el proveedor",
+        showConfirmButton: false,
+
+      });
+      })
+      .catch(error => {
+          console.error("Error in datosBaseRemito:", error);
+      });
+  }
+  //estos tres hay que arreglar para que sea una peticion------
+  export const seleccionarProveedor =(proveedor)=> dispatch => {  
+    return dispatch({type: PROVEEDOR_SELECCIONADO, payload: proveedor })
+  };
+  export const seleccionarFecha =(fecha)=> dispatch => {  
+    return dispatch({type: FECHA_SELECCIONADO, payload: fecha })
+  };
+  export const seleccionarNumeroRemito =(numeroRemito)=> dispatch => {  
+    return dispatch({type: NUMERO_REMITO_SELECCIONADO, payload: numeroRemito })
+  };
+  //-----------------------------------------------------------
+  export const agregarNuevoItem =(nuevoItem)=> dispatch => {  
+    return axios.post(`${URL}/items`, nuevoItem)
+    .then(data => {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Se genero el item",
+        showConfirmButton: false,
+        
+      });
+      dispatch({ type: AGREGAR_ITEM, payload: data.data });
+    })
+    .catch(error => {
+        Swal.fire({
+            title: "No se pudo crear el item",
+            showClass: {
+              popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `
+            },
+            hideClass: {
+              popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `
+            }
+          });
+    });
+  };
+  export const agragarPartidaAlRemito =(partida)=>dispatch => {
+    return dispatch({type: AGREGAR_PARTIDA_AL_REMITO, payload: partida })
+  }
+  export const subirRemitoBDD =(remito)=> dispatch => {
   return axios.post(`${URL}/movimientos/remito-entrada`, remito ) 
   .then(data => {
     Swal.fire({
@@ -128,12 +137,9 @@ export const subirRemitoBDD =(remito)=> dispatch => {
         console.error("Error in dataRemitoLoad:", error);
     });
   };
-
   export const limpiarProveedorSeleccionado =()=> dispatch => {  
     return dispatch({type: LIMPIAR_PROVEEDOR_SELECCIONADO})
   };
-
-
   export const getPosicionesPorProveedor =(proveedor)=>dispatch => {
     return axios.get(`${URL}/posiciones/${proveedor.id}`)
     .then(data => {
@@ -144,7 +150,9 @@ export const subirRemitoBDD =(remito)=> dispatch => {
         console.error("Error in dataRemitoLoad:", error);
     });
   };
-
+  export const filtroPosicionesSegunProveedorItem =(item)=> dispatch => {  
+    return dispatch({type: FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM, payload: item })
+  };
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------

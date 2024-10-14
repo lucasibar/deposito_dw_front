@@ -10,6 +10,8 @@ import {
   DATA_LOAD_PROVEEDORES_ITEMS,
   LIMPIAR_PROVEEDOR_SELECCIONADO,
   POSICIONES_POR_PROVEEDOR,
+  FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM,
+  GET_POSICIONES,
   // DATA_LOAD,
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
@@ -27,12 +29,14 @@ import {
   LIMPIAR_ESTADO_REDUCER,
   AGREGAR_AL_REMITO_SALIDA,
   ELIMINAR_PARTIDA_AL_REMITO_SALIDA,
-
   AGREGAR_NUEVO_PROVEEDOR,
-  getPosicionesPorProveedor,
+  
 } from './actions';
 
 const initialState = { 
+  posiciones: [],
+
+
   proveedores:[],
   items: [],
 //esto se limpia con la flecha de NavBar--
@@ -42,7 +46,7 @@ const initialState = {
   numeroRemitoSeleccionado: 0,
   partidasRemito: [],
   posicionesPorProveedor:[],
-
+  itemSeleccionado:"",
 //-----------------------------------------
 
 //---------------------------------------------------------------------------------------
@@ -65,6 +69,11 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case GET_POSICIONES:
+    return {
+      ...state,
+      posiciones: action.payload
+    };
   case GET_PROVEEDORES:
     return {
       ...state,
@@ -127,6 +136,10 @@ switch (action.type) {
             ...state,
             posicionesPorProveedor: action.payload
           };
+          case FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM:
+            return {
+              ...state,
+            };
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------

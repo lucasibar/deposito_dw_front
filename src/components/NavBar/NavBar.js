@@ -13,7 +13,6 @@ export default function NavBar({ titulo, subtitulo }) {
 
 
   function volverHome() {
-    dispatch(limpiarProveedorSeleccionado())
     navigate(-1);
   }
 
