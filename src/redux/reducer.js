@@ -12,6 +12,8 @@ import {
   POSICIONES_POR_PROVEEDOR,
   FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM,
   GET_POSICIONES,
+  ITEM_SELECCIONADO,
+  RACK_FILA_SELECCIONADOS,
   // DATA_LOAD,
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
@@ -35,13 +37,17 @@ import {
 
 const initialState = { 
   posiciones: [],
-
-
-  proveedores:[],
   items: [],
-//esto se limpia con la flecha de NavBar--
+  proveedores:[],
+  
   itemsProveedor: [], 
   proveedorSeleccionado: "",
+  itemSeleccionado: "",
+  rackSeleccionado:"",
+  filaSeleccionada: "",
+  
+  
+//esto se limpia con la flecha de NavBar--
   fechaSeleccionado:"",
   numeroRemitoSeleccionado: 0,
   partidasRemito: [],
@@ -95,6 +101,17 @@ switch (action.type) {
       ...state,
       proveedorSeleccionado: action.payload,
     };
+    case RACK_FILA_SELECCIONADOS:
+      return {
+        ...state,
+        rackSeleccionado: action.payload.rack,
+        filaSeleccionado: action.payload.fila,
+      };
+    case ITEM_SELECCIONADO:
+      return {
+        ...state,
+        itemSeleccionado: action.payload,
+      };
   case FECHA_SELECCIONADO:
     return {
       ...state,

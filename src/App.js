@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 // import Login from './components/Login/Login'
 import Remito from './components/Remito/Remito'
 import NuevoItem from './components/Remito/FormRemito/ItemsSearchBar/NuevoItem/NuevoItem'
-import LandingPage from './components/LandyngPage/LandingPage'
 import Cuarentena from './components/Cuarentena/Cuarentena'
 import Home from './components/Home/Home'
 import Salidas from './components/Salidas/Salida';
@@ -17,15 +16,9 @@ function App() {
   return (
     <div className="App">
       <Routes>
-
-      <Route 
-        exact  
-        path="/deposito_dw_front/"
-        element={<LandingPage />}
-      /> 
         <Route 
           exact  
-          path="/deposito_dw_front/home"
+          path="/deposito_dw_front/"
           element={<Home />}
         /> 
       <Route 

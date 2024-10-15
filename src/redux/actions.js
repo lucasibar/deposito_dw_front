@@ -16,6 +16,9 @@ export const LIMPIAR_PROVEEDOR_SELECCIONADO= "LIMPIAR_PROVEEDOR_SELECCIONADO"
 export const POSICIONES_POR_PROVEEDOR= "POSICIONES_POR_PROVEEDOR" 
 export const FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM= "FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM" 
 export const GET_POSICIONES= "GET_POSICIONES" 
+export const ITEM_SELECCIONADO= "ITEM_SELECCIONADO" 
+export const RACK_FILA_SELECCIONADOS= "RACK_FILA_SELECCIONADOS" 
+
 
 //export const URL = "https://derwill-deposito-backend.onrender.com"
   export const URL = "http://localhost:3001"
@@ -76,6 +79,12 @@ export const GET_POSICIONES= "GET_POSICIONES"
   };
   export const seleccionarNumeroRemito =(numeroRemito)=> dispatch => {  
     return dispatch({type: NUMERO_REMITO_SELECCIONADO, payload: numeroRemito })
+  };
+  export const seleccionarItem =(item)=> dispatch => {  
+    return dispatch({type: ITEM_SELECCIONADO, payload: item })
+  };
+    export const setRackFila =(rack, fila)=> dispatch => {  
+    return dispatch({type: RACK_FILA_SELECCIONADOS, payload: {rack, fila} })
   };
   //-----------------------------------------------------------
   export const agregarNuevoItem =(nuevoItem)=> dispatch => {  
