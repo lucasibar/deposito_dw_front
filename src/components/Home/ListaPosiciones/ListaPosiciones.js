@@ -4,23 +4,39 @@ import { Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
 export default function ListaPosiciones() {
-  // // Obtener posiciones por proveedor y el item seleccionado del estado de Redux
-  // const posicionesPorProveedor = useSelector((state) => state.posiciones);
-  // const itemSeleccionado = useSelector((state) => state.itemSeleccionado); // Asumiendo que hay un reducer que guarda el item seleccionado
+  // Acceder a los valores desde Redux
+  const posiciones = useSelector((state) => state.posiciones);
+  const proveedorSeleccionado = useSelector((state) => state.proveedorSeleccionado);
+  const itemSeleccionado = useSelector((state) => state.itemSeleccionado);
+  const rackSeleccionado = useSelector((state) => state.rackSeleccionado);
+  const filaSeleccionada = useSelector((state) => state.filaSeleccionada);
 
-  // // Filtrar las posiciones donde coincida el item seleccionado, si hay uno seleccionado
-  // const posicionesFiltradas = posicionesPorProveedor?.filter((posicion) =>
-  //   itemSeleccionado ? posicion.item.id === itemSeleccionado.id : true
-  // );
+  // Filtrar posiciones combinando todos los filtros seleccionados
+  const posicionesFiltradas = posiciones?.filter((posicion) => {
+    // Filtrar por proveedor si está seleccionado
+    const coincideProveedor = proveedorSeleccionado ? posicion.proveedor?.id === proveedorSeleccionado.id : true;
+    
+    // Filtrar por item si está seleccionado
+    const coincideItem = itemSeleccionado ? posicion.item?.id === itemSeleccionado.id : true;
+    
+    // Filtrar por rack si está seleccionado
+    const coincideRack = rackSeleccionado ? posicion.rack === rackSeleccionado : true;
+    
+    // Filtrar por fila si está seleccionada
+    const coincideFila = filaSeleccionada ? posicion.fila === filaSeleccionada : true;
 
-  // // Ordenar las posiciones por número de partida de menor a mayor
-  // const posicionesOrdenadas = posicionesFiltradas?.sort((a, b) =>
-  //   a.partida.numeroPartida - b.partida.numeroPartida
-  // );
+    // Solo incluir posiciones que coincidan con todos los filtros
+    return coincideProveedor && coincideItem && coincideRack && coincideFila;
+  });
+
+  // Ordenar las posiciones por número de partida
+  const posicionesOrdenadas = posicionesFiltradas?.sort((a, b) =>
+    a.partida.numeroPartida - b.partida.numeroPartida
+  );
 
   return (
     <Box sx={{ padding: 2 }}>
-      {/* {posicionesOrdenadas?.map((posicion, index) => (
+      {posicionesOrdenadas?.map((posicion, index) => (
         <Paper
           key={index}
           elevation={3}
@@ -34,7 +50,8 @@ export default function ListaPosiciones() {
               : '1px solid gray',   // Borde normal para las demás cartas
           }}
         >
-          {posicion.entrada ? (
+          {/* Mostrar si es una posición de entrada o no */}
+          {!posicion.entrada ? (
             <Typography variant="subtitle1">
               {posicion.pasillo
                 ? `Pasillo: ${posicion.pasillo}`
@@ -50,7 +67,7 @@ export default function ListaPosiciones() {
             <Typography variant="body2">Unidades: {posicion.unidades}</Typography>
           </Box>
         </Paper>
-      ))} */}
+      ))}
     </Box>
   );
 }

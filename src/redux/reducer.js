@@ -36,10 +36,10 @@ import {
 } from './actions';
 
 const initialState = { 
-  posiciones: [],
   items: [],
   proveedores:[],
   
+  posiciones: [],
   itemsProveedor: [], 
   proveedorSeleccionado: "",
   itemSeleccionado: "",
