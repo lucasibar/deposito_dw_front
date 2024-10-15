@@ -9,7 +9,7 @@ import ManejadoresPosiciones from './ManejadoresPosiciones/ManejadoresPosiciones
 export default function Manejadores() {
 
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box sx={{ padding: 1 }}>
       <ManejadoresItems/>
       <ManejadoresPosiciones/>
     </Box>

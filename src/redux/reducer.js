@@ -18,10 +18,7 @@ import {
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
   SUBIR_DATA_REMITO,
-  PARTIDAS_SIN_PALLET_ASIGNADO,
   GET_PARTIDAS,
-  AGREGAR_PALLET_A_LISTA_PARA_SUBIR,
-  SUBMIT_PALLETS,
   STOCK_ITEM_SELECCIONADO,
   ELIMINAR_PARTIDA_AL_REMITO,
   PARTIDAS_EN_CUARENTENA,
@@ -60,7 +57,6 @@ const initialState = {
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
-  pallets: [],
   stockItemSeleccionado: [],
   categoriaMercaderiaRemito:"",
   partidas: [],
@@ -236,18 +232,6 @@ return initialState
 //     items: action.payload
 //   };
   
-  case SUBMIT_PALLETS:
-    return {         
-      ...state,
-      pallets: []
-    };
-    
-    case AGREGAR_PALLET_A_LISTA_PARA_SUBIR:
-      return {
-        ...state,
-        pallets: [...state.pallets, action.payload]
-      };
-      
       case DATA_BASE_REMITO:
         return {         
         ...state,
@@ -279,9 +263,6 @@ return initialState
         ...state,
         partidas: action.payload
       };
-
-    case PARTIDAS_SIN_PALLET_ASIGNADO:
-      return state;
 
     case ELIMINAR_PARTIDA_AL_REMITO:   
       return {         

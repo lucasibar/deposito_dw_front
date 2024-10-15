@@ -4,11 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Select, MenuItem, FormControl, InputLabel, Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import { seleccionarProveedor, getItems, seleccionarItem } from '../../../../redux/actions';
+import { seleccionarProveedor, getItems, seleccionarItem, limpiarProveedorSeleccionado } from '../../../../redux/actions';
 
 
 export default function ManejadoresItems() {
   const dispatch = useDispatch();
+  useEffect(() => {
+    return ()=> dispatch(limpiarProveedorSeleccionado())
+}, [dispatch]);
+
 
   const proveedoresRedux = useSelector((state) => state.proveedores);
   const [proveedores, setProveedores] = useState([]); 
@@ -21,7 +25,12 @@ export default function ManejadoresItems() {
   const handleChangeProveedor = (e) => {
     dispatch(seleccionarProveedor(e.target.value))
     setProveedorSeleccionado(e.target.value);
-    if(e.target.value.id)dispatch(getItems(e.target.value))
+
+      if(e.target.value.id){
+        dispatch(getItems(e.target.value))
+      }else{
+        dispatch(seleccionarItem(""))
+        setItemSeleccionado("");}
   };
 //----------------------------------------------------------------
   const itemsRedux = useSelector((state) => state.itemsProveedor);
@@ -39,7 +48,7 @@ export default function ManejadoresItems() {
 
 
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box >
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={4}>
         <FormControl className="form-control">

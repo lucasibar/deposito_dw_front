@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { useNavigate } from 'react-router-dom'; // Importar el hook useNavigate
 
 export default function ListaPosiciones() {
   // Acceder a los valores desde Redux
@@ -11,25 +12,17 @@ export default function ListaPosiciones() {
   const rackSeleccionado = useSelector((state) => state.rackSeleccionado);
   const filaSeleccionada = useSelector((state) => state.filaSeleccionada);
 
-  // Filtrar posiciones combinando todos los filtros seleccionados
-  const posicionesFiltradas = posiciones?.filter((posicion) => {
-    // Filtrar por proveedor si está seleccionado
-    const coincideProveedor = proveedorSeleccionado ? posicion.proveedor?.id === proveedorSeleccionado.id : true;
-    
-    // Filtrar por item si está seleccionado
-    const coincideItem = itemSeleccionado ? posicion.item?.id === itemSeleccionado.id : true;
-    
-    // Filtrar por rack si está seleccionado
-    const coincideRack = rackSeleccionado ? posicion.rack === rackSeleccionado : true;
-    
-    // Filtrar por fila si está seleccionada
-    const coincideFila = filaSeleccionada ? posicion.fila === filaSeleccionada : true;
+  const navigate = useNavigate(); // Hook para navegación
 
-    // Solo incluir posiciones que coincidan con todos los filtros
+  const posicionesFiltradas = posiciones?.filter((posicion) => {
+    const coincideProveedor = proveedorSeleccionado ? posicion.proveedor?.id === proveedorSeleccionado.id : true;
+    const coincideItem = itemSeleccionado ? posicion.item?.id === itemSeleccionado.id : true;
+    const coincideRack = rackSeleccionado ? posicion.rack === rackSeleccionado : true;
+    const coincideFila = filaSeleccionada ? posicion.fila === filaSeleccionada : true;
+    
     return coincideProveedor && coincideItem && coincideRack && coincideFila;
   });
 
-  // Ordenar las posiciones por número de partida
   const posicionesOrdenadas = posicionesFiltradas?.sort((a, b) =>
     a.partida.numeroPartida - b.partida.numeroPartida
   );
@@ -43,14 +36,16 @@ export default function ListaPosiciones() {
           sx={{
             padding: 2,
             marginBottom: 2,
+            borderRadius: '16px',
             border: index === 0
-              ? '4px solid green'  // Borde verde para la primera carta
+              ? '2px solid green'
               : index === 1
-              ? '4px solid blue'   // Borde azul para la segunda carta
-              : '1px solid gray',   // Borde normal para las demás cartas
+              ? '2px solid blue'
+              : null
           }}
+          onClick={() => navigate(`/deposito_dw_front/descripcion-posicion/${posicion.id}`)} // Redirige con el ID
+          style={{ cursor: 'pointer' }} // Hace que parezca un elemento clicable
         >
-          {/* Mostrar si es una posición de entrada o no */}
           {!posicion.entrada ? (
             <Typography variant="subtitle1">
               {posicion.pasillo

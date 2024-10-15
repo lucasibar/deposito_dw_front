@@ -7,6 +7,9 @@ import { Select, MenuItem, FormControl, InputLabel, Grid, Paper, Typography, Div
 import { Box } from '@mui/system';
 import Manejadores from './Manejadores/Manejadores'
 import CartaDataStock from './CartaDataStock/CartaDataStock'
+import MenuPrincipal from './MenuPrincipal/MenuPrincipal'
+
+
 import ListaPosiciones from './ListaPosiciones/ListaPosiciones'
 import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -50,11 +53,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(dataProveedoresItems())
-    // const timeoutId = setTimeout(() => {
       dispatch(getPosiciones());
-    //       }, 3000); 
-
-    // return () => clearTimeout(timeoutId);
   }, []);
   
   return (
@@ -66,8 +65,9 @@ export default function Home() {
 :
     <Box sx={{ padding: 2 }}>
       <Manejadores/>
-      <Divider sx={{ marginY: '20px' }} />
+      <Divider sx={{ marginY: '10px' }} />
       <ListaPosiciones/>
+      <MenuPrincipal />
     </Box>}
     </>
   );

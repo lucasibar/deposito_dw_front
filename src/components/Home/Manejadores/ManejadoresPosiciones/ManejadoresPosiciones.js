@@ -22,9 +22,9 @@ export default function ManejadoresPosiciones() {
   const handleFilaChange = (event) => setFila(event.target.value);
 
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box >
      
-      <Grid container spacing={2} sx={{ marginTop: 2 }}>
+      <Grid container spacing={2} sx={{ marginTop: 1 }}>
         <Grid item xs={12} sm={12} md={4}>
           <FormControl fullWidth>
             <InputLabel>Rack</InputLabel>

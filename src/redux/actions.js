@@ -1,6 +1,5 @@
 import { saveAs } from 'file-saver';
 import { pdf } from '@react-pdf/renderer';
-import PalletPDF from '../components/ArmadoPallets/PalletPDF/PalletPDF';
 import axios from 'axios' 
 import Swal from 'sweetalert2'
 export const AGREGAR_PROVEEDOR = 'AGREGAR_PROVEEDOR';
@@ -171,10 +170,7 @@ export const DATA_BASE_REMITO= "DATA_BASE_REMITO"
 export const LIMPIAR_DATOS_BASE_REMITO= "LIMPIAR_DATOS_BASE_REMITO" 
 export const ELIMINAR_PARTIDA_AL_REMITO = "ELIMINAR_PARTIDA_AL_REMITO"
 export const SUBIR_DATA_REMITO = "SUBIR_DATA_REMITO"
-export const PARTIDAS_SIN_PALLET_ASIGNADO = "PARTIDAS_SIN_PALLET_ASIGNADO"
 export const GET_PARTIDAS = "GET_PARTIDAS"
-export const AGREGAR_PALLET_A_LISTA_PARA_SUBIR = 'AGREGAR_PALLET_A_LISTA_PARA_SUBIR';
-export const SUBMIT_PALLETS = 'SUBMIT_PALLETS';
 export const STOCK_ITEM_SELECCIONADO = 'STOCK_ITEM_SELECCIONADO';
 export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
 export const AGREGAR_KILOS_DE_PARTIDA_A_POSICION = 'AGREGAR_KILOS_DE_PARTIDA_A_POSICION';
@@ -415,35 +411,7 @@ export const buscarStockPorIdItem =(idItem)=> async dispatch => {
 
 
 
-export const submitGeneratedPallets = (pallets) => async (dispatch) => {
-  try {
-    const response = await axios.post(`${URL}/armadopallets`, pallets);
 
-    const generatedPdfs = await Promise.all(
-      pallets.map(async (pallet) => {
-        const blob = await pdf(<PalletPDF pallet={pallet} />).toBlob();
-        return {
-          filename: `pallet-${pallet.id}.pdf`,
-          blob,
-        };
-      })
-    );
-
-    generatedPdfs.forEach((pdf) => {
-      saveAs(pdf.blob, pdf.filename);
-    });
-
-    dispatch({ type: 'SUBMIT_PALLETS' });
-  } catch (error) {
-    console.error('Error generating pallets:', error);
-  }
-}
-
-  
-  export const addPallet =(pallet)=>dispatch => {
-    return dispatch({type: AGREGAR_PALLET_A_LISTA_PARA_SUBIR, payload: pallet })
-
-}
 
 
 
@@ -457,14 +425,6 @@ export const getPartidas =()=> dispatch => {
         console.error("Error in datosBaseRemito:", error);
     });};
 
-export const partidasSinPallet =()=> dispatch => {
-    return axios.get(`${URL}/partidas/sinpallet`) 
-    .then(data => {
-        dispatch({ type: PARTIDAS_SIN_PALLET_ASIGNADO, payload: data.data });
-    })
-    .catch(error => {
-        console.error("Error in datosBaseRemito:", error);
-    });};
 
 
 
