@@ -82,7 +82,7 @@ export const RACK_FILA_SELECCIONADOS= "RACK_FILA_SELECCIONADOS"
   export const seleccionarItem =(item)=> dispatch => {  
     return dispatch({type: ITEM_SELECCIONADO, payload: item })
   };
-    export const setRackFila =(rack, fila)=> dispatch => {  
+    export const setRackFila =({rack, fila})=> dispatch => {  
     return dispatch({type: RACK_FILA_SELECCIONADOS, payload: {rack, fila} })
   };
   //-----------------------------------------------------------
@@ -324,6 +324,7 @@ export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
 export const partidasEnCuarentena =()=> dispatch => {  
     return axios.get(`${URL}/partidas/cuarentena`)
     .then(data => {
+      console.log(data.data)
         dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
     })
     .catch(error => {

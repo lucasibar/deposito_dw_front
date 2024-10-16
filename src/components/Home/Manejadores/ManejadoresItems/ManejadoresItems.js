@@ -50,7 +50,7 @@ export default function ManejadoresItems() {
   return (
     <Box >
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={4}>
+        <Grid item xs={4} sm={4} md={4}>
         <FormControl className="form-control">
           <InputLabel id="proveedor-label">Proveedores</InputLabel>
           <Select
@@ -59,10 +59,10 @@ export default function ManejadoresItems() {
             value={proveedorSeleccionado}
             onChange={handleChangeProveedor}
           >
+            <MenuItem key={"a"} value={""}>todos</MenuItem>
             {proveedores?.map((prov, i) => (
               <MenuItem key={i} value={prov}>{prov.nombre}</MenuItem>
             ))}
-            <MenuItem key={"a"} value={""}>TODOS</MenuItem>
 
           </Select>
         </FormControl>
@@ -71,7 +71,8 @@ export default function ManejadoresItems() {
 
 
         
-        <Grid item xs={12} sm={12} md={8}>
+        {/* <Grid item xs={12} sm={12} md={8}> */}
+        <Grid item xs={8} sm={8} md={8}>
           <FormControl fullWidth>
             <InputLabel>Item</InputLabel>
             <Select 
@@ -79,10 +80,10 @@ export default function ManejadoresItems() {
               onChange={handleChangeItem}
               disabled={!proveedorSeleccionado}
               >
+                <MenuItem key={"a"} value={""}>todos</MenuItem>
             {items?.map((itm, i) => (
               <MenuItem key={i} value={itm}>{itm.descripcion}</MenuItem>
             ))}
-            <MenuItem key={"a"} value={""}>TODOS</MenuItem>
             </Select>
           </FormControl>
         </Grid>

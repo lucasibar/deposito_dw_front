@@ -101,7 +101,7 @@ switch (action.type) {
       return {
         ...state,
         rackSeleccionado: action.payload.rack,
-        filaSeleccionado: action.payload.fila,
+        filaSeleccionada: action.payload.fila,
       };
     case ITEM_SELECCIONADO:
       return {

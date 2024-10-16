@@ -15,6 +15,7 @@ import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
 import CircularProgress from '@mui/material/CircularProgress';
+import NavBarPrincipal from '../NavBar/NavBarPrincipal';
 
 
 
@@ -57,18 +58,23 @@ export default function Home() {
   }, []);
   
   return (
-    <>{!posiciones[1]?
+    <>
+
+    {!posiciones[1]?
     <LandingContainer>
       <h1>Der Will</h1>
       <CircularProgress sx={{ color: 'white' }} /> 
     </LandingContainer>
 :
+<>
+<NavBarPrincipal titulo={"Der Will"}/>
     <Box sx={{ padding: 2 }}>
       <Manejadores/>
       <Divider sx={{ marginY: '10px' }} />
       <ListaPosiciones/>
       <MenuPrincipal />
-    </Box>}
+    </Box>    
+    </>}
     </>
   );
 }

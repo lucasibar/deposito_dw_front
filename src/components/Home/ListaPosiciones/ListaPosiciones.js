@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router-dom'; // Importar el hook useNavigate
+import CartaDataStock from '../CartaDataStock/CartaDataStock';
 
 export default function ListaPosiciones() {
   // Acceder a los valores desde Redux
@@ -29,40 +30,45 @@ export default function ListaPosiciones() {
 
   return (
     <Box sx={{ padding: 2 }}>
-      {posicionesOrdenadas?.map((posicion, index) => (
-        <Paper
-          key={index}
-          elevation={3}
-          sx={{
-            padding: 2,
-            marginBottom: 2,
-            borderRadius: '16px',
-            border: index === 0
-              ? '2px solid green'
-              : index === 1
-              ? '2px solid blue'
-              : null
-          }}
-          onClick={() => navigate(`/deposito_dw_front/descripcion-posicion/${posicion.id}`)} // Redirige con el ID
-          style={{ cursor: 'pointer' }} // Hace que parezca un elemento clicable
-        >
-          {!posicion.entrada ? (
-            <Typography variant="subtitle1">
-              {posicion.pasillo
-                ? `Pasillo: ${posicion.pasillo}`
-                : `Posición: ${posicion.rack}-${posicion.fila}-${posicion.AB}`}
-            </Typography>
-          ) : (
-            <Typography variant="subtitle1">Posición: Cuarentena</Typography>
-          )}
+      <CartaDataStock item={itemSeleccionado}/>
 
-          <Typography variant="body2">Número de Partida: {posicion.partida.numeroPartida}</Typography>
-          <Box display="flex" justifyContent="space-between" mt={2}>
-            <Typography variant="body2">Kilos: {posicion.kilos}</Typography>
-            <Typography variant="body2">Unidades: {posicion.unidades}</Typography>
-          </Box>
-        </Paper>
-      ))}
+
+      {posicionesOrdenadas?.map((posicion, index) => (
+        <>
+          {!posicion.entrada ? (
+          <Paper
+            key={index}
+            // elevation={3}
+            sx={{
+              padding: 2,
+              marginBottom: 2,
+              borderRadius: '16px',
+              border: itemSeleccionado
+                ? index === 0
+                  ? '2px solid green'
+                  : index === 1
+                  ? '2px solid blue'
+                  : null
+                : null 
+            }}
+            onClick={() => navigate(`/deposito_dw_front/descripcion-posicion/${posicion.id}`)} 
+            style={{ cursor: 'pointer' }} 
+          >
+              <Typography variant="subtitle1">
+                {posicion.pasillo
+                  ? `Pasillo: ${posicion.pasillo}`
+                  : `Posición: ${posicion.rack}-${posicion.fila}-${posicion.AB}`}
+              </Typography>
+
+            <Typography variant="body2">Número de Partida: {posicion.partida.numeroPartida}</Typography>
+            <Box display="flex" justifyContent="space-between" mt={2}>
+              <Typography variant="body2">Kilos: {posicion.kilos}</Typography>
+              <Typography variant="body2">Unidades: {posicion.unidades}</Typography>
+            </Box>
+          </Paper>
+          ) : null}
+        </>
+))}
     </Box>
   );
 }

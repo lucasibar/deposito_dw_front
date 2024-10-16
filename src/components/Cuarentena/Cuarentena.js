@@ -1,55 +1,55 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { partidasEnCuarentena, partidaAprobada } from '../../redux/actions';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import NavBar from '../NavBar/NavBar'
+import { Paper, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+
 
 export default function Cuarentena() {
+  const posiciones = useSelector((state) => state.posiciones);
+
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(partidasEnCuarentena());
   }, [dispatch]);
 
   const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
-
+  
+  
+  const [partidasAPosicionar, setPartidasAPosicionar] = useState([]); 
   const cambiarAstock = (partida) => {
-    dispatch(partidaAprobada(partida));
+    setPartidasAPosicionar([...partidasAPosicionar, partida]);
   };
 
   return (
     <div>
-    <AppBar position="static">
-        <Toolbar variant="dense" className="toolbar">
-          <Typography  variant="h6" color="inherit" component="div" className="left">
-           Partidas en cuarentena
-          </Typography>
-          
-          <ChevronLeftIcon onClick={()=> navigate('/deposito_dw_front/') }/>
-        </Toolbar>
-      </AppBar>
+      <NavBar titulo={ ` Partidas en cuarentena`}/>
+
       <List>
         {partidasCuarentena?.map((partida, i) => (
-          <div key={i}>
-            <ListItem
-              secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={() => cambiarAstock(partida)}>
-                  <CheckIcon />
-                </IconButton>
-              }
-            >
-              <ListItemText primary={`${partida.numeroPartida}`} />
-            </ListItem>
-          </div>
+    <Box sx={{ padding: 2 }}>
+
+
+      <Paper key={i} >
+              <Typography variant="subtitle1">
+              {`${partida.movimientos[0].proveedor.nombre} ${partida.movimientos[0].citemategoria} ${partida.movimientos[0].item.descripcion}`}
+              </Typography>
+            <Typography variant="body2">Partida: {partida.numeroPartida}</Typography>
+            <Box display="flex" justifyContent="space-between" mt={2}>
+              <Typography variant="body2">Kilos: {partida.movimientos[0].kilos}</Typography>
+              <Typography variant="body2">Unidades: {partida.movimientos[0].unidades}</Typography>
+            </Box>
+          </Paper>
+    </Box>
+
         ))}
       </List>
     </div>
