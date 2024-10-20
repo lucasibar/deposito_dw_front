@@ -17,13 +17,41 @@ export const FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM= "FILTRAR_POSICIONESPROVEEDO
 export const GET_POSICIONES= "GET_POSICIONES" 
 export const ITEM_SELECCIONADO= "ITEM_SELECCIONADO" 
 export const RACK_FILA_SELECCIONADOS= "RACK_FILA_SELECCIONADOS" 
+export const OBTENER_ITEMS_POR_POSICION = 'OBTENER_ITEMS_POR_POSICION';
+
 
 
 //export const URL = "https://derwill-deposito-backend.onrender.com"
   export const URL = "http://localhost:3001"
 
+  export const obtenerItemsPorPosicion = (id) => {
+    return (dispatch, getState) => {
+      const state = getState();
+      const posiciones = state.posiciones;
+  
+      // Filtrar la posición según el id
+      const posicionEncontrada = posiciones.find((posicion) => posicion.posicionId === id);
+  
+      if (posicionEncontrada) {
+        // Despachamos los ítems de la posición
+        dispatch({
+          type: OBTENER_ITEMS_POR_POSICION,
+          payload: posicionEncontrada.items, // items de la posición encontrada
+        });
+      } else {
+        // Si no se encuentra la posición, despachamos un array vacío
+        dispatch({
+          type: OBTENER_ITEMS_POR_POSICION,
+          payload: [], // No hay items si no se encuentra la posición
+        });
+      }
+    };
+  };
+
+
+
   export const getPosiciones =()=>dispatch => {
-    return axios.get(`${URL}/posiciones`)
+    return axios.get(`${URL}/posiciones/items`)
     .then(data => {
         dispatch({ type: GET_POSICIONES, payload: data.data });
     })
@@ -151,7 +179,6 @@ export const RACK_FILA_SELECCIONADOS= "RACK_FILA_SELECCIONADOS"
   export const getPosicionesPorProveedor =(proveedor)=>dispatch => {
     return axios.get(`${URL}/posiciones/${proveedor.id}`)
     .then(data => {
-      console.log(data.data)  
       dispatch({ type: POSICIONES_POR_PROVEEDOR, payload: data.data });
     })
     .catch(error => {
@@ -201,7 +228,6 @@ export const deletePartidaSalida = (mercaderia) => dispatch => {
 };
 
 export const subirRemitoSalida =(remitoSalida)=> dispatch => {
-  console.log(remitoSalida)
   return axios.post(`${URL}/movimientos/remito-salida`, remitoSalida ) 
   .then(data => {
     Swal.fire({
@@ -221,7 +247,6 @@ export const subirRemitoSalida =(remitoSalida)=> dispatch => {
 
 //----------------------------------------------------------------------------------
 export const movimientoEntradaPosicion2 =(movimiento)=>dispatch => {
-  console.log(movimiento)
 return axios.post(`${URL}/movimientos/entrada-posicion`, movimiento ) 
 .then(data => {
   Swal.fire({
@@ -324,7 +349,6 @@ export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
 export const partidasEnCuarentena =()=> dispatch => {  
     return axios.get(`${URL}/partidas/cuarentena`)
     .then(data => {
-      console.log(data.data)
         dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
     })
     .catch(error => {

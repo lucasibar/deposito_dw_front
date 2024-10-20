@@ -29,6 +29,8 @@ import {
   AGREGAR_AL_REMITO_SALIDA,
   ELIMINAR_PARTIDA_AL_REMITO_SALIDA,
   AGREGAR_NUEVO_PROVEEDOR,
+  OBTENER_ITEMS_POR_POSICION,
+
   
 } from './actions';
 
@@ -39,10 +41,9 @@ const initialState = {
   posiciones: [],
   itemsProveedor: [], 
   proveedorSeleccionado: "",
-  itemSeleccionado: "",
   rackSeleccionado:"",
   filaSeleccionada: "",
-  
+  itemsPosicion: [],
   
 //esto se limpia con la flecha de NavBar--
   fechaSeleccionado:"",
@@ -71,6 +72,11 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case OBTENER_ITEMS_POR_POSICION:
+      return {
+        ...state,
+        itemsPosicion: action.payload, // Actualizamos los ítems de la posición seleccionada
+      };
   case GET_POSICIONES:
     return {
       ...state,

@@ -60,7 +60,7 @@ export default function Home() {
   return (
     <>
 
-    {!posiciones[1]?
+    {!posiciones.length>0 ?
     <LandingContainer>
       <h1>Der Will</h1>
       <CircularProgress sx={{ color: 'white' }} /> 

@@ -15,60 +15,91 @@ export default function ListaPosiciones() {
 
   const navigate = useNavigate(); // Hook para navegación
 
-  const posicionesFiltradas = posiciones?.filter((posicion) => {
-    const coincideProveedor = proveedorSeleccionado ? posicion.proveedor?.id === proveedorSeleccionado.id : true;
-    const coincideItem = itemSeleccionado ? posicion.item?.id === itemSeleccionado.id : true;
-    const coincideRack = rackSeleccionado ? posicion.rack === rackSeleccionado : true;
-    const coincideFila = filaSeleccionada ? posicion.fila === filaSeleccionada : true;
+  // Filtrar posiciones según los filtros en Redux
+  const posicionesFiltradas = posiciones.filter((posicion) => {
+    const coincideProveedor = proveedorSeleccionado 
+      ? posicion.items.some((item) => item.proveedor.id === proveedorSeleccionado.id) 
+      : true;
     
+    const coincideItem = itemSeleccionado 
+      ? posicion.items.some((item) => item.itemId === itemSeleccionado.id) 
+      : true;
+    
+    const coincideRack = rackSeleccionado 
+      ? posicion.rack === rackSeleccionado 
+      : true;
+    
+    const coincideFila = filaSeleccionada 
+      ? posicion.fila === filaSeleccionada 
+      : true;
+
+    // Retorna true si todos los filtros coinciden, de lo contrario false
     return coincideProveedor && coincideItem && coincideRack && coincideFila;
   });
 
-  const posicionesOrdenadas = posicionesFiltradas?.sort((a, b) =>
-    a.partida.numeroPartida - b.partida.numeroPartida
-  );
-
   return (
-    <Box sx={{ padding: 2 }}>
-      <CartaDataStock item={itemSeleccionado}/>
+    <>
+      <CartaDataStock item={itemSeleccionado} />
 
+      <Box sx={{ padding: 2 }}>
+        {/* Mostrar CartaDataStock solo si hay un item seleccionado */}
+        {itemSeleccionado && <CartaDataStock item={itemSeleccionado} />}
 
-      {posicionesOrdenadas?.map((posicion, index) => (
-        <>
-          {!posicion.entrada ? (
-          <Paper
-            key={index}
-            // elevation={3}
-            sx={{
-              padding: 2,
-              marginBottom: 2,
-              borderRadius: '16px',
-              border: itemSeleccionado
-                ? index === 0
-                  ? '2px solid green'
-                  : index === 1
-                  ? '2px solid blue'
-                  : null
-                : null 
-            }}
-            onClick={() => navigate(`/deposito_dw_front/descripcion-posicion/${posicion.id}`)} 
-            style={{ cursor: 'pointer' }} 
-          >
-              <Typography variant="subtitle1">
-                {posicion.pasillo
-                  ? `Pasillo: ${posicion.pasillo}`
-                  : `Posición: ${posicion.rack}-${posicion.fila}-${posicion.AB}`}
-              </Typography>
+        {/* Mapear las posiciones filtradas */}
+        {posicionesFiltradas.length > 0 ? (
+          posicionesFiltradas
+            .filter((posicion) => !posicion.entrada) // Filtrar posiciones donde entrada es false
+            .map((posicion, index) => {
+              // Obtener todos los números de partida
+              const numerosDePartida = posicion.items.map((item) => item.partida).join(' / ');
 
-            <Typography variant="body2">Número de Partida: {posicion.partida.numeroPartida}</Typography>
-            <Box display="flex" justifyContent="space-between" mt={2}>
-              <Typography variant="body2">Kilos: {posicion.kilos}</Typography>
-              <Typography variant="body2">Unidades: {posicion.unidades}</Typography>
-            </Box>
-          </Paper>
-          ) : null}
-        </>
-))}
-    </Box>
+              // Sumar los kilos y las unidades totales de todos los items en la posición
+              const totalKilos = posicion.items.reduce((acc, item) => acc + item.kilos, 0);
+              const totalUnidades = posicion.items.reduce((acc, item) => acc + item.unidades, 0);
+
+              return (
+                <Paper
+                  key={index}
+                  sx={{
+                    padding: 2,
+                    marginBottom: 2,
+                    borderRadius: '16px',
+                    border: itemSeleccionado
+                      ? index === 0
+                        ? '2px solid green'
+                        : index === 1
+                        ? '2px solid blue'
+                        : null
+                      : null
+                  }}
+                  onClick={() => navigate(`/deposito_dw_front/descripcion-posicion/${posicion.posicionId}`)}
+                >
+                  {/* Mostrar información de la posición */}
+                  <Typography variant="subtitle1">
+                    {posicion.pasillo
+                      ? `Pasillo: ${posicion.pasillo}`
+                      : `Rack ${posicion.rack} - Fila ${posicion.fila} - ${posicion.AB}`}
+                  </Typography>
+
+                  {/* Mostrar los números de partidas concatenados */}
+                  <Typography variant="body2" mt={2}>
+                    Partidas: {numerosDePartida}
+                  </Typography>
+
+                  {/* Mostrar los totales de kilos y unidades */}
+                  <Box display="flex" justifyContent="space-between" mt={2}>
+                    <Typography variant="body2">Kilos: {totalKilos}</Typography>
+                    <Typography variant="body2">Unidades: {totalUnidades}</Typography>
+                  </Box>
+                </Paper>
+              );
+            })
+        ) : (
+          <Typography variant="body2" mt={2}>
+            No se encontraron posiciones que coincidan con los filtros.
+          </Typography>
+        )}
+      </Box>
+    </>
   );
 }
