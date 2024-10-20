@@ -7,15 +7,18 @@ import {
   GET_iTEMS,
   AGREGAR_ITEM,
   AGREGAR_PARTIDA_AL_REMITO,
+  DATA_LOAD_PROVEEDORES_ITEMS,
+  LIMPIAR_PROVEEDOR_SELECCIONADO,
+  POSICIONES_POR_PROVEEDOR,
+  FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM,
+  GET_POSICIONES,
+  ITEM_SELECCIONADO,
+  RACK_FILA_SELECCIONADOS,
   // DATA_LOAD,
-  DATA_LOAD_REMITO,
   DATA_BASE_REMITO,
   LIMPIAR_DATOS_BASE_REMITO,
   SUBIR_DATA_REMITO,
-  PARTIDAS_SIN_PALLET_ASIGNADO,
   GET_PARTIDAS,
-  AGREGAR_PALLET_A_LISTA_PARA_SUBIR,
-  SUBMIT_PALLETS,
   STOCK_ITEM_SELECCIONADO,
   ELIMINAR_PARTIDA_AL_REMITO,
   PARTIDAS_EN_CUARENTENA,
@@ -25,26 +28,36 @@ import {
   LIMPIAR_ESTADO_REDUCER,
   AGREGAR_AL_REMITO_SALIDA,
   ELIMINAR_PARTIDA_AL_REMITO_SALIDA,
-
   AGREGAR_NUEVO_PROVEEDOR,
+  OBTENER_ITEMS_POR_POSICION,
+
+  
 } from './actions';
 
 const initialState = { 
-
-  itemsProveedor: [], 
+  items: [],
   proveedores:[],
+  
+  posiciones: [],
+  itemsProveedor: [], 
   proveedorSeleccionado: "",
+  rackSeleccionado:"",
+  filaSeleccionada: "",
+  itemsPosicion: [],
+  
+//esto se limpia con la flecha de NavBar--
   fechaSeleccionado:"",
   numeroRemitoSeleccionado: 0,
   partidasRemito: [],
+  posicionesPorProveedor:[],
+  itemSeleccionado:"",
+//-----------------------------------------
 
-
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
-  pallets: [],
   stockItemSeleccionado: [],
   categoriaMercaderiaRemito:"",
   partidas: [],
@@ -59,6 +72,16 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case OBTENER_ITEMS_POR_POSICION:
+      return {
+        ...state,
+        itemsPosicion: action.payload, // Actualizamos los ítems de la posición seleccionada
+      };
+  case GET_POSICIONES:
+    return {
+      ...state,
+      posiciones: action.payload
+    };
   case GET_PROVEEDORES:
     return {
       ...state,
@@ -80,6 +103,17 @@ switch (action.type) {
       ...state,
       proveedorSeleccionado: action.payload,
     };
+    case RACK_FILA_SELECCIONADOS:
+      return {
+        ...state,
+        rackSeleccionado: action.payload.rack,
+        filaSeleccionada: action.payload.fila,
+      };
+    case ITEM_SELECCIONADO:
+      return {
+        ...state,
+        itemSeleccionado: action.payload,
+      };
   case FECHA_SELECCIONADO:
     return {
       ...state,
@@ -100,19 +134,38 @@ switch (action.type) {
       ...state,
       partidasRemito: [...state.partidasRemito, action.payload]
     };
+    case DATA_LOAD_PROVEEDORES_ITEMS:
+      return {
+        ...state,
+        proveedores: action.payload.proveedores,
+        items: action.payload.items
+      };
+      case LIMPIAR_PROVEEDOR_SELECCIONADO:
+        return {
+          ...state,
+          itemsProveedor: [],
+          proveedorSeleccionado: "",
+          fechaSeleccionado:"",
+          numeroRemitoSeleccionado: 0,
+          partidasRemito: []
+        }
 
+        case POSICIONES_POR_PROVEEDOR:
+          return {
+            ...state,
+            posicionesPorProveedor: action.payload
+          };
+          case FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM:
+            return {
+              ...state,
+            };
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
  
-case DATA_LOAD_REMITO:
-      return {
-        ...state,
-        proveedores: action.payload.proveedores,
-        items: action.payload.items
-      };
+
 
     case AGREGAR_NUEVO_PROVEEDOR:
       return {
@@ -185,18 +238,6 @@ return initialState
 //     items: action.payload
 //   };
   
-  case SUBMIT_PALLETS:
-    return {         
-      ...state,
-      pallets: []
-    };
-    
-    case AGREGAR_PALLET_A_LISTA_PARA_SUBIR:
-      return {
-        ...state,
-        pallets: [...state.pallets, action.payload]
-      };
-      
       case DATA_BASE_REMITO:
         return {         
         ...state,
@@ -228,9 +269,6 @@ return initialState
         ...state,
         partidas: action.payload
       };
-
-    case PARTIDAS_SIN_PALLET_ASIGNADO:
-      return state;
 
     case ELIMINAR_PARTIDA_AL_REMITO:   
       return {         

@@ -40,8 +40,6 @@ export default function FormRemito() {
         <ItemsSearchBar proveedor={proveedorSeleccionado}/>
       }
       <Button onClick={submitRemito} sx={{ width: '100%', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
-
-
     </>
   );
 }

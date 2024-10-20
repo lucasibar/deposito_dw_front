@@ -7,14 +7,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { limpiarProveedorSeleccionado} from '../../redux/actions'
 
-export default function NavBar({ titulo, subtitulo }) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-
-  function volverHome() {
-    navigate(-1);
-  }
+export default function NavBarPrincipal({ titulo }) {
+ 
 
   return (
     <div>
@@ -23,16 +17,6 @@ export default function NavBar({ titulo, subtitulo }) {
           <Typography variant="h6" color="inherit" component="div" className="left">
             {titulo}
           </Typography>
-          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
-            {subtitulo?
-            <Typography variant="h6" color="inherit" component="div" sx={{ marginRight: '16px' }}>
-              {subtitulo}
-            </Typography>:
-            null       
-            }
-
-            <ChevronLeftIcon onClick={volverHome} />
-          </div>
         </Toolbar>
       </AppBar>
     </div>

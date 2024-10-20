@@ -1,20 +1,17 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Paper, Typography, Box } from '@mui/material';
+import NavBar from '../NavBar/NavBar';
+import ModalPopup from './ModalPopup/ModalPopup';  // Importar el modal
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { partidasEnCuarentena, partidaAprobada } from '../../redux/actions';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import IconButton from '@mui/material/IconButton';
-import CheckIcon from '@mui/icons-material/Check';
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import { partidasEnCuarentena } from '../../redux/actions';
 
 export default function Cuarentena() {
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedPartida, setSelectedPartida] = useState(null);
+  const [kilosRestantes, setKilosRestantes] = useState(0);
+  const [unidadesRestantes, setUnidadesRestantes] = useState(0);
+
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(partidasEnCuarentena());
@@ -22,36 +19,61 @@ export default function Cuarentena() {
 
   const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
 
-  const cambiarAstock = (partida) => {
-    dispatch(partidaAprobada(partida));
+  const handleOpenModal = (partida) => {
+    setSelectedPartida(partida);
+    setKilosRestantes(partida.kilos);
+    setUnidadesRestantes(partida.unidades);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleGuardarAsignacion = (data) => {
+    setKilosRestantes((prev) => prev - data.kilos);
+    setUnidadesRestantes((prev) => prev - data.unidades);
+
+    if (kilosRestantes - data.kilos > 0 || unidadesRestantes - data.unidades > 0) {
+      setOpenModal(true);  // Reabrir el modal si quedan kilos o unidades por asignar
+    }
   };
 
   return (
-    <div>
-    <AppBar position="static">
-        <Toolbar variant="dense" className="toolbar">
-          <Typography  variant="h6" color="inherit" component="div" className="left">
-           Partidas en cuarentena
-          </Typography>
-          
-          <ChevronLeftIcon onClick={()=> navigate('/deposito_dw_front/') }/>
-        </Toolbar>
-      </AppBar>
-      <List>
-        {partidasCuarentena?.map((partida, i) => (
-          <div key={i}>
-            <ListItem
-              secondaryAction={
-                <IconButton edge="end" aria-label="delete" onClick={() => cambiarAstock(partida)}>
-                  <CheckIcon />
-                </IconButton>
-              }
-            >
-              <ListItemText primary={`${partida.numeroPartida}`} />
-            </ListItem>
-          </div>
+    <>
+      <NavBar titulo={"Cuarentena"} />
+      <Box sx={{ padding: 2 }}>
+        {partidasCuarentena?.map((partida, index) => (
+          <Paper
+            key={index}
+            sx={{
+              padding: 2,
+              marginBottom: 2,
+              borderRadius: '16px',
+              cursor: 'pointer',
+            }}
+            onClick={() => handleOpenModal(partida)}
+          >
+            <Typography variant="subtitle1">
+              {`Partida: ${partida.numeroPartida}`}
+            </Typography>
+            <Typography variant="body2">
+              {`${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`}
+            </Typography>
+          </Paper>
         ))}
-      </List>
-    </div>
+
+        {selectedPartida && (
+          <ModalPopup
+            open={openModal}
+            handleClose={handleCloseModal}
+            partida={selectedPartida}
+            kilosRestantes={kilosRestantes}
+            unidadesRestantes={unidadesRestantes}
+            handleGuardarAsignacion={handleGuardarAsignacion}
+          />
+        )}
+      </Box>
+    </>
   );
 }
