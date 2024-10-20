@@ -21,8 +21,8 @@ export const OBTENER_ITEMS_POR_POSICION = 'OBTENER_ITEMS_POR_POSICION';
 
 
 
-//export const URL = "https://derwill-deposito-backend.onrender.com"
-  export const URL = "http://localhost:3001"
+export const URL = "https://derwill-deposito-backend.onrender.com"
+  // export const URL = "http://localhost:3001"
 
   export const obtenerItemsPorPosicion = (id) => {
     return (dispatch, getState) => {
