@@ -42,9 +42,6 @@ export default function ListaPosiciones() {
       <CartaDataStock item={itemSeleccionado} />
 
       <Box sx={{ padding: 2 }}>
-        {/* Mostrar CartaDataStock solo si hay un item seleccionado */}
-        {itemSeleccionado && <CartaDataStock item={itemSeleccionado} />}
-
         {/* Mapear las posiciones filtradas */}
         {posicionesFiltradas.length > 0 ? (
           posicionesFiltradas

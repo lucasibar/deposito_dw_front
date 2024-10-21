@@ -6,11 +6,9 @@ import Cuarentena from './components/Cuarentena/Cuarentena'
 import Home from './components/Home/Home'
 import Salida from './components/Salida/Salida';
 import MovimientoInterno from './components/MovimientoInterno/MovimientoInterno';
-import AsignarPosicionAEntrada from './components/AsignarPosicionAEntrada/AsignarPosicionAEntrada';
 import Posiciones from './components/Posiciones/Posiciones';
 import HistorialSalida from './components/HistorialSalida/HistorialSalida';
 import Posicion from './components/Posicion/Posicion';
-
 import Agenda from './Agenda/Agenda';
 
 
@@ -21,7 +19,6 @@ function App() {
         <Route exact path="/deposito_dw_front/" element={<Home />} />
         <Route exact path="/deposito_dw_front/posiciones" element={<Posiciones />} />
         <Route exact path="/deposito_dw_front/remito" element={<Remito />} />
-        <Route exact path="/deposito_dw_front/asignar-posicion" element={<AsignarPosicionAEntrada />} />
         <Route exact path="/deposito_dw_front/cuarentena" element={<Cuarentena />} />
         <Route exact path="/deposito_dw_front/descripcion-posicion/:id" element={<Posicion />} /> {/* Ruta con el parámetro id */}
         <Route exact path="/deposito_dw_front/historial-salida/:id" element={<HistorialSalida />} /> {/* Ruta con el parámetro id */}

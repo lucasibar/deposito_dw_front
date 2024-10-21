@@ -8,8 +8,6 @@ import { partidasEnCuarentena } from '../../redux/actions';
 export default function Cuarentena() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedPartida, setSelectedPartida] = useState(null);
-  const [kilosRestantes, setKilosRestantes] = useState(0);
-  const [unidadesRestantes, setUnidadesRestantes] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -21,8 +19,6 @@ export default function Cuarentena() {
 
   const handleOpenModal = (partida) => {
     setSelectedPartida(partida);
-    setKilosRestantes(partida.kilos);
-    setUnidadesRestantes(partida.unidades);
     setOpenModal(true);
   };
 
@@ -30,49 +26,47 @@ export default function Cuarentena() {
     setOpenModal(false);
   };
 
-  const handleGuardarAsignacion = (data) => {
-    setKilosRestantes((prev) => prev - data.kilos);
-    setUnidadesRestantes((prev) => prev - data.unidades);
-
-    if (kilosRestantes - data.kilos > 0 || unidadesRestantes - data.unidades > 0) {
-      setOpenModal(true);  // Reabrir el modal si quedan kilos o unidades por asignar
-    }
-  };
 
   return (
     <>
       <NavBar titulo={"Cuarentena"} />
       <Box sx={{ padding: 2 }}>
-        {partidasCuarentena?.map((partida, index) => (
-          <Paper
-            key={index}
-            sx={{
-              padding: 2,
-              marginBottom: 2,
-              borderRadius: '16px',
-              cursor: 'pointer',
-            }}
-            onClick={() => handleOpenModal(partida)}
-          >
-            <Typography variant="subtitle1">
-              {`Partida: ${partida.numeroPartida}`}
-            </Typography>
-            <Typography variant="body2">
-              {`${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`}
-            </Typography>
-          </Paper>
-        ))}
+      {partidasCuarentena.length > 0 ? (
+        partidasCuarentena.map((partida, index) => (
 
-        {selectedPartida && (
-          <ModalPopup
-            open={openModal}
-            handleClose={handleCloseModal}
-            partida={selectedPartida}
-            kilosRestantes={kilosRestantes}
-            unidadesRestantes={unidadesRestantes}
-            handleGuardarAsignacion={handleGuardarAsignacion}
-          />
-        )}
+        <Paper
+        key={index}
+        sx={{
+        padding: 2,
+        marginBottom: 2,
+        borderRadius: '16px',
+        cursor: 'pointer',
+        }}
+        onClick={() => handleOpenModal(partida)}
+        >
+            <Typography variant="subtitle1">
+            {`Partida: ${partida.numeroPartida}`}
+            </Typography>
+            <Typography variant="body2" mt={2}>
+            {`${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`}
+            </Typography>
+            <Typography variant="body2" mt={2}>
+            Kilos: {partida.kilos} - Unidades: {partida.unidades}
+            </Typography>
+        </Paper>
+        ))
+      ) : (
+        <Typography variant="body2" mt={2}>
+          No se encontraron ítems para esta posición.
+        </Typography>
+      )}
+      {selectedPartida && (
+        <ModalPopup
+          open={openModal}
+          handleClose={handleCloseModal}
+          partida={selectedPartida}
+        />
+      )}
       </Box>
     </>
   );

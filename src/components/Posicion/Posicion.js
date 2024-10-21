@@ -1,30 +1,41 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'; // Para obtener el id de la posición desde params
-import { obtenerItemsPorPosicion } from '../../redux/actions'; // Asegúrate de que esta acción esté definida
-import { Paper, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { useParams } from 'react-router-dom'; 
+import { obtenerItemsPorPosicion } from '../../redux/actions'; 
+import { Paper, Typography, Box } from '@mui/material';
 import NavBar from '../NavBar/NavBar';
+import ModalPopup from './ModalPopup/ModalPopup'; 
 
 
 export default function Posicion() {
-  const { id } = useParams(); // Obtener el id de la posición desde los params
+  const { id } = useParams(); 
   const dispatch = useDispatch();
 
-  // Estado para los ítems asignados a la posición
-  const itemsPosicion = useSelector((state) => state.itemsPosicion);
 
-  // Cargar los ítems de la posición al montar el componente
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  
   useEffect(() => {
     dispatch(obtenerItemsPorPosicion(id)); // Dispatch para obtener los ítems según la posición
   }, [dispatch, id]);
+  
+  const itemsPosicion = useSelector((state) => state.itemsPosicion);
+
+
+  const handleOpenModal = (item) => {
+    setSelectedItem(item);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <>
 <NavBar titulo={`Posicion ` }/>
     <Box sx={{ padding: 2 }}>
-      {/* Verificar si hay items para mostrar */}
       {itemsPosicion.length > 0 ? (
         itemsPosicion.map((item, index) => (
           <Paper
@@ -33,13 +44,12 @@ export default function Posicion() {
               padding: 2,
               marginBottom: 2,
               borderRadius: '16px',
-              border: index === 0 ? '2px solid green' : null,
               cursor: 'pointer',
             }}
+            onClick={() => handleOpenModal(item)}
           >
-            {/* Mostrar información del item */}
             <Typography variant="subtitle1">
-              Número de Partida: {item.partida}
+              {`Partida: ${item.partida}`}
             </Typography>
             <Typography variant="body2" mt={2}>
               Proveedor: {item.proveedor.nombre}
@@ -53,6 +63,14 @@ export default function Posicion() {
         <Typography variant="body2" mt={2}>
           No se encontraron ítems para esta posición.
         </Typography>
+      )}
+      {selectedItem && (
+        <ModalPopup
+          open={openModal}
+          handleClose={handleCloseModal}
+          item={selectedItem}
+          posicionActualId={id}
+        />
       )}
     </Box>
     </>

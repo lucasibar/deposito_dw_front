@@ -18,11 +18,54 @@ export const GET_POSICIONES= "GET_POSICIONES"
 export const ITEM_SELECCIONADO= "ITEM_SELECCIONADO" 
 export const RACK_FILA_SELECCIONADOS= "RACK_FILA_SELECCIONADOS" 
 export const OBTENER_ITEMS_POR_POSICION = 'OBTENER_ITEMS_POR_POSICION';
+export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
 
 
 
-export const URL = "https://derwill-deposito-backend.onrender.com"
-  // export const URL = "http://localhost:3001"
+
+// export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
+  
+
+  export const pasarPartidasAStock =(distribucionDeKilosEnPosiciones)=>dispatch => {
+    return axios.post(`${URL}/movimientos/entrada-posicion`, distribucionDeKilosEnPosiciones ) 
+    .then(data => {
+      Swal.fire({
+        title: "Mercaderia aprobada",
+        text: "La mercaderia ya puede ser consmida",
+        icon: "success"
+      });
+      dispatch(partidasEnCuarentena())
+      })
+      .catch(error => {
+          console.error("Error in datosBaseRemito:", error);
+      });
+  }
+  export const partidasEnCuarentena =()=> dispatch => {  
+    return axios.get(`${URL}/partidas/cuarentena`)
+    .then(data => {
+        dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
+    })
+    .catch(error => {
+        Swal.fire({
+            title: "No hay partidas en cuarentena",
+            showClass: {
+              popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `
+            },
+            hideClass: {
+              popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `
+            }
+          });
+    });
+  };
 
   export const obtenerItemsPorPosicion = (id) => {
     return (dispatch, getState) => {
@@ -47,9 +90,6 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
       }
     };
   };
-
-
-
   export const getPosiciones =()=>dispatch => {
     return axios.get(`${URL}/posiciones/items`)
     .then(data => {
@@ -59,10 +99,6 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
       console.error("Error in datosBaseRemito:", error);
   });
   };
-
-
-
-  
   export const getProveedores =()=>dispatch => {
     return axios.get(`${URL}/proveedores`)
     .then(data => {
@@ -97,7 +133,6 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
           console.error("Error in datosBaseRemito:", error);
       });
   }
-  //estos tres hay que arreglar para que sea una peticion------
   export const seleccionarProveedor =(proveedor)=> dispatch => {  
     return dispatch({type: PROVEEDOR_SELECCIONADO, payload: proveedor })
   };
@@ -113,7 +148,6 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
     export const setRackFila =({rack, fila})=> dispatch => {  
     return dispatch({type: RACK_FILA_SELECCIONADOS, payload: {rack, fila} })
   };
-  //-----------------------------------------------------------
   export const agregarNuevoItem =(nuevoItem)=> dispatch => {  
     return axios.post(`${URL}/items`, nuevoItem)
     .then(data => {
@@ -188,6 +222,8 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
   export const filtroPosicionesSegunProveedorItem =(item)=> dispatch => {  
     return dispatch({type: FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM, payload: item })
   };
+ 
+
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
@@ -199,7 +235,6 @@ export const ELIMINAR_PARTIDA_AL_REMITO = "ELIMINAR_PARTIDA_AL_REMITO"
 export const SUBIR_DATA_REMITO = "SUBIR_DATA_REMITO"
 export const GET_PARTIDAS = "GET_PARTIDAS"
 export const STOCK_ITEM_SELECCIONADO = 'STOCK_ITEM_SELECCIONADO';
-export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
 export const AGREGAR_KILOS_DE_PARTIDA_A_POSICION = 'AGREGAR_KILOS_DE_PARTIDA_A_POSICION';
 export const ELIMINAR_KILOS_ASIGNADOS_A_POSICION = 'ELIMINAR_KILOS_ASIGNADOS_A_POSICION';
 export const STOCK_ITEM_POSICION = 'STOCK_ITEM_POSICION';
@@ -246,21 +281,7 @@ export const subirRemitoSalida =(remitoSalida)=> dispatch => {
 
 
 //----------------------------------------------------------------------------------
-export const movimientoEntradaPosicion2 =(movimiento)=>dispatch => {
-return axios.post(`${URL}/movimientos/entrada-posicion`, movimiento ) 
-.then(data => {
-  Swal.fire({
-    position: "top-end",
-    icon: "success",
-    title: data.message,
-    showConfirmButton: false,
-    timer: 1500
-  });
-  })
-  .catch(error => {
-      console.error("Error in datosBaseRemito:", error);
-  });
-}
+
 
 export const movimientoPosicion1Posicion2 =(movimiento)=>dispatch => {
 return axios.post(`${URL}/movimientos/interno`, movimiento ) 
@@ -346,31 +367,6 @@ export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
 
 
 
-export const partidasEnCuarentena =()=> dispatch => {  
-    return axios.get(`${URL}/partidas/cuarentena`)
-    .then(data => {
-        dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
-    })
-    .catch(error => {
-        Swal.fire({
-            title: "No hay partidas en cuarentena",
-            showClass: {
-              popup: `
-                animate__animated
-                animate__fadeInUp
-                animate__faster
-              `
-            },
-            hideClass: {
-              popup: `
-                animate__animated
-                animate__fadeOutDown
-                animate__faster
-              `
-            }
-          });
-    });
-  };
 
   export const partidaAprobada =(partida)=> dispatch => {  
     return axios.put(`${URL}/partidas/cuarentena-stock`, partida)

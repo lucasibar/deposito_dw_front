@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { pasarPartidasAStock } from '../../../redux/actions';
 
-export default function ModalPopup({ open, handleClose, partida, kilosRestantes, unidadesRestantes, handleGuardarAsignacion }) {
+import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import ListadoKilosPartidaPorPosicion from './ListadoKilosPartidaPorPosicion/ListadoKilosPartidaPorPosicion'
+import Swal from 'sweetalert2';
+
+
+export default function ModalPopup({ open, handleClose, partida }) {
+  const dispatch = useDispatch();
+
+
   const [rack, setRack] = useState('');
   const [fila, setFila] = useState('');
   const [ab, setAB] = useState('');
@@ -9,35 +18,40 @@ export default function ModalPopup({ open, handleClose, partida, kilosRestantes,
   const [kilos, setKilos] = useState('');
   const [unidades, setUnidades] = useState('');
 
-  useEffect(() => {
-    setKilos('');
-    setUnidades('');
-    setRack('');
-    setFila('');
-    setAB('');
-    setPasillo('');
-  }, [kilosRestantes, unidadesRestantes]);
+  const [distribucionDeKilosEnPosiciones, setDistribucionDeKilosEnPosiciones]= useState([]);
+
+
+  function limpiezaEstado(){
+    setRack("")
+    setFila("")
+    setAB("")
+    setPasillo("")
+    setKilos("")
+    setUnidades("")
+    setDistribucionDeKilosEnPosiciones([])
+    handleClose()
+  }
 
   const handleRackChange = (event) => {
     setRack(event.target.value);
-    setPasillo(''); // Deshabilitar pasillo cuando se selecciona rack
+    setPasillo(''); 
   };
 
   const handleFilaChange = (event) => {
     setFila(event.target.value);
-    setPasillo(''); // Deshabilitar pasillo cuando se selecciona fila
+    setPasillo('');
   };
 
   const handleABChange = (event) => {
     setAB(event.target.value);
-    setPasillo(''); // Deshabilitar pasillo cuando se selecciona A/B
+    setPasillo('');
   };
 
   const handlePasilloChange = (event) => {
     setPasillo(event.target.value);
     setRack('');
     setFila('');
-    setAB(''); // Deshabilitar rack, fila y A/B cuando se selecciona pasillo
+    setAB(''); 
   };
 
   const handleKilosChange = (event) => {
@@ -49,37 +63,69 @@ export default function ModalPopup({ open, handleClose, partida, kilosRestantes,
   };
 
   const handleGuardar = () => {
-    const kilosAsignados = parseFloat(kilos);
-    const unidadesAsignadas = parseInt(unidades, 10);
-
-    if (kilosAsignados <= kilosRestantes && unidadesAsignadas <= unidadesRestantes) {
-      const data = {
-        partidaId: partida.id,
+    setDistribucionDeKilosEnPosiciones([
+      ...distribucionDeKilosEnPosiciones, 
+      {
+        partida,
         rack,
         fila,
         ab,
         pasillo,
-        kilos: kilosAsignados,
-        unidades: unidadesAsignadas,
-      };
-
-      handleGuardarAsignacion(data);
+        kilos: parseFloat(kilos), 
+        unidades
+      }
+    ]);
+    
+    const sumaKilos = distribucionDeKilosEnPosiciones.reduce((acc, partida) => acc + parseFloat(partida.kilos), 0);
+  
+    if (sumaKilos == parseFloat(partida.kilos)) { 
       handleClose(); 
-    } else {
-      alert('No puedes asignar más kilos o unidades de los disponibles.');
+      Swal.fire({
+        title: "Aprobar mercaderia",
+        text: "La mercaderia saldra de estado cuarentena y se considerara en las posiciones indicadas",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aprobada"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(pasarPartidasAStock(distribucionDeKilosEnPosiciones));
+        }
+        setRack("")
+        setFila("")
+        setAB("")
+        setPasillo("")
+        setKilos("")
+        setUnidades("")
+        setDistribucionDeKilosEnPosiciones([])
+      });
+    } else if(sumaKilos < parseFloat(partida.kilos)) {
+      
+      setRack("")
+      setFila("")
+      setAB("")
+      setPasillo("")
+      setKilos("")
+      setUnidades("")
+      alert('Ingresar el resto de los kilos');
+    }else{
+      alert('La cantidad de kilos ingresada no es correcta');
+
     }
   };
-
   return (
+    <>
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={limpiezaEstado}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
       sx={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        overflowY: 'auto',
       }}
     >
       <Box
@@ -97,7 +143,7 @@ export default function ModalPopup({ open, handleClose, partida, kilosRestantes,
         </Typography>
 
         <Typography variant="body2" gutterBottom>
-          {`Kilos restantes: ${kilosRestantes} | Unidades restantes: ${unidadesRestantes}`}
+          {`Partida ${partida.numeroPartida}    Kgs ${partida.kilos} | Und${partida.unidades}`}
         </Typography>
 
         {/* Selector de Rack */}
@@ -157,7 +203,7 @@ export default function ModalPopup({ open, handleClose, partida, kilosRestantes,
             onChange={handlePasilloChange}
           >
             <MenuItem value=""><em>None</em></MenuItem>
-            {Array.from({ length: 12 }, (_, index) => (
+            {Array.from({ length: 22 }, (_, index) => (
               <MenuItem key={index} value={index}>
                 {`Pasillo ${index}`}
               </MenuItem>
@@ -196,15 +242,19 @@ export default function ModalPopup({ open, handleClose, partida, kilosRestantes,
             variant="contained"
             color="error"
             onClick={handleGuardar}
-            disabled={!kilos || !unidades || (!rack && !pasillo)} // Deshabilita si no se ingresan kilos, unidades, rack o pasillo
+            disabled={true} 
           >       
-  DEVOLUCION
-</Button>
-          <Button variant="outlined" color="secondary" onClick={handleClose}>
+            DEVOLUCION
+          </Button>
+          <Button variant="outlined" color="secondary" onClick={limpiezaEstado}>
             Cancelar
           </Button>
         </Box>
+        <ListadoKilosPartidaPorPosicion distribucionDeKilosEnPosiciones={distribucionDeKilosEnPosiciones}/>
       </Box>
     </Modal>
+    
+
+    </>
   );
 }
