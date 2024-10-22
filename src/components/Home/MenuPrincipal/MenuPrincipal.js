@@ -26,6 +26,7 @@ const actions = [
   { icon: <PrintIcon />, name: 'Cuarentena', ruta: "/deposito_dw_front/cuarentena" },
   { icon: <SaveIcon />, name: 'Remito salida', ruta: "/deposito_dw_front/salidas" },
   { icon: <ShareIcon />, name: 'Informe salidas', ruta: "/deposito_dw_front/historial-salida" },
+  { icon: <ShareIcon />, name: 'Agenda', ruta: "/deposito_dw_front/agenda" },
 ];
 
 export default function MenuPrincipal() {
