@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Paper, Typography, Box } from '@mui/material';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../Utils/NavBar';
 import ModalPopup from './ModalPopup/ModalPopup';  // Importar el modal
 import { useDispatch, useSelector } from 'react-redux';
 import { partidasEnCuarentena } from '../../redux/actions';

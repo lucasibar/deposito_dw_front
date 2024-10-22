@@ -15,7 +15,7 @@ import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import styled from 'styled-components';
 import CircularProgress from '@mui/material/CircularProgress';
-import NavBarPrincipal from '../NavBar/NavBarPrincipal';
+import NavBarPrincipal from '../Utils/NavBarPrincipal';
 
 
 

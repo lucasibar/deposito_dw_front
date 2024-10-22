@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { InputLabel, MenuItem, FormControl, Select, Button, TextField, Divider } from '@mui/material';
 import { agregarNuevoItem } from '../../../../../redux/actions';
 import './NuevoItem.css';
-import NavBar from '../../../../NavBar/NavBar';
+import NavBar from '../../../../Utils/NavBar';
 
 
 export default function NuevoItem() {

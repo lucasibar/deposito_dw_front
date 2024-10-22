@@ -2,7 +2,7 @@ import * as React from 'react';
 import './Remito.css';
 import FormRemito from './FormRemito/FormRemito'
 import ListaPartidasRemito from './ListaPartidasRemito/ListaPartidasRemito'
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../Utils/NavBar';
 
 
 export default function Remito(props) {

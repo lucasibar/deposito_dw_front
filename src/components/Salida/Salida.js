@@ -1,7 +1,7 @@
 import * as React from 'react';
 import FormRemito from './FormRemito/FormRemito'
 import ListaPartidasRemito from './ListaPartidasRemito/ListaPartidasRemito'
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../Utils/NavBar';
 
 
 export default function Salida(props) {

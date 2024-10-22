@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'; 
 import { obtenerItemsPorPosicion } from '../../redux/actions'; 
 import { Paper, Typography, Box } from '@mui/material';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../Utils/NavBar';
 import ModalPopup from './ModalPopup/ModalPopup'; 
 
 

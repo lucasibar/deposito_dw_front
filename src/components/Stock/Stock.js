@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, FormControl, TextField, Typography, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { buscarStockPorIdItem } from '../../redux/actions';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../Utils/NavBar';
 
 export default function Stock() {
   const dispatch = useDispatch();

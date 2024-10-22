@@ -11,7 +11,7 @@ import ListaSalidaMercaderia from './ListaSalidaMercaderia/ListaSalidaMercaderia
 
 import Button from '@mui/material/Button';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../../components/NavBar/NavBar';
 import DatosRemito from './DatosRemito/DatosRemito';
 import SalidasForm from './SalidasForm/SalidasForm';
 

@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../Utils/NavBar';
 
 const initialStatePartida = {
   kilos: "",
