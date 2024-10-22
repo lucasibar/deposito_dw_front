@@ -15,9 +15,13 @@ export default function ProveedoresSearchBar() {
     const proveedoresRedux = useSelector((state) => state.proveedores);
     const [proveedores, setProveedores] = useState([]); 
 
+
     useEffect(() => {
-        setProveedores(proveedoresRedux)
-      }, [proveedoresRedux]);
+      setProveedores(proveedoresRedux)
+    }, []);
+    useEffect(() => {
+      setProveedores(proveedoresRedux)
+    }, [  ]);
 
     const [proveedorSeleccionado, setProveedorSeleccionado] = useState(""); 
     const handleChangeProveedor = (e) => {

@@ -78,7 +78,7 @@ export default function ModalPopup({ open, handleClose, partida }) {
     
     const sumaKilos = distribucionDeKilosEnPosiciones.reduce((acc, partida) => acc + parseFloat(partida.kilos), 0);
   
-    if (sumaKilos == parseFloat(partida.kilos)) { 
+    if (sumaKilos+kilos == parseFloat(partida.kilos)) { 
       handleClose(); 
       Swal.fire({
         title: "Aprobar mercaderia",

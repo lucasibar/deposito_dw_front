@@ -57,7 +57,7 @@ export default function Cuarentena() {
         ))
       ) : (
         <Typography variant="body2" mt={2}>
-          No se encontraron ítems para esta posición.
+          No se encontraron ítems en estado de cuarentena.
         </Typography>
       )}
       {selectedPartida && (

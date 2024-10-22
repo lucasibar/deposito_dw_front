@@ -19,6 +19,9 @@ export const ITEM_SELECCIONADO= "ITEM_SELECCIONADO"
 export const RACK_FILA_SELECCIONADOS= "RACK_FILA_SELECCIONADOS" 
 export const OBTENER_ITEMS_POR_POSICION = 'OBTENER_ITEMS_POR_POSICION';
 export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
+export const ADD_TASK = 'ADD_TASK';
+export const FETCH_TASKS = 'FETCH_TASKS';
+export const COMPLETE_TASK = 'COMPLETE_TASK';
 
 
 
@@ -26,7 +29,18 @@ export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
 export const URL = "https://derwill-deposito-backend.onrender.com"
 //export const URL = "http://localhost:3001"
   
-
+  export const addTarea = (tarea) => async (dispatch) => {
+    const response = await axios.post(`${URL}/agenda`, tarea);
+    dispatch({ type: ADD_TASK, payload: response.data });
+  };
+  export const fetchTareas = () => async (dispatch) => {
+    const response = await axios.get(`${URL}/agenda`);
+    dispatch({ type: FETCH_TASKS, payload: response.data });
+  };
+  export const completeTarea = (id) => async (dispatch) => {
+    await axios.patch(`${URL}/agenda/${id}`, { status: 'completed' });
+    dispatch({ type: COMPLETE_TASK, payload: id });
+  };
   export const pasarPartidasAStock =(distribucionDeKilosEnPosiciones)=>dispatch => {
     return axios.post(`${URL}/movimientos/entrada-posicion`, distribucionDeKilosEnPosiciones ) 
     .then(data => {
@@ -66,7 +80,6 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
           });
     });
   };
-
   export const obtenerItemsPorPosicion = (id) => {
     return (dispatch, getState) => {
       const state = getState();

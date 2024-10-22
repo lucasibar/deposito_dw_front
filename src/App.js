@@ -9,7 +9,7 @@ import MovimientoInterno from './components/MovimientoInterno/MovimientoInterno'
 import Posiciones from './components/Posiciones/Posiciones';
 import HistorialSalida from './components/HistorialSalida/HistorialSalida';
 import Posicion from './components/Posicion/Posicion';
-import Agenda from './Agenda/Agenda';
+import Agenda from './components/Agenda/Agenda';
 
 
 function App() {

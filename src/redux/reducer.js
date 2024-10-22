@@ -30,6 +30,9 @@ import {
   ELIMINAR_PARTIDA_AL_REMITO_SALIDA,
   AGREGAR_NUEVO_PROVEEDOR,
   OBTENER_ITEMS_POR_POSICION,
+  ADD_TASK,
+  FETCH_TASKS,
+  COMPLETE_TASK
 
   
 } from './actions';
@@ -44,6 +47,7 @@ const initialState = {
   rackSeleccionado:"",
   filaSeleccionada: "",
   itemsPosicion: [],
+  tareas:[],
   
 //esto se limpia con la flecha de NavBar--
   fechaSeleccionado:"",
@@ -72,6 +76,17 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case ADD_TASK:
+    return { ...state, tareas: [...state.tareas, action.payload] };
+  case FETCH_TASKS:
+    return { ...state, tareas: action.payload };
+  case COMPLETE_TASK:
+    return {
+      ...state,
+      tasks: state.tareas.map((tarea) =>
+        tarea.id === action.payload ? { ...tarea, status: 'completed' } : tarea
+      ),
+    };
   case OBTENER_ITEMS_POR_POSICION:
       return {
         ...state,
