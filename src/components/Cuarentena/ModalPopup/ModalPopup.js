@@ -250,7 +250,7 @@ export default function ModalPopup({ open, handleClose, partida }) {
             Cancelar
           </Button>
         </Box>
-        <ListadoKilosPartidaPorPosicion distribucionDeKilosEnPosiciones={distribucionDeKilosEnPosiciones}/>
+        <ListadoKilosPartidaPorPosicion distribucionDeKilosEnPosiciones={distribucionDeKilosEnPosiciones} setDistribucionDeKilosEnPosiciones={setDistribucionDeKilosEnPosiciones}/>
       </Box>
     </Modal>
     
