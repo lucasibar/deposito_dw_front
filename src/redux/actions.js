@@ -23,8 +23,8 @@ export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
 
 
 
-// export const URL = "https://derwill-deposito-backend.onrender.com"
-export const URL = "http://localhost:3001"
+export const URL = "https://derwill-deposito-backend.onrender.com"
+//export const URL = "http://localhost:3001"
   
 
   export const pasarPartidasAStock =(distribucionDeKilosEnPosiciones)=>dispatch => {
