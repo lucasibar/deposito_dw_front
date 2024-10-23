@@ -130,8 +130,8 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
       console.error("Error in datosBaseRemito:", error);
   });
   };
-  export const generarNuevoProveedor =(nombre)=>dispatch => {
-    return axios.post(`${URL}/proveedores/${nombre}`) 
+  export const generarNuevoProveedor =(proveedor)=>dispatch => {
+    return axios.post(`${URL}/proveedores`, proveedor) 
     .then(data => {
       dispatch({ type: AGREGAR_PROVEEDOR, payload: data.data });
       Swal.fire({

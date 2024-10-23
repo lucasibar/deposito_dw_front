@@ -13,7 +13,7 @@ import {
   ListItemText,
   ListItemSecondaryAction,
 } from '@mui/material';
-import { addTarea, fetchTareas, completeTarea } from '../../redux/actions';
+import { addTarea, fetchTareas, completeTarea } from '../../../redux/actions';
 
 const Agenda = () => {
   const dispatch = useDispatch();

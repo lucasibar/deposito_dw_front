@@ -82,7 +82,7 @@ export default function ManejadoresItems() {
               >
                 <MenuItem key={"a"} value={""}>todos</MenuItem>
             {items?.map((itm, i) => (
-              <MenuItem key={i} value={itm}>{itm.descripcion}</MenuItem>
+              <MenuItem key={i} value={itm}>{`${itm.categoria} ${itm.descripcion}`}</MenuItem>
             ))}
             </Select>
           </FormControl>

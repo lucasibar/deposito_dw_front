@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import Swal from 'sweetalert2';
+import ProveedoresSearchBar from './ProveedoresSearchBar/ProveedoresSearchBar';
 
 export default function ModalPopup({ open, handleClose, item, posicionActualId }) {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ export default function ModalPopup({ open, handleClose, item, posicionActualId }
   const handleGuardar = () => {
     if (opcionSeleccionada === 'Movimiento Interno') {
     } else if (opcionSeleccionada === 'Ajuste RESTA mercaderia' || opcionSeleccionada === 'Ajuste SUMA mercaderia') {
-          alert("Falta hacer la logica de los ajustes porn el momento") 
+          alert("Falta hacer la logica de los ajustes por el momento") 
     } else if (opcionSeleccionada === 'Agragar al remito de Salida') {
     
     }
@@ -57,28 +58,29 @@ export default function ModalPopup({ open, handleClose, item, posicionActualId }
 
   return (
     <>
-      <Modal
-        open={open}
-        onClose={limpiezaEstado}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflowY: 'auto',
-        }}
-      >
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            borderRadius: '12px',
-            boxShadow: 24,
-            p: 4,
-            minWidth: '300px',
-            maxWidth: '500px',
-          }}
-        >
+<Modal
+  open={open}
+  onClose={limpiezaEstado}
+  aria-labelledby="modal-title"
+  aria-describedby="modal-description"
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflowY: 'auto',
+    zIndex: 1200, // Reduce el z-index del Modal para que SweetAlert esté por encima
+  }}
+>
+  <Box
+    sx={{
+      bgcolor: 'background.paper',
+      borderRadius: '12px',
+      boxShadow: 24,
+      p: 4,
+      minWidth: '300px',
+      maxWidth: '500px',
+    }}
+  >
           <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
             {`${item.proveedor.nombre} ${item.categoria} ${item.descripcion}`}
           </Typography>
@@ -124,6 +126,7 @@ export default function ModalPopup({ open, handleClose, item, posicionActualId }
                 onChange={(e) => setUnidades(e.target.value)}
                 variant="outlined"
               />
+              <ProveedoresSearchBar />
             </>
           )}
 

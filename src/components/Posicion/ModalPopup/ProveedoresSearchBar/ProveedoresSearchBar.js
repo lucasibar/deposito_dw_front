@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProveedores, seleccionarProveedor, seleccionarFecha, seleccionarNumeroRemito, generarNuevoProveedor, subirRemito } from '../../../../redux/actions';
 import { InputLabel, MenuItem, FormControl, Select, Button, TextField, Divider } from '@mui/material';
 import Swal from 'sweetalert2';
+import './ProveedoresSearchBar.css'
 
 export default function ProveedoresSearchBar() {
     const dispatch = useDispatch();
@@ -11,17 +12,16 @@ export default function ProveedoresSearchBar() {
       dispatch(getProveedores());
     }, []);
 //-------------------------------------------------------------------------------------
+const [proveedores, setProveedores] = useState([]); 
 
-    const proveedoresRedux = useSelector((state) => state.proveedores);
-    const [proveedores, setProveedores] = useState([]); 
-
+const proveedoresRedux = useSelector((state) => 
+  state.proveedores.filter((proveedor) => proveedor.categoria === 'cliente')
+);    
 
     useEffect(() => {
       setProveedores(proveedoresRedux)
-    }, []);
-    useEffect(() => {
-      setProveedores(proveedoresRedux)
-    }, [  ]);
+    }, [proveedoresRedux]);
+
 
     const [proveedorSeleccionado, setProveedorSeleccionado] = useState(""); 
     const handleChangeProveedor = (e) => {
@@ -29,41 +29,19 @@ export default function ProveedoresSearchBar() {
       setProveedorSeleccionado(e.target.value);
     };
 
-
-
-    //-------------------------------------------------------------------------------------
-
-    const [numeroRemito, setNumeroRemito] = useState("");
-    const handleNumeroRemitoChange = (e) => {
-        // const input = e.target.value.replace(/\D/g, '');
-        // const formattedInput = input.slice(0, 4) + (input.length >= 4 ? '-' : '') + input.slice(4, 12);
-        dispatch(seleccionarNumeroRemito(e.target.value))
-        setNumeroRemito(e.target.value);
-    };
-
-    //-------------------------------------------------------------------------------------
-    //-------------------------------------------------------------------------------------
-    const [fecha, setFecha] = useState("");
-    
-    const handleFechaChange = (e) => {
-      dispatch(seleccionarFecha(e.target.value))
-      setFecha(e.target.value)    
-    };
-
-    //-------------------------------------------------------------------------------------
 const crearNuevoProveedor = () => {
     Swal.fire({
-      title: "Nombre del nuevo proveedor",
+      title: "Nombre del nuevo cliente ",
       input: "text",
       inputAttributes: {
         autocapitalize: "off"
       },
       showCancelButton: true,
-      confirmButtonText: "Cargar proveedor",
+      confirmButtonText: "Cargar cliente",
       showLoaderOnConfirm: true,
       preConfirm: async (nombreProveedor) => {
         try {
-          dispatch(generarNuevoProveedor({nombre: nombreProveedor, categoria:"proveedor"}))
+          dispatch(generarNuevoProveedor({nombre: nombreProveedor, categoria:"cliente"}))
         } catch (error) {
           Swal.showValidationMessage(`
             Request failed: ${error}
@@ -90,29 +68,25 @@ const crearNuevoProveedor = () => {
             {proveedores?.map((prov, i) => (
               <MenuItem key={i} value={prov}>{prov.nombre}</MenuItem>
             ))}
-            <Button onClick={crearNuevoProveedor} style={{ color: "blue" }}>
-              Agregar proveedor nuevo
-            </Button>
           </Select>
         </FormControl>
+        
+        
+        <div>
+        <Button
+            onClick={crearNuevoProveedor}
+            style={{
+              alignSelf: 'flex-start', // Alinea el botón a la izquierda
+              fontSize: '12px',        // Tamaño de la letra más pequeño
+              textTransform: 'none',   // Evita que el texto se convierta en mayúsculas
+              color: 'blue',
+              marginTop: '0',
+            }}
+          >
+              Agregar nuevo cliente
+            </Button>
+        </div>
 
-        <TextField
-          className="form-control"
-          id="numero-remito"
-          label="Número de remito"
-          value={numeroRemito}
-          onChange={handleNumeroRemitoChange}
-        />
-
-        <TextField
-          className="form-control"
-          id="fecha"
-          label="Fecha"
-          type="date"
-          value={fecha}
-          onChange={handleFechaChange}
-          InputLabelProps={{ shrink: true }}
-        />
       </div>
 
     </>

@@ -22,7 +22,6 @@ export default function Posicion() {
   
   const itemsPosicion = useSelector((state) => state.itemsPosicion);
 
-
   const handleOpenModal = (item) => {
     setSelectedItem(item);
     setOpenModal(true);
@@ -52,7 +51,10 @@ export default function Posicion() {
               {`Partida: ${item.partida}`}
             </Typography>
             <Typography variant="body2" mt={2}>
-              Proveedor: {item.proveedor.nombre}
+              {item.proveedor.nombre}
+            </Typography>
+            <Typography variant="body2" mt={2}>
+            {item.categoria} {item.descripcion}
             </Typography>
             <Typography variant="body2" mt={2}>
               Kilos: {item.kilos} - Unidades: {item.unidades}
