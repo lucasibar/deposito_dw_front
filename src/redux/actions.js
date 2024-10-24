@@ -22,6 +22,7 @@ export const PARTIDAS_EN_CUARENTENA = 'PARTIDAS_EN_CUARENTENA';
 export const ADD_TASK = 'ADD_TASK';
 export const FETCH_TASKS = 'FETCH_TASKS';
 export const COMPLETE_TASK = 'COMPLETE_TASK';
+export const AGREGAR_DE_POSICION_A_REMITO_SALIDA = 'AGREGAR_DE_POSICION_A_REMITO_SALIDA';
 
 
 
@@ -29,6 +30,16 @@ export const COMPLETE_TASK = 'COMPLETE_TASK';
 export const URL = "https://derwill-deposito-backend.onrender.com"
 //export const URL = "http://localhost:3001"
   
+export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
+  const response = await axios.post(`${URL}/movimientos/salida-desde-posicion`, movimientoSalida)
+  .then(data => {
+    console.log(data.data)
+    //  dispatch({ type: AGREGAR_DE_POSICION_A_REMITO_SALIDA, payload: response.data })"
+    })
+  .catch(error => {
+    console.error("Error in datosBaseRemito:", error);
+  });
+};
   export const addTarea = (tarea) => async (dispatch) => {
     const response = await axios.post(`${URL}/agenda`, tarea);
     dispatch({ type: ADD_TASK, payload: response.data });

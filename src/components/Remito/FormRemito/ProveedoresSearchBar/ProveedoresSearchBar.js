@@ -12,16 +12,17 @@ export default function ProveedoresSearchBar() {
     }, []);
 //-------------------------------------------------------------------------------------
 
-    const proveedoresRedux = useSelector((state) => state.proveedores);
     const [proveedores, setProveedores] = useState([]); 
+    const proveedoresRedux = useSelector((state) =>
+      state.proveedores.filter((proveedor) => proveedor.categoria === 'proveedor')
+    );
+
 
 
     useEffect(() => {
       setProveedores(proveedoresRedux)
-    }, []);
-    useEffect(() => {
-      setProveedores(proveedoresRedux)
-    }, [  ]);
+    }, [proveedoresRedux]);
+
 
     const [proveedorSeleccionado, setProveedorSeleccionado] = useState(""); 
     const handleChangeProveedor = (e) => {

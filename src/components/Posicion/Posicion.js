@@ -16,11 +16,11 @@ export default function Posicion() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   
-  useEffect(() => {
-    dispatch(obtenerItemsPorPosicion(id)); // Dispatch para obtener los ítems según la posición
-  }, [dispatch, id]);
   
   const itemsPosicion = useSelector((state) => state.itemsPosicion);
+  useEffect(() => {
+    dispatch(obtenerItemsPorPosicion(id)); // Dispatch para obtener los ítems según la posición
+  }, [dispatch, id, itemsPosicion]);
 
   const handleOpenModal = (item) => {
     setSelectedItem(item);
