@@ -16,7 +16,7 @@ const rutas = [
   { nombre: 'Remito entrada', path: '/deposito_dw_front/remito' },
   { nombre: 'Cuarentena', path: '/deposito_dw_front/cuarentena' },
   { nombre: 'Remito salida', path: '/deposito_dw_front/salidas' },
-  { nombre: 'Informe salidas', path: '/deposito_dw_front/historial-salida"' },
+  { nombre: 'Informe salidas', path: '/deposito_dw_front/historial-salida' },
   { nombre: 'Agenda', path: '/deposito_dw_front/agenda' },
 
 ];

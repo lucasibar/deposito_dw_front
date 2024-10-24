@@ -19,7 +19,7 @@ function App() {
         <Route exact path="/deposito_dw_front/remito" element={<Remito />} />
         <Route exact path="/deposito_dw_front/cuarentena" element={<Cuarentena />} />
         <Route exact path="/deposito_dw_front/descripcion-posicion/:id" element={<Posicion />} /> {/* Ruta con el parámetro id */}
-        <Route exact path="/deposito_dw_front/historial-salida/:id" element={<HistorialSalida />} /> {/* Ruta con el parámetro id */}
+        <Route exact path="/deposito_dw_front/historial-salida" element={<HistorialSalida />} /> {/* Ruta con el parámetro id */}
         <Route exact path="/deposito_dw_front/salidas" element={<Salida />} />
         <Route exact path="/deposito_dw_front/movimiento-interno" element={<MovimientoInterno />} />
         <Route exact path="/deposito_dw_front/nuevoitem" element={<NuevoItem />} />
