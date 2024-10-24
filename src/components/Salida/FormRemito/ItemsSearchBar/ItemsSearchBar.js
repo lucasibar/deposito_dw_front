@@ -26,7 +26,6 @@ export default function ItemsSearchBar({proveedor}) {
   
   const [partida, setPartida] = useState({
     kilos: "",
-    numeroPartida: "",
     unidades: "",
   });
   

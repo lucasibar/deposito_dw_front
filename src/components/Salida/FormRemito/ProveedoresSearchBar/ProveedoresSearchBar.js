@@ -45,31 +45,6 @@ export default function ProveedoresSearchBar() {
       dispatch(seleccionarFecha(e.target.value))
       setFecha(e.target.value)    
     };
-
-    //-------------------------------------------------------------------------------------
-const crearNuevoProveedor = () => {
-    Swal.fire({
-      title: "Nombre del nuevo proveedor",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off"
-      },
-      showCancelButton: true,
-      confirmButtonText: "Cargar proveedor",
-      showLoaderOnConfirm: true,
-      preConfirm: async (nombreProveedor) => {
-        try {
-          dispatch(generarNuevoProveedor(nombreProveedor))
-        } catch (error) {
-          Swal.showValidationMessage(`
-            Request failed: ${error}
-            `);
-          }
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-      })
-    };
-    
     
     return (
       <>
@@ -86,9 +61,7 @@ const crearNuevoProveedor = () => {
             {proveedores?.map((prov, i) => (
               <MenuItem key={i} value={prov}>{prov.nombre}</MenuItem>
             ))}
-            <Button onClick={crearNuevoProveedor} style={{ color: "blue" }}>
-              Agregar proveedor nuevo
-            </Button>
+
           </Select>
         </FormControl>
 

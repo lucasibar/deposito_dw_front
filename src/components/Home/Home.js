@@ -7,7 +7,6 @@ import { Select, MenuItem, FormControl, InputLabel, Grid, Paper, Typography, Div
 import { Box } from '@mui/system';
 import Manejadores from './Manejadores/Manejadores'
 import CartaDataStock from './CartaDataStock/CartaDataStock'
-import MenuPrincipal from './MenuPrincipal/MenuPrincipal'
 
 
 import ListaPosiciones from './ListaPosiciones/ListaPosiciones'
@@ -72,7 +71,6 @@ export default function Home() {
       <Manejadores/>
       <Divider sx={{ marginY: '10px' }} />
       <ListaPosiciones/>
-      <MenuPrincipal />
     </Box>    
     </>}
     </>
