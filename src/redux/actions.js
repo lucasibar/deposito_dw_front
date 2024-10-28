@@ -27,8 +27,8 @@ export const AGREGAR_DE_POSICION_A_REMITO_SALIDA = 'AGREGAR_DE_POSICION_A_REMITO
 
 
 
-export const URL = "https://derwill-deposito-backend.onrender.com"
-//export const URL = "http://localhost:3001"
+//export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
   
 export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
   const response = await axios.post(`${URL}/movimientos/salida-desde-posicion`, movimientoSalida)

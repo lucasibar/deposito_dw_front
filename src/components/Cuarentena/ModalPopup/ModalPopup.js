@@ -136,6 +136,8 @@ export default function ModalPopup({ open, handleClose, partida }) {
           p: 4,
           minWidth: '300px',
           maxWidth: '500px',
+          maxHeight: '80vh', // Limita la altura máxima al 80% de la pantalla
+          overflowY: 'auto', // Permite el scroll en el modal cuando el contenido supera la altura
         }}
       >
         <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
@@ -145,6 +147,14 @@ export default function ModalPopup({ open, handleClose, partida }) {
         <Typography variant="body2" gutterBottom>
           {`Partida ${partida.numeroPartida}    Kgs ${partida.kilos} | Und${partida.unidades}`}
         </Typography>
+
+        <FormControl fullWidth margin="normal" disabled={true}>
+          <InputLabel id="fila-label">Posiciones Vacias</InputLabel>
+          <Select
+          >
+            <MenuItem value=""><em>None</em></MenuItem>
+          </Select>
+        </FormControl>
 
         {/* Selector de Rack */}
         <FormControl fullWidth margin="normal" disabled={!!pasillo}>
