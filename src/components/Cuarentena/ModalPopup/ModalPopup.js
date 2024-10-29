@@ -62,63 +62,68 @@ export default function ModalPopup({ open, handleClose, partida }) {
     setUnidades(event.target.value);
   };
 
+
+  
   const handleGuardar = () => {
-    setDistribucionDeKilosEnPosiciones([
-      ...distribucionDeKilosEnPosiciones, 
+    const nuevaDistribucion = [
+      ...distribucionDeKilosEnPosiciones,
       {
         partida,
         rack,
         fila,
         ab,
         pasillo,
-        kilos: parseFloat(kilos), 
-        unidades
-      }
-    ]);
-    
-    const sumaKilos = distribucionDeKilosEnPosiciones.reduce((acc, partida) => acc + parseFloat(partida.kilos), 0);
+        kilos: parseFloat(kilos),
+        unidades,
+      },
+    ];
   
-    if (sumaKilos+kilos == parseFloat(partida.kilos)) { 
-      handleClose(); 
+    // Calcular sumaKilos con la nueva distribución
+    const sumaKilos = nuevaDistribucion.reduce((acc, partida) => acc + parseFloat(partida.kilos), 0);
+  
+    if (sumaKilos === parseFloat(partida.kilos)) {
+      handleClose();
       Swal.fire({
-        title: "Aprobar mercaderia",
-        text: "La mercaderia saldra de estado cuarentena y se considerara en las posiciones indicadas",
+        title: "Aprobar mercadería",
+        text: "La mercadería saldrá de estado cuarentena y se considerará en las posiciones indicadas",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Aprobada"
+        confirmButtonText: "Aprobada",
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch(pasarPartidasAStock(distribucionDeKilosEnPosiciones));
+          dispatch(pasarPartidasAStock(nuevaDistribucion));
         }
-        setRack("")
-        setFila("")
-        setAB("")
-        setPasillo("")
-        setKilos("")
-        setUnidades("")
-        setDistribucionDeKilosEnPosiciones([])
+        // Limpiar el estado después de guardar
+        setRack("");
+        setFila("");
+        setAB("");
+        setPasillo("");
+        setKilos("");
+        setUnidades("");
+        setDistribucionDeKilosEnPosiciones([]);
       });
-    } else if(sumaKilos < parseFloat(partida.kilos)) {
-      
-      setRack("")
-      setFila("")
-      setAB("")
-      setPasillo("")
-      setKilos("")
-      setUnidades("")
-      alert('Ingresar el resto de los kilos');
-    }else{
-      alert('La cantidad de kilos ingresada no es correcta');
-
+    } else if (sumaKilos < parseFloat(partida.kilos)) {
+      // Actualiza el estado con la nueva distribución parcial
+      setDistribucionDeKilosEnPosiciones(nuevaDistribucion);
+      setRack("");
+      setFila("");
+      setAB("");
+      setPasillo("");
+      setKilos("");
+      setUnidades("");
+      alert("Ingresar el resto de los kilos");
+    } else {
+      alert("La cantidad de kilos ingresada no es correcta");
     }
   };
+
+
   return (
     <>
     <Modal
       open={open}
-      onClose={limpiezaEstado}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
       sx={{
@@ -251,7 +256,6 @@ export default function ModalPopup({ open, handleClose, partida }) {
           <Button
             variant="contained"
             color="error"
-            onClick={handleGuardar}
             disabled={true} 
           >       
             DEVOLUCION

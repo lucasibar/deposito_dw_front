@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { partidasEnCuarentena, partidaAprobada } from '../../redux/actions';
+import { fetchMovimientos } from '../../redux/actions';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -12,25 +12,17 @@ import NavBar from '../Utils/NavBar';
 export default function HistorialSalida() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [movimientos, setMovimientos] = useState([]);
-
+  
   useEffect(() => {
-    // Llamada al servidor para obtener los movimientos de salida
-    const fetchMovimientos = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/movimientos/salida');
-        setMovimientos(response.data);
-      } catch (error) {
-        console.error('Error al obtener los movimientos:', error);
-      }
-    };
-
-    fetchMovimientos();
+    dispatch(fetchMovimientos())
   }, []);
+  
+  const movimientos = useSelector((state) => state.movimientosHistoricoSalida);
+
+
 
   // Agrupar los movimientos por fecha y luego por proveedor
-  const movimientosPorFecha = movimientos.reduce((acc, movimiento) => {
+  const movimientosPorFecha = movimientos?.reduce((acc, movimiento) => {
     const fecha = movimiento.fecha.split('T')[0]; // Obtiene solo la parte de la fecha sin la hora
     if (!acc[fecha]) {
       acc[fecha] = {};

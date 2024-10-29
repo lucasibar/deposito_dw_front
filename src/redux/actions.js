@@ -23,13 +23,57 @@ export const ADD_TASK = 'ADD_TASK';
 export const FETCH_TASKS = 'FETCH_TASKS';
 export const COMPLETE_TASK = 'COMPLETE_TASK';
 export const AGREGAR_DE_POSICION_A_REMITO_SALIDA = 'AGREGAR_DE_POSICION_A_REMITO_SALIDA';
+export const SALIDA_HISTRORIAL = 'SALIDA_HISTRORIAL';
+export const STOCK_TOTAL_ITEM_SELECCIONADO = 'STOCK_TOTAL_ITEM_SELECCIONADO';
 
 
 
+export const URL = "https://derwill-deposito-backend.onrender.com"
+//export const URL = "http://localhost:3001"
 
-//export const URL = "https://derwill-deposito-backend.onrender.com"
-export const URL = "http://localhost:3001"
+
+
+export const stockTotalItem =(idItem)=> async dispatch => {
   
+  return axios.get(`${URL}/stock/total/${idItem}`)
+  .then(data => {
+    console.log(data.data)
+      dispatch({ type: STOCK_TOTAL_ITEM_SELECCIONADO, payload: data.data });
+  })
+  .catch(error => {
+    Swal.fire({
+      title: "No se pudo encontrar el item",
+      showClass: {
+        popup: `
+              animate__animated
+              animate__fadeInUp
+              animate__faster
+            `
+      },
+      hideClass: {
+        popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `
+      }
+    })
+  })
+};
+
+
+
+
+
+export const fetchMovimientos = () => async (dispatch) => {
+  const response = await axios.post(`${URL}/movimientos/salida`)
+  .then(data => {
+    dispatch({ type: SALIDA_HISTRORIAL, payload: data.data })
+    })
+  .catch(error => {
+    console.error("Error in datosBaseRemito:", error);
+  });
+};
 export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
   const response = await axios.post(`${URL}/movimientos/salida-desde-posicion`, movimientoSalida)
   .then(data => {
@@ -53,14 +97,14 @@ export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
     dispatch({ type: COMPLETE_TASK, payload: id });
   };
   export const pasarPartidasAStock =(distribucionDeKilosEnPosiciones)=>dispatch => {
-    return axios.post(`${URL}/movimientos/entrada-posicion`, distribucionDeKilosEnPosiciones ) 
+    return axios.post(`${URL}/movimientos/entrada-posicion`, distribucionDeKilosEnPosiciones )
     .then(data => {
       Swal.fire({
         title: "Mercaderia aprobada",
         text: "La mercaderia ya puede ser consmida",
         icon: "success"
       });
-      dispatch(partidasEnCuarentena())
+      //dispatch(partidasEnCuarentena())
       })
       .catch(error => {
           console.error("Error in datosBaseRemito:", error);
@@ -231,22 +275,22 @@ export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
         console.error("Error in dataRemitoLoad:", error);
     });
   };
-  export const limpiarProveedorSeleccionado =()=> dispatch => {  
-    return dispatch({type: LIMPIAR_PROVEEDOR_SELECCIONADO})
-  };
   export const getPosicionesPorProveedor =(proveedor)=>dispatch => {
     return axios.get(`${URL}/posiciones/${proveedor.id}`)
     .then(data => {
       dispatch({ type: POSICIONES_POR_PROVEEDOR, payload: data.data });
     })
     .catch(error => {
-        console.error("Error in dataRemitoLoad:", error);
+      console.error("Error in dataRemitoLoad:", error);
     });
   };
   export const filtroPosicionesSegunProveedorItem =(item)=> dispatch => {  
     return dispatch({type: FILTRAR_POSICIONESPROVEEDOR_SEGUN_ITEM, payload: item })
   };
- 
+  export const limpiarProveedorSeleccionado =()=> dispatch => {  
+    return dispatch({type: LIMPIAR_PROVEEDOR_SELECCIONADO})
+  };
+  
 
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------

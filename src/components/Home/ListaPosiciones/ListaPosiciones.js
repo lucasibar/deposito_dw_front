@@ -39,7 +39,7 @@ export default function ListaPosiciones() {
 
   return (
     <>
-      <CartaDataStock item={itemSeleccionado} />
+      <CartaDataStock />
 
       <Box sx={{ padding: 2 }}>
         {/* Mapear las posiciones filtradas */}

@@ -6,7 +6,6 @@ import { dataProveedoresItems, getPosiciones } from '../../redux/actions';
 import { Select, MenuItem, FormControl, InputLabel, Grid, Paper, Typography, Divider, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import Manejadores from './Manejadores/Manejadores'
-import CartaDataStock from './CartaDataStock/CartaDataStock'
 
 
 import ListaPosiciones from './ListaPosiciones/ListaPosiciones'
@@ -53,7 +52,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(dataProveedoresItems())
-      dispatch(getPosiciones());
+    dispatch(getPosiciones());
   }, []);
   
   return (

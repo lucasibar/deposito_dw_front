@@ -32,7 +32,9 @@ import {
   OBTENER_ITEMS_POR_POSICION,
   ADD_TASK,
   FETCH_TASKS,
-  COMPLETE_TASK
+  COMPLETE_TASK,
+  SALIDA_HISTRORIAL,
+  STOCK_TOTAL_ITEM_SELECCIONADO
 
   
 } from './actions';
@@ -48,6 +50,7 @@ const initialState = {
   filaSeleccionada: "",
   itemsPosicion: [],
   tareas:[],
+  movimientosHistoricoSalida:[],
   
 //esto se limpia con la flecha de NavBar--
   fechaSeleccionado:"",
@@ -57,12 +60,12 @@ const initialState = {
   itemSeleccionado:"",
 //-----------------------------------------
 
+  stockItemSeleccionado: 0,
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
-  stockItemSeleccionado: [],
   categoriaMercaderiaRemito:"",
   partidas: [],
   partidasDeEntradaAPosicion:[],
@@ -76,6 +79,16 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case STOCK_TOTAL_ITEM_SELECCIONADO:
+    return {
+      ...state,
+      stockItemSeleccionado: action.payload, 
+    };
+  case SALIDA_HISTRORIAL:
+    return {
+      ...state,
+      movimientosHistoricoSalida: action.payload
+    };
   case ADD_TASK:
     return { ...state, tareas: [...state.tareas, action.payload] };
   case FETCH_TASKS:
