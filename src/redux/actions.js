@@ -25,7 +25,7 @@ export const COMPLETE_TASK = 'COMPLETE_TASK';
 export const AGREGAR_DE_POSICION_A_REMITO_SALIDA = 'AGREGAR_DE_POSICION_A_REMITO_SALIDA';
 export const SALIDA_HISTRORIAL = 'SALIDA_HISTRORIAL';
 export const STOCK_TOTAL_ITEM_SELECCIONADO = 'STOCK_TOTAL_ITEM_SELECCIONADO';
-
+export const PARTIDAS_A_STOCK = 'PARTIDAS_A_STOCK';
 
 
 export const URL = "https://derwill-deposito-backend.onrender.com"
@@ -37,7 +37,6 @@ export const stockTotalItem =(idItem)=> async dispatch => {
   
   return axios.get(`${URL}/stock/total/${idItem}`)
   .then(data => {
-    console.log(data.data)
       dispatch({ type: STOCK_TOTAL_ITEM_SELECCIONADO, payload: data.data });
   })
   .catch(error => {
@@ -77,7 +76,6 @@ export const fetchMovimientos = () => async (dispatch) => {
 export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
   const response = await axios.post(`${URL}/movimientos/salida-desde-posicion`, movimientoSalida)
   .then(data => {
-    console.log(data.data)
     //  dispatch({ type: AGREGAR_DE_POSICION_A_REMITO_SALIDA, payload: response.data })"
     })
   .catch(error => {
@@ -96,7 +94,7 @@ export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
     await axios.patch(`${URL}/agenda/${id}`, { status: 'completed' });
     dispatch({ type: COMPLETE_TASK, payload: id });
   };
-  export const pasarPartidasAStock =(distribucionDeKilosEnPosiciones)=>dispatch => {
+  export const pasarPartidaAStock =(distribucionDeKilosEnPosiciones)=>dispatch => {
     return axios.post(`${URL}/movimientos/entrada-posicion`, distribucionDeKilosEnPosiciones )
     .then(data => {
       Swal.fire({
@@ -104,8 +102,8 @@ export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
         text: "La mercaderia ya puede ser consmida",
         icon: "success"
       });
-      //dispatch(partidasEnCuarentena())
-      })
+      dispatch({ type: PARTIDAS_A_STOCK, payload: distribucionDeKilosEnPosiciones[0].partida.numeroPartida});
+    })
       .catch(error => {
           console.error("Error in datosBaseRemito:", error);
       });

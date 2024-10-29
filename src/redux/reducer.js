@@ -34,7 +34,8 @@ import {
   FETCH_TASKS,
   COMPLETE_TASK,
   SALIDA_HISTRORIAL,
-  STOCK_TOTAL_ITEM_SELECCIONADO
+  STOCK_TOTAL_ITEM_SELECCIONADO,
+  PARTIDAS_A_STOCK
 
   
 } from './actions';
@@ -60,7 +61,8 @@ const initialState = {
   itemSeleccionado:"",
 //-----------------------------------------
 
-  stockItemSeleccionado: 0,
+partidasCuarentena:[],
+stockItemSeleccionado: 0,
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
@@ -69,7 +71,6 @@ const initialState = {
   categoriaMercaderiaRemito:"",
   partidas: [],
   partidasDeEntradaAPosicion:[],
-  partidasCuarentena:[],
   partidasPorPosicion:[],
   proximaPartidaConsumo:0,
   partidasRemitoSalida:[]
@@ -79,7 +80,12 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
-  case STOCK_TOTAL_ITEM_SELECCIONADO:
+    case PARTIDAS_A_STOCK:
+      return {
+        ...state,
+        partidasCuarentena: state.partidasCuarentena.filter(p=> p.numeroPartida !== action.payload)
+    };
+    case STOCK_TOTAL_ITEM_SELECCIONADO:
     return {
       ...state,
       stockItemSeleccionado: action.payload, 

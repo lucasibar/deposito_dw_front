@@ -41,7 +41,7 @@ export default function ListaPosiciones() {
     <>
       <CartaDataStock />
 
-      <Box sx={{ padding: 2 }}>
+      <Box >
         {/* Mapear las posiciones filtradas */}
         {posicionesFiltradas.length > 0 ? (
           posicionesFiltradas

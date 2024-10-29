@@ -16,6 +16,12 @@ export default function Cuarentena() {
   }, [dispatch]);
 
   const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
+  const [partidasRenderizar, setPartidasRenderizar] = useState([])
+
+  useEffect(() => {
+    setPartidasRenderizar(partidasCuarentena);
+  }, [partidasCuarentena]);
+
 
   const handleOpenModal = (partida) => {
     setSelectedPartida(partida);
@@ -31,8 +37,8 @@ export default function Cuarentena() {
     <>
       <NavBar titulo={"Cuarentena"} />
       <Box sx={{ padding: 2 }}>
-      {partidasCuarentena.length > 0 ? (
-        partidasCuarentena.map((partida, index) => (
+      {partidasRenderizar?.length > 0 ? (
+        partidasRenderizar.map((partida, index) => (
 
         <Paper
         key={index}

@@ -65,7 +65,7 @@ export default function Home() {
     </LandingContainer>
 :
 <>
-<NavBarPrincipal titulo={"Der Will"}/>
+    <NavBarPrincipal titulo={"Der Will"}/>
     <Box sx={{ padding: 2 }}>
       <Manejadores/>
       <Divider sx={{ marginY: '10px' }} />
