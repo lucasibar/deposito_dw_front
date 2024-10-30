@@ -9,6 +9,7 @@ import MovimientoInterno from './components/MovimientoInterno/MovimientoInterno'
 import HistorialSalida from './components/HistorialSalida/HistorialSalida';
 import Posicion from './components/Posicion/Posicion';
 import Agenda from './components/Utils/Agenda/Agenda';
+import QRDisplay from './components/Utils/Qr/QRDisplay';
 
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
         <Route exact path="/deposito_dw_front/nuevoitem" element={<NuevoItem />} />
         {/* <Route exact path="/deposito_dw_front/nuevoproveedor" element={<NuevoProveedor />} /> */}
         <Route exact path="/deposito_dw_front/agenda" element={<Agenda />} />
+        <Route exact path="/deposito_dw_front/qr" element={<QRDisplay />} />
+
         {/* <Route path="*" element={<Error404 />} /> */}
 
       </Routes>
