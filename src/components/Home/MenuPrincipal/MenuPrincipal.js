@@ -27,7 +27,7 @@ const actions = [
   { icon: <SaveIcon />, name: 'Remito salida', ruta: "/deposito_dw_front/salidas" },
   { icon: <ShareIcon />, name: 'Informe salidas', ruta: "/deposito_dw_front/historial-salida" },
   { icon: <ShareIcon />, name: 'Agenda', ruta: "/deposito_dw_front/agenda" },
-  { icon: <ShareIcon />, name: 'QR', ruta: "/deposito_dw_front/qr" },
+  { icon: <ShareIcon />, name: 'Qr', ruta: "/deposito_dw_front/qr" },
 ];
 
 export default function MenuPrincipal() {

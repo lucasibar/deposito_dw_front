@@ -18,7 +18,7 @@ const rutas = [
   { nombre: 'Remito salida', path: '/deposito_dw_front/salidas' },
   { nombre: 'Informe salidas', path: '/deposito_dw_front/historial-salida' },
   { nombre: 'Agenda', path: '/deposito_dw_front/agenda' },
-
+  { nombre: 'QR', path: '/deposito_dw_front/qr' },
 ];
 
 export default function NavBar({ titulo }) {
