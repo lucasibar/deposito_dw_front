@@ -11,7 +11,7 @@ import NavBar from '../../../../Utils/NavBar';
 export default function NuevoItem() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const categorias =  ["costura", "algodon", "nylon", "lycra", "goma", "tarugo", "etiqueta", "bolsa", "percha", "ribbon", "caja", "cinta", "plantilla", "film", "consumibes(aceite y parafina)", "faja", "caballete"]
+  const categorias =  ["costura", "algodon", "algodon-color", "nylon", "nylon-color", "lycra", "goma", "tarugo", "etiqueta", "bolsa", "percha", "ribbon", "caja", "cinta", "plantilla", "film", "consumibes(aceite y parafina)", "faja", "caballete"]
   
   const proveedorSeleccionado = useSelector((state) => state.proveedorSeleccionado);
 
