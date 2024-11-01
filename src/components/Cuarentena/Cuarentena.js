@@ -23,6 +23,11 @@ export default function Cuarentena() {
 
   // Obtener las partidas desde el estado
   const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
+  const [partidasRender, setPartidasRender] = useState([]);
+
+  useEffect(() => {
+    setPartidasRender(partidasCuarentena);
+  }, [partidasCuarentena]);
 
   // Abrir y cerrar el modal para la partida seleccionada
   const handleOpenModal = (partida) => {
@@ -36,6 +41,8 @@ export default function Cuarentena() {
 
   // Función para cambiar el estado de la partida según el estado actual
   const handleTogglePartidaEstado = (partida) => {
+    const nuevaPartida = { ...partida }; // Copia la partida para actualizar su estado localmente
+
     if (partida.estado === 'cuarentena') {
       Swal.fire({
         title: '¿Estás seguro?',
@@ -49,6 +56,11 @@ export default function Cuarentena() {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
+          // Actualiza el estado local aquí
+          nuevaPartida.estado = 'cuarentena-revision';
+          setPartidasRender((prev) => 
+            prev.map(p => p.id === partida.id ? nuevaPartida : p)
+          );
         }
       });
     } else if (partida.estado === 'cuarentena-revision') {
@@ -62,8 +74,16 @@ export default function Cuarentena() {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-aprobada'));
+          nuevaPartida.estado = 'cuarentena-aprobada';
+          setPartidasRender((prev) => 
+            prev.map(p => p.id === partida.id ? nuevaPartida : p)
+          );
         } else if (result.isDenied) {
           dispatch(cambiarEstadoPartida(partida.id, 'cuarentena'));
+          nuevaPartida.estado = 'cuarentena'; // Actualiza el estado localmente
+          setPartidasRender((prev) => 
+            prev.map(p => p.id === partida.id ? nuevaPartida : p)
+          );
         }
       });
     } else if (partida.estado === 'cuarentena-aprobada') {
@@ -77,6 +97,10 @@ export default function Cuarentena() {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
+          nuevaPartida.estado = 'cuarentena-revision';
+          setPartidasRender((prev) => 
+            prev.map(p => p.id === partida.id ? nuevaPartida : p)
+          );
         }
       });
     }
@@ -96,6 +120,11 @@ export default function Cuarentena() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(cambiarEstadoPartida(partida.id, 'rechazada'));
+        // Actualiza el estado local aquí si es necesario
+        const nuevaPartida = { ...partida, estado: 'rechazada' };
+        setPartidasRender((prev) => 
+          prev.map(p => p.id === partida.id ? nuevaPartida : p)
+        );
       }
     });
   };
@@ -104,8 +133,8 @@ export default function Cuarentena() {
     <>
       <NavBar titulo={"Cuarentena"} />
       <Box sx={{ padding: 2 }}>
-        {partidasCuarentena?.length > 0 ? (
-          partidasCuarentena.map((partida, index) => (
+        {partidasRender?.length > 0 ? (
+          partidasRender.map((partida, index) => (
             <Paper
               key={index}
               sx={{
@@ -150,19 +179,19 @@ export default function Cuarentena() {
                 )}
               </IconButton>
               <IconButton
-  sx={{ position: 'absolute', bottom: 8, right: 8 }}
-  color="error"
-  onClick={(e) => {
-    e.stopPropagation();
-    handleRechazarPartida(partida); // Cambia el estado a 'rechazada'
-  }}
->
-  {partida.estado === 'cuarentena-aprobada' ? (
-    <KeyboardDoubleArrowRightIcon />
-  ) : (
-    <CloseIcon />
-  )}
-</IconButton>
+                sx={{ position: 'absolute', bottom: 8, right: 8 }}
+                color="error"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRechazarPartida(partida); // Cambia el estado a 'rechazada'
+                }}
+              >
+                {partida.estado === 'cuarentena-aprobada' ? (
+                  <KeyboardDoubleArrowRightIcon />
+                ) : (
+                  <CloseIcon />
+                )}
+              </IconButton>
             </Paper>
           ))
         ) : (
