@@ -76,8 +76,8 @@ export const rechazarPartida = (id) => async (dispatch) => {
       })
     })
   };
-  export const fetchMovimientos = () => async (dispatch) => {
-  const response = await axios.post(`${URL}/movimientos/salida`)
+  export const fetchMovimientosSalida = () => async (dispatch) => {
+  return axios.get(`${URL}/movimientos/salida`)
   .then(data => {
     dispatch({ type: SALIDA_HISTRORIAL, payload: data.data })
     })

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { fetchMovimientos } from '../../redux/actions';
+import { fetchMovimientosSalida } from '../../redux/actions';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -14,7 +14,7 @@ export default function HistorialSalida() {
   const navigate = useNavigate();
   
   useEffect(() => {
-    dispatch(fetchMovimientos())
+    dispatch(fetchMovimientosSalida())
   }, []);
   
   const movimientos = useSelector((state) => state.movimientosHistoricoSalida);
