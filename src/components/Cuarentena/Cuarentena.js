@@ -149,22 +149,20 @@ export default function Cuarentena() {
                   <DoneAllIcon sx={{ color: 'green' }} />
                 )}
               </IconButton>
-
-              {/* Botón para abrir el modal */}
               <IconButton
-                sx={{ position: 'absolute', bottom: 8, right: 8 }}
-                color="error"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleOpenModal(partida);
-                }}
-              >
-                {partida.estado === 'cuarentena-aprobada' ? (
-                  <KeyboardDoubleArrowRightIcon />
-                ) : (
-                  <CloseIcon />
-                )}
-              </IconButton>
+  sx={{ position: 'absolute', bottom: 8, right: 8 }}
+  color="error"
+  onClick={(e) => {
+    e.stopPropagation();
+    handleRechazarPartida(partida); // Cambia el estado a 'rechazada'
+  }}
+>
+  {partida.estado === 'cuarentena-aprobada' ? (
+    <KeyboardDoubleArrowRightIcon />
+  ) : (
+    <CloseIcon />
+  )}
+</IconButton>
             </Paper>
           ))
         ) : (

@@ -39,15 +39,13 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
 
 
 export const cambiarEstadoPartida = (id, estado) => async (dispatch) => {
-  return axios.put(`${URL}/partidas/estado-partida`, {
-      id,
-      estado,
-    }).then(data=>{
-      dispatch({ type: CAMBIAR_ESTADO_PARTIDA, payload: data.data})
-    })
-    .catch(error => {
-      console.error("Error in datosBaseRemito:", error);
-    });
+  return axios.put(`${URL}/partidas/estado-partida`, {id, estado})
+  .then(data=>{
+      dispatch({ type: CAMBIAR_ESTADO_PARTIDA, payload: {id, estado}})
+  })
+  .catch(error => {
+    console.error("Error in datosBaseRemito:", error);
+  });
   }
 
   export const stockTotalItem =(idItem)=> async dispatch => {

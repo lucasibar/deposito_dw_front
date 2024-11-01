@@ -78,13 +78,27 @@ stockItemSeleccionado: 0,
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case PARTIDAS_EN_CUARENTENA:   
+  return {         
+    ...state,
+    partidasCuarentena: action.payload
+  };
   case CAMBIAR_ESTADO_PARTIDA:
+    let [estado, id]= action.payload
+   if(estado=== 'rechazada'){
+    return {
+          ...state,
+          partidasCuarentena: state.partidasCuarentena.filter(
+            partida => partida.id !== id
+          ),
+        };
+   }else{
     return {
       ...state,
       partidasCuarentena: state.partidasCuarentena.map((partida) =>
-        partida.id === action.payload.id ? { ...partida, estado: action.payload.estado } : partida
-      ),
-    };
+        partida.id === id ? { ...partida, estado: estado } : partida
+      )};
+   }
     case PARTIDAS_A_STOCK:
       return {
         ...state,
@@ -241,11 +255,7 @@ switch (action.type) {
 
 
 //2----------------------------------------------------------------------------------
-    case PARTIDAS_EN_CUARENTENA:   
-    return {         
-      ...state,
-      partidasCuarentena: action.payload
-    };
+
     
 //3----------------------------------------------------------------------------------    
     case STOCK_ITEM_POSICION:   
