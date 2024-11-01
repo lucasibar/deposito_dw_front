@@ -29,6 +29,8 @@ export const PARTIDAS_A_STOCK = 'PARTIDAS_A_STOCK';
 export const APROBAR_PARTIDA = 'APROBAR_PARTIDA';
 export const RECHAZAR_PARTIDA = 'RECHAZAR_PARTIDA';
 export const ATRAS_APROBAR_PARTIDA = 'ATRAS_APROBAR_PARTIDA';
+export const CAMBIAR_ESTADO_PARTIDA = 'CAMBIAR_ESTADO_PARTIDA';
+
 
 
 export const URL = "https://derwill-deposito-backend.onrender.com"
@@ -36,20 +38,18 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
 
 
 
+export const cambiarEstadoPartida = (id, estado) => async (dispatch) => {
+  return axios.put(`${URL}/partidas/estado-partida`, {
+      id,
+      estado,
+    }).then(data=>{
+      dispatch({ type: CAMBIAR_ESTADO_PARTIDA, payload: data.data})
+    })
+    .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+    });
+  }
 
-
-export const atrasAprobarPartida = (id) => async (dispatch) => {
-  await axios.put(`${URL}/partidas/${id}/atras-aprobar`);  
-  dispatch({ type: ATRAS_APROBAR_PARTIDA, payload: id });
-};
-export const aprobarPartida = (id) => async (dispatch) => {
-  await axios.put(`${URL}/partidas/${id}/aprobar`);  
-  dispatch({ type: APROBAR_PARTIDA, payload: id });
-};
-export const rechazarPartida = (id) => async (dispatch) => {
-  await axios.put(`${URL}/partidas/${id}/rechazar`);  // Llamada al endpoint para rechazar la partida
-  dispatch({ type: RECHAZAR_PARTIDA, payload: id });
-};
   export const stockTotalItem =(idItem)=> async dispatch => {
     
     return axios.get(`${URL}/stock/total/${idItem}`)

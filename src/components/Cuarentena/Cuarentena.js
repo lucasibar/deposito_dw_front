@@ -1,178 +1,185 @@
-  import React, { useEffect, useState } from 'react';
-  import { Paper, Typography, Box, IconButton } from '@mui/material';
-  import CheckIcon from '@mui/icons-material/Check';
-  import CloseIcon from '@mui/icons-material/Close';
-  import DoneAllIcon from '@mui/icons-material/DoneAll'; // Importa el nuevo ícono
-  import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'; // Importa el nuevo ícono
-  import NavBar from '../Utils/NavBar';
-  import ModalPopup from './ModalPopup/ModalPopup';
-  import { useDispatch, useSelector } from 'react-redux';
-  import { partidasEnCuarentena, aprobarPartida, atrasAprobarPartida, rechazarPartida } from '../../redux/actions';
-  import Swal from 'sweetalert2';
+import React, { useEffect, useState } from 'react';
+import { Paper, Typography, Box, IconButton } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import UpdateIcon from '@mui/icons-material/Update';
+import NavBar from '../Utils/NavBar';
+import ModalPopup from './ModalPopup/ModalPopup';
+import { useDispatch, useSelector } from 'react-redux';
+import { partidasEnCuarentena, cambiarEstadoPartida } from '../../redux/actions';
+import Swal from 'sweetalert2';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'; 
 
-  export default function Cuarentena() {
-    const [openModal, setOpenModal] = useState(false);
-    const [selectedPartida, setSelectedPartida] = useState(null);
-    const dispatch = useDispatch();
+export default function Cuarentena() {
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedPartida, setSelectedPartida] = useState(null);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-      dispatch(partidasEnCuarentena());
-    }, [dispatch]);
+  // Cargar las partidas en cuarentena al montar el componente
+  useEffect(() => {
+    dispatch(partidasEnCuarentena());
+  }, [dispatch]);
 
-    const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
-    const [partidasRenderizar, setPartidasRenderizar] = useState([]);
+  // Obtener las partidas desde el estado
+  const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
 
-    useEffect(() => {
-      setPartidasRenderizar(partidasCuarentena);
-    }, [partidasCuarentena]);
+  // Abrir y cerrar el modal para la partida seleccionada
+  const handleOpenModal = (partida) => {
+    setSelectedPartida(partida);
+    setOpenModal(true);
+  };
 
-    const handleOpenModal = (partida) => {
-      setSelectedPartida(partida);
-      setOpenModal(true);
-    };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
-    const handleCloseModal = () => {
-      setOpenModal(false);
-    };
-
-    const handleAprobarPartida = (id) => {
+  // Función para cambiar el estado de la partida según el estado actual
+  const handleTogglePartidaEstado = (partida) => {
+    if (partida.estado === 'cuarentena') {
       Swal.fire({
         title: '¿Estás seguro?',
-        text: "Vas a aprobar la partida.",
+        text: "¿Llevarás la mercadería a testear?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, aprobar!',
+        confirmButtonText: 'Sí, llevar a revisión',
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch(aprobarPartida(id));
+          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
         }
       });
-    };
-
-    const handleVolverAtrasAprobarPartida = (id) => {
+    } else if (partida.estado === 'cuarentena-revision') {
       Swal.fire({
-        title: '¿Estás seguro?',
-        text: "La partida se va a volver a chequear",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, volver a chequear!',
-        cancelButtonText: 'Cancelar'
+        title: '¿Qué deseas hacer?',
+        text: "Puedes devolver la partida a cuarentena o aprobarla",
+        icon: 'question',
+        showDenyButton: true,
+        confirmButtonText: 'Aprobar',
+        denyButtonText: 'Devolver a cuarentena',
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch(atrasAprobarPartida(id));
+          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-aprobada'));
+        } else if (result.isDenied) {
+          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena'));
         }
       });
-    };
-
-    const handleRechazarPartida = (id) => {
+    } else if (partida.estado === 'cuarentena-aprobada') {
       Swal.fire({
-        title: '¿Estás seguro?',
-        text: "Vas a rechazar la partida.",
-        icon: 'warning',
+        title: 'Partida aprobada',
+        text: "Esta partida ya ha sido aprobada. ¿Deseas volver a revisarla?",
+        icon: 'info',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, rechazar!',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText: 'Sí, volver a revisar',
+        cancelButtonText: 'Cancelar',
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch(rechazarPartida(id));
+          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
         }
       });
-    };
+    }
+  };
 
-    const handleTogglePartidaEstado = (partida) => {
-      if (partida.estado === 'cuarentena-aprobada') {
-        handleVolverAtrasAprobarPartida(partida.id);
-      } else {
-        handleAprobarPartida(partida.id);
+  // Función para rechazar la partida
+  const handleRechazarPartida = (partida) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¿Quieres rechazar esta partida?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, rechazar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(cambiarEstadoPartida(partida.id, 'rechazada'));
       }
-    };
+    });
+  };
 
-    return (
-      <>
-        <NavBar titulo={"Cuarentena"} />
-        <Box sx={{ padding: 2 }}>
-          {partidasRenderizar?.length > 0 ? (
-            partidasRenderizar.map((partida, index) => (
-              <Paper
-                key={index}
-                sx={{
-                  padding: 2,
-                  marginBottom: 2,
-                  borderRadius: '16px',
-                  cursor: 'pointer',
-                  position: 'relative',
-                }}
-                onClick={() => handleOpenModal(partida)}
-              >
-                <Typography variant="subtitle1">
-                  {`Partida: ${partida.numeroPartida}`}
-                </Typography>
-                <Typography variant="body2" mt={2}>
-                  {`${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`}
-                </Typography>
-                <Typography variant="body2" mt={2}>
-                  Kilos: {partida.kilos} - Unidades: {partida.unidades}
-                </Typography>
+  return (
+    <>
+      <NavBar titulo={"Cuarentena"} />
+      <Box sx={{ padding: 2 }}>
+        {partidasCuarentena?.length > 0 ? (
+          partidasCuarentena.map((partida, index) => (
+            <Paper
+              key={index}
+              sx={{
+                padding: 2,
+                marginBottom: 2,
+                borderRadius: '16px',
+                cursor: 'pointer',
+                position: 'relative',
+              }}
+            >
+              <Typography variant="subtitle1">
+                {`Partida: ${partida.numeroPartida}`}
+              </Typography>
+              <Typography variant="body2" mt={2}>
+                {`${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`}
+              </Typography>
+              <Typography variant="body2" mt={2}>
+                Kilos: {partida.kilos} - Unidades: {partida.unidades}
+              </Typography>
 
-                {/* Botón de aprobación (tilde) */}
-                <IconButton
-                  sx={{ position: 'absolute', top: 8, right: 8 }}
-                  color={partida.estado === 'cuarentena-aprobada' ? 'default' : 'primary'}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleTogglePartidaEstado(partida);
-                  }}
-                >
-                  {partida.estado === 'cuarentena-aprobada' ? (
-                    <DoneAllIcon sx={{ color: 'green' }} /> // Cambia el color a verde
-                  ) : (
-                    <CheckIcon />
-                  )}
-                </IconButton>
-
-                {/* Botón de rechazo (cruz) */}
-                <IconButton
-                  sx={{ position: 'absolute', bottom: 8, right: 8 }}
-                  color={partida.estado === 'cuarentena-aprobada' ? 'secondary' : 'default'}
-                  onClick={(e) => {
+              {/* Botón de cambio de estado */}
+              <IconButton
+                sx={{ position: 'absolute', top: 8, right: 8 }}
+                color={
+                  partida.estado === 'cuarentena-aprobada'
+                    ? 'default'
+                    : partida.estado === 'cuarentena-revision'
+                    ? 'primary'
+                    : 'secondary'
+                }
+                onClick={(e) => {
                   e.stopPropagation();
-                  // Si el estado es 'cuarentena-aprobada', selecciona la partida y abre el modal
-                  if (partida.estado === 'cuarentena-aprobada') {
+                  handleTogglePartidaEstado(partida);
+                }}
+              >
+                {partida.estado === 'cuarentena' ? (
+                  <CheckIcon />
+                ) : partida.estado === 'cuarentena-revision' ? (
+                  <UpdateIcon sx={{ color: 'orange' }} />
+                ) : (
+                  <DoneAllIcon sx={{ color: 'green' }} />
+                )}
+              </IconButton>
+
+              {/* Botón para abrir el modal */}
+              <IconButton
+                sx={{ position: 'absolute', bottom: 8, right: 8 }}
+                color="error"
+                onClick={(e) => {
+                  e.stopPropagation();
                   handleOpenModal(partida);
-                  } else {
-                  // Si no, rechaza la partida como antes
-                  handleRechazarPartida(partida.id);
-                  }
-                  }}
-                >
-                  {partida.estado === 'cuarentena-aprobada' ? (
-                    <KeyboardDoubleArrowRightIcon />
-                  ) : (
-                    <CloseIcon />
-                  )}
-                </IconButton>
-              </Paper>
-            ))
-          ) : (
-            <Typography variant="body2" mt={2}>
-              No se encontraron ítems en estado de cuarentena.
-            </Typography>
-          )}
-          {selectedPartida && (
-            <ModalPopup
-              open={openModal}
-              handleClose={handleCloseModal}
-              partida={selectedPartida}
-            />
-          )}
-        </Box>
-      </>
-    );
-  }
+                }}
+              >
+                {partida.estado === 'cuarentena-aprobada' ? (
+                  <KeyboardDoubleArrowRightIcon />
+                ) : (
+                  <CloseIcon />
+                )}
+              </IconButton>
+            </Paper>
+          ))
+        ) : (
+          <Typography variant="body2" mt={2}>
+            No se encontraron ítems en estado de cuarentena.
+          </Typography>
+        )}
+        {selectedPartida && (
+          <ModalPopup
+            open={openModal}
+            handleClose={handleCloseModal}
+            partida={selectedPartida}
+          />
+        )}
+      </Box>
+    </>
+  );
+}

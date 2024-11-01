@@ -36,9 +36,8 @@ import {
   SALIDA_HISTRORIAL,
   STOCK_TOTAL_ITEM_SELECCIONADO,
   PARTIDAS_A_STOCK,
-  APROBAR_PARTIDA,
-  RECHAZAR_PARTIDA,
-  ATRAS_APROBAR_PARTIDA
+  CAMBIAR_ESTADO_PARTIDA,
+
 
   
 } from './actions';
@@ -55,6 +54,7 @@ const initialState = {
   itemsPosicion: [],
   tareas:[],
   movimientosHistoricoSalida:[],
+  partidasCuarentena:[],
   
 //esto se limpia con la flecha de NavBar--
   fechaSeleccionado:"",
@@ -64,13 +64,8 @@ const initialState = {
   itemSeleccionado:"",
 //-----------------------------------------
 
-partidasCuarentena:[],
 stockItemSeleccionado: 0,
-//---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------
+
   categoriaMercaderiaRemito:"",
   partidas: [],
   partidasDeEntradaAPosicion:[],
@@ -83,28 +78,13 @@ stockItemSeleccionado: 0,
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
-    case APROBAR_PARTIDA:
-      return {
-        ...state,
-        partidasCuarentena: state.partidasCuarentena.map(partida =>
-          partida.id === action.payload ? { ...partida, estado: 'cuarentena-aprobada' } : partida
-        ),
+  case CAMBIAR_ESTADO_PARTIDA:
+    return {
+      ...state,
+      partidasCuarentena: state.partidasCuarentena.map((partida) =>
+        partida.id === action.payload.id ? { ...partida, estado: action.payload.estado } : partida
+      ),
     };
-    case ATRAS_APROBAR_PARTIDA:
-      return {
-        ...state,
-        partidasCuarentena: state.partidasCuarentena.map(partida =>
-          partida.id === action.payload ? { ...partida, estado: 'cuarentena' } : partida
-        ),
-    };
-    case RECHAZAR_PARTIDA:
-      return {
-        ...state,
-        partidasCuarentena: state.partidasCuarentena.filter(
-          partida => partida.id !== action.payload  // Eliminar la partida rechazada
-        ),
-      };
-
     case PARTIDAS_A_STOCK:
       return {
         ...state,
