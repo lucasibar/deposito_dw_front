@@ -35,7 +35,10 @@ import {
   COMPLETE_TASK,
   SALIDA_HISTRORIAL,
   STOCK_TOTAL_ITEM_SELECCIONADO,
-  PARTIDAS_A_STOCK
+  PARTIDAS_A_STOCK,
+  APROBAR_PARTIDA,
+  RECHAZAR_PARTIDA,
+  ATRAS_APROBAR_PARTIDA
 
   
 } from './actions';
@@ -80,6 +83,28 @@ stockItemSeleccionado: 0,
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+    case APROBAR_PARTIDA:
+      return {
+        ...state,
+        partidasCuarentena: state.partidasCuarentena.map(partida =>
+          partida.id === action.payload ? { ...partida, estado: 'cuarentena-aprobada' } : partida
+        ),
+    };
+    case ATRAS_APROBAR_PARTIDA:
+      return {
+        ...state,
+        partidasCuarentena: state.partidasCuarentena.map(partida =>
+          partida.id === action.payload ? { ...partida, estado: 'cuarentena' } : partida
+        ),
+    };
+    case RECHAZAR_PARTIDA:
+      return {
+        ...state,
+        partidasCuarentena: state.partidasCuarentena.filter(
+          partida => partida.id !== action.payload  // Eliminar la partida rechazada
+        ),
+      };
+
     case PARTIDAS_A_STOCK:
       return {
         ...state,

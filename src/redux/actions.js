@@ -26,6 +26,9 @@ export const AGREGAR_DE_POSICION_A_REMITO_SALIDA = 'AGREGAR_DE_POSICION_A_REMITO
 export const SALIDA_HISTRORIAL = 'SALIDA_HISTRORIAL';
 export const STOCK_TOTAL_ITEM_SELECCIONADO = 'STOCK_TOTAL_ITEM_SELECCIONADO';
 export const PARTIDAS_A_STOCK = 'PARTIDAS_A_STOCK';
+export const APROBAR_PARTIDA = 'APROBAR_PARTIDA';
+export const RECHAZAR_PARTIDA = 'RECHAZAR_PARTIDA';
+export const ATRAS_APROBAR_PARTIDA = 'ATRAS_APROBAR_PARTIDA';
 
 
 export const URL = "https://derwill-deposito-backend.onrender.com"
@@ -33,38 +36,47 @@ export const URL = "https://derwill-deposito-backend.onrender.com"
 
 
 
-export const stockTotalItem =(idItem)=> async dispatch => {
-  
-  return axios.get(`${URL}/stock/total/${idItem}`)
-  .then(data => {
-      dispatch({ type: STOCK_TOTAL_ITEM_SELECCIONADO, payload: data.data });
-  })
-  .catch(error => {
-    Swal.fire({
-      title: "No se pudo encontrar el item",
-      showClass: {
-        popup: `
-              animate__animated
-              animate__fadeInUp
-              animate__faster
-            `
-      },
-      hideClass: {
-        popup: `
-              animate__animated
-              animate__fadeOutDown
-              animate__faster
-            `
-      }
-    })
-  })
+
+
+export const atrasAprobarPartida = (id) => async (dispatch) => {
+  await axios.put(`${URL}/partidas/${id}/atras-aprobar`);  
+  dispatch({ type: ATRAS_APROBAR_PARTIDA, payload: id });
 };
-
-
-
-
-
-export const fetchMovimientos = () => async (dispatch) => {
+export const aprobarPartida = (id) => async (dispatch) => {
+  await axios.put(`${URL}/partidas/${id}/aprobar`);  
+  dispatch({ type: APROBAR_PARTIDA, payload: id });
+};
+export const rechazarPartida = (id) => async (dispatch) => {
+  await axios.put(`${URL}/partidas/${id}/rechazar`);  // Llamada al endpoint para rechazar la partida
+  dispatch({ type: RECHAZAR_PARTIDA, payload: id });
+};
+  export const stockTotalItem =(idItem)=> async dispatch => {
+    
+    return axios.get(`${URL}/stock/total/${idItem}`)
+    .then(data => {
+        dispatch({ type: STOCK_TOTAL_ITEM_SELECCIONADO, payload: data.data });
+    })
+    .catch(error => {
+      Swal.fire({
+        title: "No se pudo encontrar el item",
+        showClass: {
+          popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `
+        },
+        hideClass: {
+          popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `
+        }
+      })
+    })
+  };
+  export const fetchMovimientos = () => async (dispatch) => {
   const response = await axios.post(`${URL}/movimientos/salida`)
   .then(data => {
     dispatch({ type: SALIDA_HISTRORIAL, payload: data.data })
@@ -72,8 +84,8 @@ export const fetchMovimientos = () => async (dispatch) => {
   .catch(error => {
     console.error("Error in datosBaseRemito:", error);
   });
-};
-export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
+  };
+  export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
   const response = await axios.post(`${URL}/movimientos/salida-desde-posicion`, movimientoSalida)
   .then(data => {
     //  dispatch({ type: AGREGAR_DE_POSICION_A_REMITO_SALIDA, payload: response.data })"
@@ -81,7 +93,7 @@ export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
   .catch(error => {
     console.error("Error in datosBaseRemito:", error);
   });
-};
+  };
   export const addTarea = (tarea) => async (dispatch) => {
     const response = await axios.post(`${URL}/agenda`, tarea);
     dispatch({ type: ADD_TASK, payload: response.data });
