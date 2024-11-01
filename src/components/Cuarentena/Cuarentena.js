@@ -9,7 +9,7 @@ import ModalPopup from './ModalPopup/ModalPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import { partidasEnCuarentena, cambiarEstadoPartida } from '../../redux/actions';
 import Swal from 'sweetalert2';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight'; 
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 export default function Cuarentena() {
   const [openModal, setOpenModal] = useState(false);
@@ -23,12 +23,15 @@ export default function Cuarentena() {
 
   // Obtener las partidas desde el estado
   const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
-  const [partidasRender, setPartidasRender] = useState([]);
-
-  useEffect(() => {
-    setPartidasRender(partidasCuarentena);
-  }, [partidasCuarentena]);
-
+  
+  
+  
+  // const [selectedPartida, setSelectedPartida] = useState(null);
+  // useEffect(() => {
+  //   dispatch(partidasEnCuarentena());
+  // }, [dispatch]);
+  
+  
   // Abrir y cerrar el modal para la partida seleccionada
   const handleOpenModal = (partida) => {
     setSelectedPartida(partida);
@@ -41,8 +44,6 @@ export default function Cuarentena() {
 
   // Función para cambiar el estado de la partida según el estado actual
   const handleTogglePartidaEstado = (partida) => {
-    const nuevaPartida = { ...partida }; // Copia la partida para actualizar su estado localmente
-
     if (partida.estado === 'cuarentena') {
       Swal.fire({
         title: '¿Estás seguro?',
@@ -56,11 +57,6 @@ export default function Cuarentena() {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
-          // Actualiza el estado local aquí
-          nuevaPartida.estado = 'cuarentena-revision';
-          setPartidasRender((prev) => 
-            prev.map(p => p.id === partida.id ? nuevaPartida : p)
-          );
         }
       });
     } else if (partida.estado === 'cuarentena-revision') {
@@ -74,16 +70,8 @@ export default function Cuarentena() {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-aprobada'));
-          nuevaPartida.estado = 'cuarentena-aprobada';
-          setPartidasRender((prev) => 
-            prev.map(p => p.id === partida.id ? nuevaPartida : p)
-          );
         } else if (result.isDenied) {
           dispatch(cambiarEstadoPartida(partida.id, 'cuarentena'));
-          nuevaPartida.estado = 'cuarentena'; // Actualiza el estado localmente
-          setPartidasRender((prev) => 
-            prev.map(p => p.id === partida.id ? nuevaPartida : p)
-          );
         }
       });
     } else if (partida.estado === 'cuarentena-aprobada') {
@@ -97,10 +85,6 @@ export default function Cuarentena() {
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
-          nuevaPartida.estado = 'cuarentena-revision';
-          setPartidasRender((prev) => 
-            prev.map(p => p.id === partida.id ? nuevaPartida : p)
-          );
         }
       });
     }
@@ -120,11 +104,6 @@ export default function Cuarentena() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(cambiarEstadoPartida(partida.id, 'rechazada'));
-        // Actualiza el estado local aquí si es necesario
-        const nuevaPartida = { ...partida, estado: 'rechazada' };
-        setPartidasRender((prev) => 
-          prev.map(p => p.id === partida.id ? nuevaPartida : p)
-        );
       }
     });
   };
@@ -133,10 +112,10 @@ export default function Cuarentena() {
     <>
       <NavBar titulo={"Cuarentena"} />
       <Box sx={{ padding: 2 }}>
-        {partidasRender?.length > 0 ? (
-          partidasRender.map((partida, index) => (
+        {partidasCuarentena.length > 0 ? (
+          partidasCuarentena.map((partida) => (
             <Paper
-              key={index}
+              key={partida.id}
               sx={{
                 padding: 2,
                 marginBottom: 2,
@@ -144,6 +123,7 @@ export default function Cuarentena() {
                 cursor: 'pointer',
                 position: 'relative',
               }}
+              onClick={() => handleOpenModal(partida)}
             >
               <Typography variant="subtitle1">
                 {`Partida: ${partida.numeroPartida}`}
@@ -183,7 +163,7 @@ export default function Cuarentena() {
                 color="error"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleRechazarPartida(partida); // Cambia el estado a 'rechazada'
+                  handleRechazarPartida(partida);
                 }}
               >
                 {partida.estado === 'cuarentena-aprobada' ? (

@@ -84,21 +84,21 @@ switch (action.type) {
     partidasCuarentena: action.payload
   };
   case CAMBIAR_ESTADO_PARTIDA:
-    let [estado, id]= action.payload
-   if(estado=== 'rechazada'){
-    return {
-          ...state,
-          partidasCuarentena: state.partidasCuarentena.filter(
-            partida => partida.id !== id
-          ),
-        };
-   }else{
+  const [id, estado] = action.payload;
+  if (estado === 'rechazada') {
     return {
       ...state,
-      partidasCuarentena: state.partidasCuarentena.map((partida) =>
-        partida.id === id ? { ...partida, estado: estado } : partida
-      )};
-   }
+      partidasCuarentena: state.partidasCuarentena.filter(
+        partida => partida.id !== id
+      ),
+    };
+  }
+  return {
+    ...state,
+    partidasCuarentena: state.partidasCuarentena.map(partida => 
+      partida.id === id ? { ...partida, estado } : partida
+    ),
+  };
     case PARTIDAS_A_STOCK:
       return {
         ...state,
