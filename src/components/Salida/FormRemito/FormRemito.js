@@ -24,9 +24,9 @@ export default function FormRemito() {
         fechaSeleccionado,
         numeroRemitoSeleccionado,
         partidasRemito,
-        tipoMovimiento:"remitoEntrada"
+        tipoMovimiento:"remitoSalida"
       }
-    // dispatch(subirRemitoBDD(remito))
+    // dispatch(subirRemitoSalida(remito))
     dispatch(limpiarProveedorSeleccionado())
     navigate('/deposito_dw_front/');
   }

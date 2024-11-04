@@ -16,7 +16,7 @@ export default function ProveedoresSearchBar() {
     const [proveedores, setProveedores] = useState([]); 
 
     useEffect(() => {
-        setProveedores(proveedoresRedux)
+        setProveedores(proveedoresRedux.filter(prov=> prov.categoria === "cliente"))
       }, [proveedoresRedux]);
 
     const [proveedorSeleccionado, setProveedorSeleccionado] = useState(""); 

@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router-dom'; // Importar el hook useNavigate
-import CartaDataStock from '../CartaDataStock/CartaDataStock';
 
 export default function ListaPosiciones() {
   // Acceder a los valores desde Redux
@@ -39,7 +38,6 @@ export default function ListaPosiciones() {
 
   return (
     <>
-      <CartaDataStock />
 
       <Box >
         {/* Mapear las posiciones filtradas */}
