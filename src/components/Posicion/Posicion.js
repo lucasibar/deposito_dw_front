@@ -1,74 +1,74 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'; 
-import { obtenerItemsPorPosicion } from '../../redux/actions'; 
-import { Paper, Typography, Box, IconButton } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { obtenerItemsPorPosicion } from '../../redux/actions';
+import { Paper, Typography, Box, IconButton, SpeedDial, SpeedDialIcon } from '@mui/material';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NavBar from '../Utils/NavBar';
-import ModalPopup from './ModalPopup/ModalPopup'; 
 
-export default function Posicion() {
-  const { id } = useParams(); 
+// Importación de los Modales
+import MovimientoModal from './MovimientoModal/MovimientoModal';
+import AjusteModal from './AjusteModal/AjusteModal';
+import RemitoModal from './RemitoModal/RemitoModal';
+import AdicionRapida from './AdicionRapida/AdicionRapida';
+
+export default function Posiciones() {
+  const { id } = useParams();
   const dispatch = useDispatch();
-
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  
-  const [nombreAccion, setNombreAccion] = useState(null);
-  
   const itemsPosicion = useSelector((state) => state.itemsPosicion);
-  
-  useEffect(() => {
-    dispatch(obtenerItemsPorPosicion(id));
-  }, [dispatch, id, itemsPosicion]);
 
-  const handleOpenModal = (item) => {
-    setSelectedItem(item);
-    setOpenModal(true);
-  };
+  useEffect(() => { dispatch(obtenerItemsPorPosicion(id)) }, [dispatch, id]);
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
+  const [openMovimientoModal, setOpenMovimientoModal] = useState(false);
+  const [openAjusteModal, setOpenAjusteModal] = useState(false);
+  const [openRemitoModal, setOpenRemitoModal] = useState(false);
+  const [openAdicionRapida, setOpenAdicionRapida] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleOpenMovimientoModal = (item) => { setSelectedItem(item); setOpenMovimientoModal(true); };
+  const handleCloseMovimientoModal = () => setOpenMovimientoModal(false);
+
+  const handleOpenAjusteModal = (item) => { setSelectedItem(item); setOpenAjusteModal(true); };
+  const handleCloseAjusteModal = () => setOpenAjusteModal(false);
+
+  const handleOpenRemitoModal = (item) => { setSelectedItem(item); setOpenRemitoModal(true); };
+  const handleCloseRemitoModal = () => setOpenRemitoModal(false);
+
+  const handleOpenAdicionRapida = () => setOpenAdicionRapida(true);
+const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
 
   return (
     <>
-      <NavBar titulo={`Posicion `}/>
+      <NavBar titulo={`Posición ${id}`} />
       <Box sx={{ padding: 2 }}>
         {itemsPosicion.length > 0 ? (
           itemsPosicion.map((item, index) => (
             <Paper
               key={index}
-              sx={{
-                padding: 2,
-                marginBottom: 2,
-                borderRadius: '16px',
-                cursor: 'pointer',
-                position: 'relative' // Esto permite que el IconButton esté dentro del Paper
-              }}
-              onClick={() => handleOpenModal(item)}
+              sx={{ padding: 2, marginBottom: 2, borderRadius: '16px', cursor: 'pointer', position: 'relative' }}
             >
-              <Typography variant="subtitle1">
-                {`Partida: ${item.partida}`}
-              </Typography>
+              <Typography variant="subtitle1"> {`Partida: ${item.partida}`}</Typography>
+              <Typography variant="body2" mt={2}>{item.proveedor.nombre} {item.categoria} {item.descripcion}</Typography>
+              
               <Typography variant="body2" mt={2}>
-                {item.proveedor.nombre} {item.categoria} {item.descripcion}
-              </Typography>
-              <Typography variant="body2" mt={2}>
-                Kilos: {item.kilos} - Unidades: {item.unidades}
+                Kilos: 
+                <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleOpenAjusteModal(item)}>
+                  {item.kilos}
+                </span> 
+                - Unidades: 
+                <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleOpenAjusteModal(item)}>
+                  {item.unidades}
+                </span>
               </Typography>
 
-              <IconButton
-                sx={{
-                  position: 'absolute',
-                  bottom: 8,
-                  right: 8
-                }}
-                color="error"
-
-              >
+              <IconButton sx={{ position: 'absolute', bottom: 8, right: 8 }} color="error" onClick={() => handleOpenMovimientoModal(item)}>
                 <KeyboardDoubleArrowRightIcon />
+              </IconButton>
+
+              <IconButton sx={{ position: 'absolute', top: 8, right: 8 }} color="primary" onClick={() => handleOpenRemitoModal(item)}>
+                <AddCircleIcon />
               </IconButton>
             </Paper>
           ))
@@ -77,16 +77,26 @@ export default function Posicion() {
             No se encontraron ítems para esta posición.
           </Typography>
         )}
+
+        {/* SpeedDial para abrir el modal de Nuevo Item */}
+        <SpeedDial
+      ariaLabel="Agregar nuevo item"
+      sx={{ position: 'fixed', bottom: 16, right: 16 }}
+      icon={<SpeedDialIcon />}
+      onClick={handleOpenAdicionRapida}
+    />
+
+        {/* Modales */}
         {selectedItem && (
-          <ModalPopup
-            open={openModal}
-            handleClose={handleCloseModal}
-            item={selectedItem}
-            posicionActualId={id}
-            opcionSeleccionada={nombreAccion}
-          />
+          <>
+            <MovimientoModal open={openMovimientoModal} onClose={handleCloseMovimientoModal} item={selectedItem} id={id} />
+            <AjusteModal open={openAjusteModal} onClose={handleCloseAjusteModal} item={selectedItem} />
+            <RemitoModal open={openRemitoModal} onClose={handleCloseRemitoModal} item={selectedItem} />
+          </>
         )}
-      </Box>
+        
+        <AdicionRapida open={openAdicionRapida} onClose={handleCloseAdicionRapida} />
+        </Box>
     </>
   );
 }

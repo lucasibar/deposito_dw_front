@@ -33,8 +33,47 @@ export const CAMBIAR_ESTADO_PARTIDA = 'CAMBIAR_ESTADO_PARTIDA';
 
 
 
-export const URL = "https://derwill-deposito-backend.onrender.com"
-//export const URL = "http://localhost:3001"
+//export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
+
+ 
+
+export const enviarMovimiento = (selectedItem, data, id) => async (dispatch) => { 
+  console.log("enviarMovimiento", selectedItem, data, id)
+  // return axios.get(`${URL}/partidas/estado-partida`, {id, estado})
+  // .then(data=>{
+  //     dispatch({ type: CAMBIAR_ESTADO_PARTIDA, payload: [id, estado]})
+  // })
+  // .catch(error => {
+  //   console.error("Error in datosBaseRemito:", error);
+  // });
+  }
+export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 
+  console.log("actualizarKilosUnidades", selectedItem, data, id)
+    // return axios.get(`${URL}/partidas/estado-partida`, {id, estado})
+    // .then(data=>{
+    //     dispatch({ type: CAMBIAR_ESTADO_PARTIDA, payload: [id, estado]})
+    // })
+    // .catch(error => {
+    //   console.error("Error in datosBaseRemito:", error);
+    // });
+    }
+export const agregarAlRemitoSalida = (selectedItem, data, id) => async (dispatch) => { 
+  console.log("agregarAlRemitoSalida", selectedItem, data, id)
+      // return axios.get(`${URL}/partidas/estado-partida`, {id, estado})
+      // .then(data=>{
+      //     dispatch({ type: CAMBIAR_ESTADO_PARTIDA, payload: [id, estado]})
+      // })
+      // .catch(error => {
+      //   console.error("Error in datosBaseRemito:", error);
+      // });
+      }
+
+
+
+
+
+
 
 
 

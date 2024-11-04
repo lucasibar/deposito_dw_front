@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { generarNuevoProveedor } from '../../../../../redux/actions';
+import { generarNuevoProveedor } from '../../../redux/actions';
 
 export default function NuevoProveedor({ handleClose }) {
   const dispatch = useDispatch();

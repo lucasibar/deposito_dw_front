@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, Button, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material';
-import SelectOptions from './SelectOptions/SelectOptions';
-import RemitoSalidaForm from './RemitoSalidaForm/RemitoSalidaForm';
-import MovimientoInternoForm from './MovimientoInternoForm/MovimientoInternoForm';
-import KilosUnidadesFields from './KilosUnidadesFields/KilosUnidadesFields';
+ç
 import {agregarARemitoSalida} from '../../../redux/actions'
 import { useDispatch, useSelector } from 'react-redux';
 
-
-export default function ModalPopup({ posicionActualId, open, handleClose, item }) {
+export default function ModalPopup({ posicionActualId, open, handleClose, item, accionSeleccionada}) {
   const dispatch = useDispatch();
   const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
   const [kilos, setKilos] = useState('');
@@ -55,7 +51,7 @@ export default function ModalPopup({ posicionActualId, open, handleClose, item }
   };
 
   const handleGuardar = () => {
-    if (opcionSeleccionada === 'Movimiento Interno') {
+    if (accionSeleccionada === 'Movimiento Interno') {
       console.log({ rack, fila, ab, kilos, unidades });
     } else if (opcionSeleccionada === 'Ajuste RESTA mercaderia' || opcionSeleccionada === 'Ajuste SUMA mercaderia') {
       console.log({ tipo: opcionSeleccionada, kilos, unidades });
@@ -99,31 +95,23 @@ export default function ModalPopup({ posicionActualId, open, handleClose, item }
           {`Partida ${item.partida}    Kgs disponibles: ${item.kilos} | Unidades disponibles: ${item.unidades}`}
         </Typography>
 
-        <SelectOptions
-          opcionSeleccionada={opcionSeleccionada}
-          handleOpcionChange={handleOpcionChange}
-        />
+     
 
-        <KilosUnidadesFields
-          item={item}
-          kilos={kilos}
-          handleKilosChange={handleKilosChange}
-          unidades={unidades}
-          handleUnidadesChange={handleUnidadesChange}
-        />
+      
 
-        {opcionSeleccionada === 'Agregar al remito de Salida' && (
-          <RemitoSalidaForm
-            numeroRemito={numeroRemito}
-            setNumeroRemito={setNumeroRemito}
-            fecha={fecha}
-            setFecha={setFecha}
-            cliente={cliente}
-            setCliente={setCliente}
-          />
+        {accionSeleccionada === "remito-salida" && (
+           <KilosUnidadesFields
+           item={item}
+           kilos={kilos}
+           handleKilosChange={handleKilosChange}
+           unidades={unidades}
+           handleUnidadesChange={handleUnidadesChange}
+         />
         )}
 
-        {opcionSeleccionada === 'Movimiento Interno' && (
+
+
+        {accionSeleccionada === "movimiento-interno" && (
           <MovimientoInternoForm
             rack={rack}
             setRack={setRack}
@@ -134,12 +122,16 @@ export default function ModalPopup({ posicionActualId, open, handleClose, item }
           />
         )}
 
+        {accionSeleccionada === "ajuste" && (
+          <AjusteInternoForm/>
+        )}
+
         <Box mt={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button
             variant="contained"
             color="primary"
             onClick={handleGuardar}
-            disabled={!opcionSeleccionada}
+            // disabled={!opcionSeleccionada}
           >
             GENERAR MOVIMIENTO          
           </Button>

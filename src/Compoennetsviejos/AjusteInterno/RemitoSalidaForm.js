@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, MenuItem, Select, Button, TextField, Modal, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProveedores, seleccionarProveedor } from '../../../../redux/actions';
+import { getProveedores, seleccionarProveedor } from '../../redux/actions';
 import NuevoProveedor from './NuevoProveedor/NuevoProveedor';
 
 export default function RemitoSalidaForm({ item, numeroRemito, setNumeroRemito, fecha, setFecha, cliente, setCliente }) {
