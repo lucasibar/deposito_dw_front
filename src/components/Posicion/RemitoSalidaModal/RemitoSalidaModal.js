@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Box, Typography, IconButton } from '@mui/material';
 
-export default function RemitoModal({ open, onClose, item }) {
+export default function RemitoSalidaModal({ open, onClose, item }) {
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={{ padding: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: 400, margin: 'auto', marginTop: '10%' }}>

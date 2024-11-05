@@ -9,7 +9,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NavBar from '../Utils/NavBar';
 import MovimientoModal from './MovimientoModal/MovimientoModal';
 import AjusteModal from './AjusteModal/AjusteModal';
-import RemitoModal from './RemitoModal/RemitoModal';
+import RemitoSalidaModal from './RemitoSalidaModal/RemitoSalidaModal';
 import AdicionRapida from './AdicionRapida/AdicionRapida';
 
 export default function Posiciones() {
@@ -91,7 +91,7 @@ const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
           <>
             <MovimientoModal open={openMovimientoModal} onClose={handleCloseMovimientoModal} item={selectedItem} id={id} />
             <AjusteModal open={openAjusteModal} onClose={handleCloseAjusteModal} item={selectedItem} />
-            <RemitoModal open={openRemitoModal} onClose={handleCloseRemitoModal} item={selectedItem} />
+            <RemitoSalidaModal open={openRemitoModal} onClose={handleCloseRemitoModal} item={selectedItem} />
           </>
         )}
         
