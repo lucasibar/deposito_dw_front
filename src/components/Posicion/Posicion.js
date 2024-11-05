@@ -7,8 +7,6 @@ import { Paper, Typography, Box, IconButton, SpeedDial, SpeedDialIcon } from '@m
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NavBar from '../Utils/NavBar';
-
-// Importación de los Modales
 import MovimientoModal from './MovimientoModal/MovimientoModal';
 import AjusteModal from './AjusteModal/AjusteModal';
 import RemitoModal from './RemitoModal/RemitoModal';
@@ -18,6 +16,8 @@ export default function Posiciones() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const itemsPosicion = useSelector((state) => state.itemsPosicion);
+  const [itemsRenderizar, setItemsRenderizar] = useState(false);
+  useEffect(() => { setItemsRenderizar(itemsPosicion) }, [itemsPosicion]);
 
   useEffect(() => { dispatch(obtenerItemsPorPosicion(id)) }, [dispatch, id]);
 
@@ -41,10 +41,10 @@ const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
 
   return (
     <>
-      <NavBar titulo={`Posición ${id}`} />
+      <NavBar titulo={`Posición`} />
       <Box sx={{ padding: 2 }}>
-        {itemsPosicion.length > 0 ? (
-          itemsPosicion.map((item, index) => (
+        {itemsRenderizar.length > 0 ? (
+          itemsRenderizar.map((item, index) => (
             <Paper
               key={index}
               sx={{ padding: 2, marginBottom: 2, borderRadius: '16px', cursor: 'pointer', position: 'relative' }}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, MenuItem, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { agregarNuevoItem } from '../../../redux/actions';
+import { adicionRapida } from '../../../redux/actions';
 
 export default function AdicionRapida({ open, onClose }) {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export default function AdicionRapida({ open, onClose }) {
   const [partida, setPartida] = useState('');
 
   const handleSubmit = () => {
-    dispatch(agregarNuevoItem({ proveedor, item, kilos, unidades, partida }));
+    dispatch(adicionRapida({ proveedor, item, kilos, unidades, partida }));
     onClose();
   };
 

@@ -12,7 +12,7 @@ export default function MovimientoModal({ open, onClose, item, id }) {
 
   const handleMovimientoSubmit = () => {
     const data = pasillo ? { pasillo } : { rack, fila, nivel };
-    dispatch(enviarMovimiento(item.id, data, id));
+    dispatch(enviarMovimiento(item, data, id));
     onClose();
   };
 

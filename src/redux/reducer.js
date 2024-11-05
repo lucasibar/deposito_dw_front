@@ -37,6 +37,7 @@ import {
   STOCK_TOTAL_ITEM_SELECCIONADO,
   PARTIDAS_A_STOCK,
   CAMBIAR_ESTADO_PARTIDA,
+  SACAR_PARTIDA_DE_POSICION
 
 
   
@@ -64,7 +65,7 @@ const initialState = {
   itemSeleccionado:"",
 //-----------------------------------------
 
-stockItemSeleccionado: 0,
+  stockItemSeleccionado: 0,
 
   categoriaMercaderiaRemito:"",
   partidas: [],
@@ -78,6 +79,12 @@ stockItemSeleccionado: 0,
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case SACAR_PARTIDA_DE_POSICION:
+  const selectedItem = action.payload;
+  return {
+    ...state,
+    itemsPosicion: state.itemsPosicion.filter(itm => !(itm.id === selectedItem.id && itm.partida === selectedItem.partida))
+  };
   case PARTIDAS_EN_CUARENTENA:   
   return {         
     ...state,
