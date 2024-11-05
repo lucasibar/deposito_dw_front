@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { adicionRapida } from '../../../redux/actions';
 import ItemsSearchBar from './ItemsSearchBar/ItemsSearchBar';
 
-export default function AdicionRapida({ open, onClose }) {
+export default function AdicionRapida({ open, onClose, idPosicion }) {
   const dispatch = useDispatch();
-  const proveedores = useSelector((state) => state.proveedores);
-  // const items = useSelector((state) => state.items);
+  const proveedores = useSelector((state) => 
+    state.proveedores.filter(proveedor => proveedor.categoria === 'proveedor')
+  );  // const items = useSelector((state) => state.items);
 
   const [proveedor, setProveedor] = useState('');
   const [item, setItem] = useState('');

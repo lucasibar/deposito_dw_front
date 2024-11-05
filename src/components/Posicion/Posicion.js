@@ -7,6 +7,7 @@ import { Paper, Typography, Box, IconButton, SpeedDial, SpeedDialIcon } from '@m
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import NavBar from '../Utils/NavBar';
+
 import MovimientoModal from './MovimientoModal/MovimientoModal';
 import AjusteModal from './AjusteModal/AjusteModal';
 import RemitoSalidaModal from './RemitoSalidaModal/RemitoSalidaModal';
@@ -91,11 +92,11 @@ const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
           <>
             <MovimientoModal open={openMovimientoModal} onClose={handleCloseMovimientoModal} item={selectedItem} id={id} />
             <AjusteModal open={openAjusteModal} onClose={handleCloseAjusteModal} item={selectedItem} />
-            <RemitoSalidaModal open={openRemitoModal} onClose={handleCloseRemitoModal} item={selectedItem} />
+            <RemitoSalidaModal open={openRemitoModal} onClose={handleCloseRemitoModal} item={selectedItem} id={id} />
           </>
         )}
         
-        <AdicionRapida open={openAdicionRapida} onClose={handleCloseAdicionRapida} />
+        <AdicionRapida open={openAdicionRapida} onClose={handleCloseAdicionRapida} idPosicion={id}/>
         </Box>
     </>
   );

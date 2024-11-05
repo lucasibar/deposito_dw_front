@@ -37,9 +37,8 @@ import {
   STOCK_TOTAL_ITEM_SELECCIONADO,
   PARTIDAS_A_STOCK,
   CAMBIAR_ESTADO_PARTIDA,
-  SACAR_PARTIDA_DE_POSICION
-
-
+  SACAR_PARTIDA_DE_POSICION,
+  AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION
   
 } from './actions';
 
@@ -79,33 +78,53 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
-  case SACAR_PARTIDA_DE_POSICION:
-  const selectedItem = action.payload;
-  return {
-    ...state,
-    itemsPosicion: state.itemsPosicion.filter(itm => !(itm.id === selectedItem.id && itm.partida === selectedItem.partida))
-  };
-  case PARTIDAS_EN_CUARENTENA:   
-  return {         
-    ...state,
-    partidasCuarentena: action.payload
-  };
-  case CAMBIAR_ESTADO_PARTIDA:
-  const [id, estado] = action.payload;
-  if (estado === 'rechazada') {
+    case AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION:
+      const { selectedItem, kilos, unidades, id } = action.payload;
     return {
-      ...state,
-      partidasCuarentena: state.partidasCuarentena.filter(
-        partida => partida.id !== id
-      ),
+        ...state,
+        itemsPosicion: state.itemsPosicion.map(itm =>
+        itm.id === id && itm.partida === selectedItem.partida 
+          ? {
+              ...itm,
+              kilos: itm.kilos - kilos > 0 ? itm.kilos - kilos : 0, 
+              unidades: itm.unidades - unidades > 0 ? itm.unidades - unidades : 0, 
+            }
+          : itm
+        ),
     };
-  }
-  return {
-    ...state,
-    partidasCuarentena: state.partidasCuarentena.map(partida => 
-      partida.id === id ? { ...partida, estado } : partida
-    ),
-  };
+  
+      case SACAR_PARTIDA_DE_POSICION:
+        const itemToRemove = action.payload; // Renombramos la variable para evitar conflicto
+        return {
+          ...state,
+          itemsPosicion: state.itemsPosicion.filter(
+            itm => !(itm.id === itemToRemove.id && itm.partida === itemToRemove.partida)
+          )
+        };
+  
+      case PARTIDAS_EN_CUARENTENA:
+        return {
+          ...state,
+          partidasCuarentena: action.payload
+        };
+  
+      case CAMBIAR_ESTADO_PARTIDA:
+        const [partidaId, nuevoEstado] = action.payload;
+        if (nuevoEstado === 'rechazada') {
+          return {
+            ...state,
+            partidasCuarentena: state.partidasCuarentena.filter(
+              partida => partida.id !== partidaId
+            ),
+          };
+        }
+        return {
+          ...state,
+          partidasCuarentena: state.partidasCuarentena.map(partida =>
+            partida.id === partidaId ? { ...partida, estado: nuevoEstado } : partida
+          ),
+        };
+    
     case PARTIDAS_A_STOCK:
       return {
         ...state,
@@ -207,7 +226,8 @@ switch (action.type) {
           proveedorSeleccionado: "",
           fechaSeleccionado:"",
           numeroRemitoSeleccionado: 0,
-          partidasRemito: []
+          partidasRemito: [],
+          itemSeleccionado:""
         }
 
         case POSICIONES_POR_PROVEEDOR:
