@@ -123,7 +123,6 @@ export default function Cuarentena() {
                 cursor: 'pointer',
                 position: 'relative',
               }}
-              onClick={() => handleOpenModal(partida)}
             >
               <Typography variant="subtitle1">
                 {`Partida: ${partida.numeroPartida}`}
@@ -161,15 +160,13 @@ export default function Cuarentena() {
               <IconButton
                 sx={{ position: 'absolute', bottom: 8, right: 8 }}
                 color="error"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRechazarPartida(partida);
-                }}
+               
               >
                 {partida.estado === 'cuarentena-aprobada' ? (
-                  <KeyboardDoubleArrowRightIcon />
+                  <KeyboardDoubleArrowRightIcon onClick={() => handleOpenModal(partida)}
+                  />
                 ) : (
-                  <CloseIcon />
+                  <CloseIcon  onClick={(e) => {handleRechazarPartida(partida)}}/>
                 )}
               </IconButton>
             </Paper>
