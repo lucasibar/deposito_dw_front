@@ -38,7 +38,8 @@ import {
   PARTIDAS_A_STOCK,
   CAMBIAR_ESTADO_PARTIDA,
   SACAR_PARTIDA_DE_POSICION,
-  AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION
+  AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION,
+  OBTENER_MOVIMIENTOS_SIN_REMITO
   
 } from './actions';
 
@@ -55,6 +56,7 @@ const initialState = {
   tareas:[],
   movimientosHistoricoSalida:[],
   partidasCuarentena:[],
+  movimientosSinRemito:[],
   
 //esto se limpia con la flecha de NavBar--
   fechaSeleccionado:"",
@@ -79,6 +81,11 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+    case OBTENER_MOVIMIENTOS_SIN_REMITO:
+      return {
+        ...state,
+        movimientosSinRemito: action.payload,
+      };
     case AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION:
       const { selectedItem, kilos, unidades, id } = action.payload;
     return {

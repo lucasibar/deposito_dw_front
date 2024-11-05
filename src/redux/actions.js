@@ -32,11 +32,11 @@ export const ATRAS_APROBAR_PARTIDA = 'ATRAS_APROBAR_PARTIDA';
 export const CAMBIAR_ESTADO_PARTIDA = 'CAMBIAR_ESTADO_PARTIDA';
 export const SACAR_PARTIDA_DE_POSICION = 'SACAR_PARTIDA_DE_POSICION';
 export const AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION = 'AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION';
+export const OBTENER_MOVIMIENTOS_SIN_REMITO = 'OBTENER_MOVIMIENTOS_SIN_REMITO';
 
 
-
-//export const URL = "https://derwill-deposito-backend.onrender.com"
-export const URL = "http://localhost:3001"
+export const URL = "https://derwill-deposito-backend.onrender.com"
+//export const URL = "http://localhost:3001"
 
 
 export const obtenerMovimientosSinRemito = () => async (dispatch) => {
@@ -44,7 +44,7 @@ export const obtenerMovimientosSinRemito = () => async (dispatch) => {
   .then(data=>{
     dispatch({
       type: OBTENER_MOVIMIENTOS_SIN_REMITO,
-      payload: response.data,
+      payload: data.data,
     });
   }).catch(error=> {
     console.error("Error in datosBaseRemito:", error);
