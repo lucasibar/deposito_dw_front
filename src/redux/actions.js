@@ -34,8 +34,8 @@ export const SACAR_PARTIDA_DE_POSICION = 'SACAR_PARTIDA_DE_POSICION';
 
 
 
-export const URL = "https://derwill-deposito-backend.onrender.com"
-//export const URL = "http://localhost:3001"
+//export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
 
  
 

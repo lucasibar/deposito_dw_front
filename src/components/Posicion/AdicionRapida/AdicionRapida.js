@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, MenuItem, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { adicionRapida } from '../../../redux/actions';
+import ItemsSearchBar from './ItemsSearchBar/ItemsSearchBar';
 
 export default function AdicionRapida({ open, onClose }) {
   const dispatch = useDispatch();
   const proveedores = useSelector((state) => state.proveedores);
-  const items = useSelector((state) => state.items);
+  // const items = useSelector((state) => state.items);
 
   const [proveedor, setProveedor] = useState('');
   const [item, setItem] = useState('');
@@ -44,22 +45,11 @@ export default function AdicionRapida({ open, onClose }) {
           margin="normal"
         >
           {proveedores.map((prov) => (
-            <MenuItem key={prov.id} value={prov.id}>{prov.nombre}</MenuItem>
+            <MenuItem key={prov.id} value={prov}>{prov.nombre}</MenuItem>
           ))}
         </TextField>
 
-        <TextField
-          label="Ítem"
-          value={item}
-          onChange={(e) => setItem(e.target.value)}
-          select
-          fullWidth
-          margin="normal"
-        >
-          {items.map((itm) => (
-            <MenuItem key={itm.id} value={itm.id}>{itm.descripcion}</MenuItem>
-          ))}
-        </TextField>
+        <ItemsSearchBar proveedor={proveedor} setItem={setItem}/>
 
         <TextField
           label="Kilos"
