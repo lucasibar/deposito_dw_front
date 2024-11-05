@@ -35,10 +35,35 @@ export const AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION = 'AJUSTAR_CANTIDAD_PARTIDA_DE
 
 
 
-export const URL = "https://derwill-deposito-backend.onrender.com"
-//export const URL = "http://localhost:3001"
+//export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
 
+
+export const obtenerMovimientosSinRemito = () => async (dispatch) => {
+  return axios.get(`${URL}/movimientos/sin-remito`)
+  .then(data=>{
+    dispatch({
+      type: OBTENER_MOVIMIENTOS_SIN_REMITO,
+      payload: response.data,
+    });
+  }).catch(error=> {
+    console.error("Error in datosBaseRemito:", error);
+  })
+}
+export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 
+console.log("actualizarKilosUnidades", selectedItem, data, id)
+}
+export const adicionRapida = ({ proveedor, item, kilos, unidades, partida }) => async (dispatch) => { 
+console.log("adicion rapida")
+
+}
  
+
+
+
+
+
+
 
 export const enviarMovimiento = (selectedItem, data, id) => async (dispatch) => {
   console.log(selectedItem, data, id) 
@@ -54,7 +79,7 @@ export const enviarMovimiento = (selectedItem, data, id) => async (dispatch) => 
     .catch(error => {
        console.error("Error in datosBaseRemito:", error);
     });
-  }
+}
 
 export const agregarAlRemitoSalida = (selectedItem, kilos, unidades, id) => async (dispatch) => { 
   return axios.post(`${URL}/movimientos/salida-desde-posicion`, {selectedItem, kilos, unidades, id})
@@ -69,23 +94,7 @@ export const agregarAlRemitoSalida = (selectedItem, kilos, unidades, id) => asyn
     .catch(error => {
        console.error("Error in datosBaseRemito:", error);
     });
-      }
-
-
-
-      export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 
-        console.log("actualizarKilosUnidades", selectedItem, data, id)
-         
-          }
-      export const adicionRapida = ({ proveedor, item, kilos, unidades, partida }) => async (dispatch) => { 
-        console.log("adicion rapida")
-           
-            }
-
-
-
-
-
+}
 
 export const cambiarEstadoPartida = (id, estado) => async (dispatch) => {
   return axios.put(`${URL}/partidas/estado-partida`, {id, estado})
@@ -95,56 +104,59 @@ export const cambiarEstadoPartida = (id, estado) => async (dispatch) => {
   .catch(error => {
     console.error("Error in datosBaseRemito:", error);
   });
-  }
+}
 
-  export const stockTotalItem =(idItem)=> async dispatch => {
-    
-    return axios.get(`${URL}/stock/total/${idItem}`)
-    .then(data => {
-        dispatch({ type: STOCK_TOTAL_ITEM_SELECCIONADO, payload: data.data });
-    })
-    .catch(error => {
-      Swal.fire({
-        title: "No se pudo encontrar el item",
-        showClass: {
-          popup: `
-                animate__animated
-                animate__fadeInUp
-                animate__faster
-              `
-        },
-        hideClass: {
-          popup: `
-                animate__animated
-                animate__fadeOutDown
-                animate__faster
-              `
-        }
-      })
-    })
-  };
-  export const fetchMovimientosSalida = () => async (dispatch) => {
-  return axios.get(`${URL}/movimientos/salida`)
+export const stockTotalItem =(idItem)=> async dispatch => {
+  
+  return axios.get(`${URL}/stock/total/${idItem}`)
   .then(data => {
-    dispatch({ type: SALIDA_HISTRORIAL, payload: data.data })
-    })
+      dispatch({ type: STOCK_TOTAL_ITEM_SELECCIONADO, payload: data.data });
+  })
   .catch(error => {
-    console.error("Error in datosBaseRemito:", error);
-  });
-  };
-  export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
-  const response = await axios.post(`${URL}/movimientos/salida-desde-posicion`, movimientoSalida)
-  .then(data => {
-    dispatch({ type: AGREGAR_DE_POSICION_A_REMITO_SALIDA, payload: response.data })
+    Swal.fire({
+      title: "No se pudo encontrar el item",
+      showClass: {
+        popup: `
+              animate__animated
+              animate__fadeInUp
+              animate__faster
+            `
+      },
+      hideClass: {
+        popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `
+      }
     })
-  .catch(error => {
-    console.error("Error in datosBaseRemito:", error);
-  });
-  };
-  export const addTarea = (tarea) => async (dispatch) => {
-    const response = await axios.post(`${URL}/agenda`, tarea);
-    dispatch({ type: ADD_TASK, payload: response.data });
-  };
+  })
+};
+
+export const fetchMovimientosSalida = () => async (dispatch) => {
+return axios.get(`${URL}/movimientos/salida`)
+.then(data => {
+  dispatch({ type: SALIDA_HISTRORIAL, payload: data.data })
+  })
+.catch(error => {
+  console.error("Error in datosBaseRemito:", error);
+});
+};
+
+export const agregarARemitoSalida = (movimientoSalida) => async (dispatch) => {
+const response = await axios.post(`${URL}/movimientos/salida-desde-posicion`, movimientoSalida)
+.then(data => {
+  dispatch({ type: AGREGAR_DE_POSICION_A_REMITO_SALIDA, payload: response.data })
+  })
+.catch(error => {
+  console.error("Error in datosBaseRemito:", error);
+});
+};
+
+export const addTarea = (tarea) => async (dispatch) => {
+  const response = await axios.post(`${URL}/agenda`, tarea);
+  dispatch({ type: ADD_TASK, payload: response.data });
+};
   export const fetchTareas = () => async (dispatch) => {
     const response = await axios.get(`${URL}/agenda`);
     dispatch({ type: FETCH_TASKS, payload: response.data });

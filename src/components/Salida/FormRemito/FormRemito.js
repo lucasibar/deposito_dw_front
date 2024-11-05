@@ -15,7 +15,7 @@ export default function FormRemito() {
   const proveedorSeleccionado = useSelector((state) => state.proveedorSeleccionado);
   const fechaSeleccionado = useSelector((state) => state.fechaSeleccionado);
   const numeroRemitoSeleccionado = useSelector((state) => state.numeroRemitoSeleccionado);
-  const partidasRemito = useSelector((state) => state.partidasRemito);
+  const partidasRemitoSalida = useSelector((state) => state.partidasRemitoSalida);
   
   
     async function submitRemito(){
@@ -36,9 +36,6 @@ export default function FormRemito() {
       <>
       <ProveedoresSearchBar />
       <Divider sx={{ marginY: '20px' }} />
-      {!proveedorSeleccionado? null:
-        <ItemsSearchBar proveedor={proveedorSeleccionado}/>
-      }
       <Button onClick={submitRemito} sx={{ width: '100%', mt: '30px'}} variant="contained">SUBIR REMITO</Button>
     </>
   );

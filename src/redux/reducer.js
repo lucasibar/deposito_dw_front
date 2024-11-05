@@ -71,7 +71,8 @@ const initialState = {
   partidasDeEntradaAPosicion:[],
   partidasPorPosicion:[],
   proximaPartidaConsumo:0,
-  partidasRemitoSalida:[]
+  partidasRemitoSalida:[],
+  partidasSalida:[]
 
 
 };
