@@ -31,13 +31,14 @@ export const RECHAZAR_PARTIDA = 'RECHAZAR_PARTIDA';
 export const ATRAS_APROBAR_PARTIDA = 'ATRAS_APROBAR_PARTIDA';
 export const CAMBIAR_ESTADO_PARTIDA = 'CAMBIAR_ESTADO_PARTIDA';
 export const SACAR_PARTIDA_DE_POSICION = 'SACAR_PARTIDA_DE_POSICION';
+export const ADICION_RAPIDA_A_POSICION = 'ADICION_RAPIDA_A_POSICION';
 
 
 
-//export const URL = "https://derwill-deposito-backend.onrender.com"
-export const URL = "http://localhost:3001"
+export const URL = "https://derwill-deposito-backend.onrender.com"
+//export const URL = "http://localhost:3001"
 
- 
+
 
 export const enviarMovimiento = (selectedItem, data, id) => async (dispatch) => {
   console.log(selectedItem, data, id) 
@@ -49,25 +50,35 @@ export const enviarMovimiento = (selectedItem, data, id) => async (dispatch) => 
       icon: "success"
     });
     dispatch({ type: SACAR_PARTIDA_DE_POSICION, payload: selectedItem})
-     })
-    .catch(error => {
-       console.error("Error in datosBaseRemito:", error);
-    });
-  }
+  })
+  .catch(error => {
+    console.error("Error in datosBaseRemito:", error);
+  });
+}
 export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 
   console.log("actualizarKilosUnidades", selectedItem, data, id)
-   
-    }
+  
+}
 export const agregarAlRemitoSalida = (selectedItem, data, id) => async (dispatch) => { 
   console.log("agregarAlRemitoSalida", selectedItem, data, id)
-     
-      }
+  
+}
 
-
-      export const adicionRapida = ({ proveedor, item, kilos, unidades, partida }) => async (dispatch) => { 
-        console.log("adicion rapida")
+export const adicionRapida = (adicion) => async (dispatch) => {
+return axios.post(`${URL}/movimientos/adicion-rapida`, adicion)
+.then(data=>{
+  Swal.fire({
+            title: data.message,
+            text: "La mercaderia se cambio de posicion",
+            icon: "success"
+          });
+          dispatch({ type: ADICION_RAPIDA_A_POSICION, payload: adicion})
+           })
+  .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+  }
            
-            }
 
 
 

@@ -37,7 +37,8 @@ import {
   STOCK_TOTAL_ITEM_SELECCIONADO,
   PARTIDAS_A_STOCK,
   CAMBIAR_ESTADO_PARTIDA,
-  SACAR_PARTIDA_DE_POSICION
+  SACAR_PARTIDA_DE_POSICION,
+  ADICION_RAPIDA_A_POSICION
 
 
   
@@ -79,6 +80,19 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case ADICION_RAPIDA_A_POSICION:
+  return {
+    ...state,
+    itemsPosicion: [...state.itemsPosicion, {
+      itemId: action.payload.item.itemId,
+      categoria: action.payload.item.categoria,
+      descripcion: action.payload.item.descripcion,
+      proveedor: action.payload.proveedor,
+      partida: action.payload.partida,
+      kilos: action.payload.kilos,
+      unidades: action.payload.unidades
+    }]
+  };
   case SACAR_PARTIDA_DE_POSICION:
   const selectedItem = action.payload;
   return {

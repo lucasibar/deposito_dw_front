@@ -9,7 +9,7 @@ export default function ItemsSearchBar({proveedor, setItem}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getItems(proveedor));
+    proveedor && dispatch(getItems(proveedor));
   }, [proveedor]);
 //----------------------------------------------------------------
   const itemsRedux = useSelector((state) => state.itemsProveedor);

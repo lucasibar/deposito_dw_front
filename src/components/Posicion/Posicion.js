@@ -95,7 +95,7 @@ const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
           </>
         )}
         
-        <AdicionRapida open={openAdicionRapida} onClose={handleCloseAdicionRapida} />
+        <AdicionRapida open={openAdicionRapida} onClose={handleCloseAdicionRapida} idPosicion={id}/>
         </Box>
     </>
   );
