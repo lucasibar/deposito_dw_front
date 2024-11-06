@@ -16,6 +16,11 @@ export default function ListaPosiciones() {
 
   // Filtrar posiciones según los filtros en Redux
   const posicionesFiltradas = posiciones.filter((posicion) => {
+
+    if (proveedorSeleccionado === "VACIOS") {
+      return posicion.items.length === 0;
+    }
+
     const coincideProveedor = proveedorSeleccionado 
       ? posicion.items.some((item) => item.proveedor.id === proveedorSeleccionado.id) 
       : true;

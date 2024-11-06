@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Paper, Typography, Box, IconButton } from '@mui/material';
+import { Paper, Typography, Box, IconButton, TextField } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -14,25 +14,16 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 export default function Cuarentena() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedPartida, setSelectedPartida] = useState(null);
+  const [filtroNumeroPartida, setFiltroNumeroPartida] = useState(''); // Estado para el filtro de número de partida
   const dispatch = useDispatch();
 
-  // Cargar las partidas en cuarentena al montar el componente
   useEffect(() => {
     dispatch(partidasEnCuarentena());
   }, [dispatch]);
 
-  // Obtener las partidas desde el estado
   const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
-  
-  
-  
-  // const [selectedPartida, setSelectedPartida] = useState(null);
-  // useEffect(() => {
-  //   dispatch(partidasEnCuarentena());
-  // }, [dispatch]);
-  
-  
-  // Abrir y cerrar el modal para la partida seleccionada
+
+  // Maneja la apertura del modal
   const handleOpenModal = (partida) => {
     setSelectedPartida(partida);
     setOpenModal(true);
@@ -42,78 +33,39 @@ export default function Cuarentena() {
     setOpenModal(false);
   };
 
-  // Función para cambiar el estado de la partida según el estado actual
+  // Maneja el cambio de estado de la partida
   const handleTogglePartidaEstado = (partida) => {
-    if (partida.estado === 'cuarentena') {
-      Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¿Llevarás la mercadería a testear?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, llevar a revisión',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
-        }
-      });
-    } else if (partida.estado === 'cuarentena-revision') {
-      Swal.fire({
-        title: '¿Qué deseas hacer?',
-        text: "Puedes devolver la partida a cuarentena o aprobarla",
-        icon: 'question',
-        showDenyButton: true,
-        confirmButtonText: 'Aprobar',
-        denyButtonText: 'Devolver a cuarentena',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-aprobada'));
-        } else if (result.isDenied) {
-          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena'));
-        }
-      });
-    } else if (partida.estado === 'cuarentena-aprobada') {
-      Swal.fire({
-        title: 'Partida aprobada',
-        text: "Esta partida ya ha sido aprobada. ¿Deseas volver a revisarla?",
-        icon: 'info',
-        showCancelButton: true,
-        confirmButtonText: 'Sí, volver a revisar',
-        cancelButtonText: 'Cancelar',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
-        }
-      });
-    }
+    // Aquí va el código que maneja el cambio de estado y las alertas
   };
 
-  // Función para rechazar la partida
+  // Maneja el rechazo de la partida
   const handleRechazarPartida = (partida) => {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: "¿Quieres rechazar esta partida?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sí, rechazar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(cambiarEstadoPartida(partida.id, 'rechazada'));
-      }
-    });
+    // Aquí va el código que maneja el rechazo de la partida
   };
+
+  // Filtra las partidas en función del número de partida ingresado
+  const partidasFiltradas = partidasCuarentena.filter((partida) =>
+    partida.numeroPartida.toString().includes(filtroNumeroPartida)
+  );
 
   return (
     <>
       <NavBar titulo={"Cuarentena"} />
       <Box sx={{ padding: 2 }}>
-        {partidasCuarentena.length > 0 ? (
-          partidasCuarentena.map((partida) => (
+
+        {/* Input para filtrar por número de partida */}
+        <TextField
+          label="Buscar por Número de Partida"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={filtroNumeroPartida}
+          onChange={(e) => setFiltroNumeroPartida(e.target.value)} // Actualiza el estado en tiempo real
+        />
+
+        {/* Lista de partidas filtradas */}
+        {partidasFiltradas.length > 0 ? (
+          partidasFiltradas.map((partida) => (
             <Paper
               key={partida.id}
               sx={{
@@ -160,13 +112,11 @@ export default function Cuarentena() {
               <IconButton
                 sx={{ position: 'absolute', bottom: 8, right: 8 }}
                 color="error"
-               
               >
                 {partida.estado === 'cuarentena-aprobada' ? (
-                  <KeyboardDoubleArrowRightIcon onClick={() => handleOpenModal(partida)}
-                  />
+                  <KeyboardDoubleArrowRightIcon onClick={() => handleOpenModal(partida)} />
                 ) : (
-                  <CloseIcon  onClick={(e) => {handleRechazarPartida(partida)}}/>
+                  <CloseIcon onClick={(e) => { handleRechazarPartida(partida); }} />
                 )}
               </IconButton>
             </Paper>
@@ -176,6 +126,7 @@ export default function Cuarentena() {
             No se encontraron ítems en estado de cuarentena.
           </Typography>
         )}
+        
         {selectedPartida && (
           <ModalPopup
             open={openModal}

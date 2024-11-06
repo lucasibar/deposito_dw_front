@@ -38,7 +38,7 @@ export default function NuevoItem() {
   const agregarItem = () => {
     nuevoItem.proveedor= proveedorSeleccionado
     dispatch(agregarNuevoItem(nuevoItem));
-    navigate('/deposito_dw_front/remito'); 
+    navigate(-1); 
   };
   
   return (

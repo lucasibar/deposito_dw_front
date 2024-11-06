@@ -36,12 +36,12 @@ export default function ItemsSearchBar({proveedor, setItem}) {
           onChange={handleChangeItem}
           disabled={!proveedor}
         >
-          {items?.map((itm, i) => (
-            <MenuItem key={i} value={itm}>{`${itm.categoria} ${itm.descripcion}`}</MenuItem>
-          ))}
           <Button onClick={() => navigate('/deposito_dw_front/nuevoitem')} style={{ color: "blue" }}>
             Agregar item nuevo
           </Button>
+          {items?.map((itm, i) => (
+            <MenuItem key={i} value={itm}>{`${itm.categoria} ${itm.descripcion}`}</MenuItem>
+          ))}
         </Select>
       </FormControl>
 
