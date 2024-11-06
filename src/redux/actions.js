@@ -31,11 +31,35 @@ export const RECHAZAR_PARTIDA = 'RECHAZAR_PARTIDA';
 export const ATRAS_APROBAR_PARTIDA = 'ATRAS_APROBAR_PARTIDA';
 export const CAMBIAR_ESTADO_PARTIDA = 'CAMBIAR_ESTADO_PARTIDA';
 export const SACAR_PARTIDA_DE_POSICION = 'SACAR_PARTIDA_DE_POSICION';
+export const ADICION_RAPIDA_A_POSICION = 'ADICION_RAPIDA_A_POSICION';
+export const AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION = 'AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION';
+export const OBTENER_MOVIMIENTOS_SIN_REMITO = 'OBTENER_MOVIMIENTOS_SIN_REMITO';
+
+
+export const URL = "https://derwill-deposito-backend.onrender.com"
+//export const URL = "http://localhost:3001"
+
+export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 
+  console.log("actualizarKilosUnidades", selectedItem, data, id)
+  
+}
 
 
 
-//export const URL = "https://derwill-deposito-backend.onrender.com"
-export const URL = "http://localhost:3001"
+export const obtenerMovimientosSinRemito = () => async (dispatch) => {
+  return axios.get(`${URL}/movimientos/sin-remito`)
+  .then(data=>{
+    dispatch({
+      type: OBTENER_MOVIMIENTOS_SIN_REMITO,
+      payload: data.data,
+    });
+  }).catch(error=> {
+    console.error("Error in datosBaseRemito:", error);
+  })
+}
+
+
+
 
 
 
@@ -49,30 +73,42 @@ export const enviarMovimiento = (selectedItem, data, id) => async (dispatch) => 
       icon: "success"
     });
     dispatch({ type: SACAR_PARTIDA_DE_POSICION, payload: selectedItem})
+  })
+  .catch(error => {
+    console.error("Error in datosBaseRemito:", error);
+  });
+}
+
+
+export const adicionRapida = (adicion) => async (dispatch) => {
+return axios.post(`${URL}/movimientos/adicion-rapida`, adicion)
+.then(data=>{
+  Swal.fire({
+            title: data.message,
+            text: "La mercaderia se cambio de posicion",
+            icon: "success"
+          });
+          dispatch({ type: ADICION_RAPIDA_A_POSICION, payload: adicion})
+           })
+  .catch(error => {
+      console.error("Error in datosBaseRemito:", error);
+  });
+  }
+           
+export const agregarAlRemitoSalida = (selectedItem, kilos, unidades, id) => async (dispatch) => { 
+  return axios.post(`${URL}/movimientos/salida-desde-posicion`, {selectedItem, kilos, unidades, id})
+  .then(data=>{
+    Swal.fire({
+      title: "La mercaderia se agrego al remito de salida",
+      text: "La mercaderia se agrego al remito de salida",
+      icon: "success"
+    });
+    dispatch({ type: AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION, payload: {selectedItem, kilos, unidades, id}})
      })
     .catch(error => {
        console.error("Error in datosBaseRemito:", error);
     });
-  }
-export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 
-  console.log("actualizarKilosUnidades", selectedItem, data, id)
-   
-    }
-export const agregarAlRemitoSalida = (selectedItem, data, id) => async (dispatch) => { 
-  console.log("agregarAlRemitoSalida", selectedItem, data, id)
-     
-      }
-
-
-      export const adicionRapida = ({ proveedor, item, kilos, unidades, partida }) => async (dispatch) => { 
-        console.log("adicion rapida")
-           
-            }
-
-
-
-
-
+}
 
 export const cambiarEstadoPartida = (id, estado) => async (dispatch) => {
   return axios.put(`${URL}/partidas/estado-partida`, {id, estado})
