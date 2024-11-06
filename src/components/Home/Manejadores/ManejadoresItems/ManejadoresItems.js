@@ -22,6 +22,9 @@ export default function ManejadoresItems() {
   }, [proveedoresRedux]);
 
   const [proveedorSeleccionado, setProveedorSeleccionado] = useState(""); 
+  
+  
+  
   const handleChangeProveedor = (e) => {
     dispatch(seleccionarProveedor(e.target.value))
     setProveedorSeleccionado(e.target.value);
@@ -59,7 +62,8 @@ export default function ManejadoresItems() {
             value={proveedorSeleccionado}
             onChange={handleChangeProveedor}
           >
-            <MenuItem key={"a"} value={""}>todos</MenuItem>
+            <MenuItem key={"a"} value={""}>TODOS</MenuItem>
+            <MenuItem key={"b"} value={"VACIOS"}>VACIOS</MenuItem>
             {proveedores?.map((prov, i) => (
               <MenuItem key={i} value={prov}>{prov.nombre}</MenuItem>
             ))}

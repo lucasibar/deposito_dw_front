@@ -37,8 +37,7 @@ import {
   STOCK_TOTAL_ITEM_SELECCIONADO,
   PARTIDAS_A_STOCK,
   CAMBIAR_ESTADO_PARTIDA,
-  SACAR_PARTIDA_DE_POSICION,
-  ADICION_RAPIDA_A_POSICION
+  SACAR_PARTIDA_DE_POSICION
 
 
   
@@ -57,6 +56,7 @@ const initialState = {
   tareas:[],
   movimientosHistoricoSalida:[],
   partidasCuarentena:[],
+  movimientosSinRemito:[],
   
 //esto se limpia con la flecha de NavBar--
   fechaSeleccionado:"",
@@ -73,26 +73,14 @@ const initialState = {
   partidasDeEntradaAPosicion:[],
   partidasPorPosicion:[],
   proximaPartidaConsumo:0,
-  partidasRemitoSalida:[]
+  partidasRemitoSalida:[],
+  partidasSalida:[]
 
 
 };
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
-  case ADICION_RAPIDA_A_POSICION:
-  return {
-    ...state,
-    itemsPosicion: [...state.itemsPosicion, {
-      itemId: action.payload.item.itemId,
-      categoria: action.payload.item.categoria,
-      descripcion: action.payload.item.descripcion,
-      proveedor: action.payload.proveedor,
-      partida: action.payload.partida,
-      kilos: action.payload.kilos,
-      unidades: action.payload.unidades
-    }]
-  };
   case SACAR_PARTIDA_DE_POSICION:
   const selectedItem = action.payload;
   return {
@@ -221,7 +209,8 @@ switch (action.type) {
           proveedorSeleccionado: "",
           fechaSeleccionado:"",
           numeroRemitoSeleccionado: 0,
-          partidasRemito: []
+          partidasRemito: [],
+          itemSeleccionado:""
         }
 
         case POSICIONES_POR_PROVEEDOR:
