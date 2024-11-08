@@ -36,8 +36,8 @@ export const AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION = 'AJUSTAR_CANTIDAD_PARTIDA_DE
 export const OBTENER_MOVIMIENTOS_SIN_REMITO = 'OBTENER_MOVIMIENTOS_SIN_REMITO';
 
 
-export const URL = "https://derwill-deposito-backend.onrender.com"
-//export const URL = "http://localhost:3001"
+//export const URL = "https://derwill-deposito-backend.onrender.com"
+export const URL = "http://localhost:3001"
 
 export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 
   console.log("actualizarKilosUnidades", selectedItem, data, id)

@@ -72,7 +72,7 @@ export default function ListaPosiciones() {
                         : null
                       : null
                   }}
-                  onClick={() => navigate(`/deposito_dw_front/descripcion-posicion/${posicion.posicionId}`)}
+                  onClick={() => navigate(`/deposito_dw_front/descripcion-posicion/${posicion.posicionId}/${posicion.rack}/${posicion.fila}/${posicion.AB}`)}
                 >
                   {/* Mostrar información de la posición */}
                   <Typography variant="subtitle1">

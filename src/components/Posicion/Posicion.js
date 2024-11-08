@@ -14,7 +14,7 @@ import RemitoSalidaModal from './RemitoSalidaModal/RemitoSalidaModal';
 import AdicionRapida from './AdicionRapida/AdicionRapida';
 
 export default function Posiciones() {
-  const { id } = useParams();
+  const { id, rack, fila, ab } = useParams();
   const dispatch = useDispatch();
   const itemsPosicion = useSelector((state) => state.itemsPosicion);
   const [itemsRenderizar, setItemsRenderizar] = useState(false);
@@ -42,7 +42,7 @@ const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
 
   return (
     <>
-      <NavBar titulo={`Posición`} />
+      <NavBar titulo={`Posición ${rack} - ${fila} - ${ab}`} />
       <Box sx={{ padding: 2 }}>
         {itemsRenderizar.length > 0 ? (
           itemsRenderizar.map((item, index) => (
