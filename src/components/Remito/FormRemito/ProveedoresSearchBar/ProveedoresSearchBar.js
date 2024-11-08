@@ -88,12 +88,12 @@ const crearNuevoProveedor = () => {
             value={proveedorSeleccionado}
             onChange={handleChangeProveedor}
           >
+            <Button onClick={crearNuevoProveedor} style={{ color: "blue" }}>
+              NUEVO PROVEEDOR
+            </Button>
             {proveedores?.map((prov, i) => (
               <MenuItem key={i} value={prov}>{prov.nombre}</MenuItem>
             ))}
-            <Button onClick={crearNuevoProveedor} style={{ color: "blue" }}>
-              Agregar proveedor nuevo
-            </Button>
           </Select>
         </FormControl>
 
