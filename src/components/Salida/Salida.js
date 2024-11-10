@@ -1,7 +1,8 @@
 import * as React from 'react';
-import FormRemito from './FormRemito/FormRemito'
-import ListaPartidasRemitoSalida from './ListaPartidasRemitoSalida/ListaPartidasRemitoSalida'
+import ProveedoresSearchBar from './ProveedoresSearchBar/ProveedoresSearchBar'
+import ListaMovimientosRemitoSalida from './ListaMovimientosRemitoSalida/ListaMovimientosRemitoSalida'
 import NavBar from '../Utils/NavBar';
+import { Divider } from '@mui/material';
 
 
 export default function Salida(props) {
@@ -9,8 +10,10 @@ export default function Salida(props) {
   return (
     <div>
       <NavBar titulo={ `Remito salida`}/>
-      <FormRemito />
-      <ListaPartidasRemitoSalida /> 
+      <ProveedoresSearchBar />
+      <Divider sx={{ marginY: '20px' }} />
+
+      <ListaMovimientosRemitoSalida /> 
       
     </div>
   );

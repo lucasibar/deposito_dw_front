@@ -40,7 +40,8 @@ import {
   SACAR_PARTIDA_DE_POSICION,
   ADICION_RAPIDA_A_POSICION,
   AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION,
-  OBTENER_MOVIMIENTOS_SIN_REMITO
+  OBTENER_MOVIMIENTOS_SIN_REMITO,
+  SELECCIONAR_PARTIDA_SALIDA
 
 } from './actions';
 
@@ -57,7 +58,6 @@ const initialState = {
   tareas:[],
   movimientosHistoricoSalida:[],
   partidasCuarentena:[],
-  movimientosSinRemito:[],
   
 //esto se limpia con la flecha de NavBar--
   fechaSeleccionado:"",
@@ -75,13 +75,34 @@ const initialState = {
   partidasPorPosicion:[],
   proximaPartidaConsumo:0,
   partidasRemitoSalida:[],
-  partidasSalida:[]
+  partidasSalida:[],
 
+  movimientosSalidaRemito: [],
 
 };
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  
+  case SELECCIONAR_PARTIDA_SALIDA:
+    const partidaExiste = state.movimientosSalidaRemito.find(
+      (p) => p.id === action.payload.id
+    );
+    return {
+      ...state,
+      movimientosSalidaRemito: partidaExiste
+        ? state.movimientosSalidaRemito.filter((p) => p.id !== action.payload.id)
+        : [...state.movimientosSalidaRemito, action.payload],
+    };
+
+    case OBTENER_MOVIMIENTOS_SIN_REMITO:
+      return {
+        ...state,
+        movimientosSinRemito: action.payload,
+      }   
+
+
+
   case AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION:
   const { selectedItem, kilos, unidades, id } = action.payload;
   return {
@@ -96,6 +117,11 @@ switch (action.type) {
         : itm
     )
   };
+
+
+
+
+
   case ADICION_RAPIDA_A_POSICION:
   return {
     ...state,
@@ -145,11 +171,7 @@ switch (action.type) {
         partidasCuarentena: state.partidasCuarentena.filter(p=> p.numeroPartida !== action.payload)
     };
 
-    case OBTENER_MOVIMIENTOS_SIN_REMITO:
-      return {
-        ...state,
-        movimientosSinRemito: action.payload,
-      }     
+  
   
       case PARTIDAS_EN_CUARENTENA:
         return {

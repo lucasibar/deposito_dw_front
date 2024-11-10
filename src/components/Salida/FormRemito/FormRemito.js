@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './FormRemito.css'; 
-import ProveedoresSearchBar from './ProveedoresSearchBar/ProveedoresSearchBar'
+import ProveedoresSearchBar from '../ProveedoresSearchBar/ProveedoresSearchBar'
 
 export default function FormRemito() {
   const navigate = useNavigate();

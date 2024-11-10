@@ -34,7 +34,8 @@ export const SACAR_PARTIDA_DE_POSICION = 'SACAR_PARTIDA_DE_POSICION';
 export const ADICION_RAPIDA_A_POSICION = 'ADICION_RAPIDA_A_POSICION';
 export const AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION = 'AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION';
 export const OBTENER_MOVIMIENTOS_SIN_REMITO = 'OBTENER_MOVIMIENTOS_SIN_REMITO';
-
+export const SELECCIONAR_PARTIDA_SALIDA = 'SELECCIONAR_PARTIDA_SALIDA';
+export const GENERAR_REMITO_SALIDA = 'GENERAR_REMITO_SALIDA';
 
 export const URL = "https://derwill-deposito-backend.onrender.com"
 //export const URL = "http://localhost:3001"
@@ -57,8 +58,25 @@ export const obtenerMovimientosSinRemito = () => async (dispatch) => {
     console.error("Error in datosBaseRemito:", error);
   })
 }
+export const seleccionarPartidaSalida =(partida)=> dispatch => {  
+  return dispatch({type: SELECCIONAR_PARTIDA_SALIDA, payload: partida })
+};
 
 
+export const generarRemitoSalida = (data) => async (dispatch) => {
+  return axios.post(`${URL}/movimientos/generarRemitoSalida`, data)
+  .then(data=>{
+    Swal.fire({
+              title: data.message,
+              text: "La mercaderia se cambio de posicion",
+              icon: "success"
+            });
+            dispatch(obtenerMovimientosSinRemito())
+             })
+    .catch(error => {
+        console.error("Error in datosBaseRemito:", error);
+    });
+};
 
 
 
@@ -79,7 +97,6 @@ export const enviarMovimiento = (selectedItem, data, id) => async (dispatch) => 
   });
 }
 
-
 export const adicionRapida = (adicion) => async (dispatch) => {
 return axios.post(`${URL}/movimientos/adicion-rapida`, adicion)
 .then(data=>{
@@ -93,7 +110,7 @@ return axios.post(`${URL}/movimientos/adicion-rapida`, adicion)
   .catch(error => {
       console.error("Error in datosBaseRemito:", error);
   });
-  }
+}
            
 export const agregarAlRemitoSalida = (selectedItem, kilos, unidades, id) => async (dispatch) => { 
   return axios.post(`${URL}/movimientos/salida-desde-posicion`, {selectedItem, kilos, unidades, id})
@@ -399,52 +416,52 @@ export const AGREGAR_NUEVO_PROVEEDOR = 'AGREGAR_NUEVO_PROVEEDOR';
   };
 
 //------------------------------------------------------------------------------------------------------------------
-export const agragarAlRemitoDeSalida =(mercaderia_posicion)=>dispatch => {
-  return dispatch({type: AGREGAR_AL_REMITO_SALIDA, payload: mercaderia_posicion })
+// export const agragarAlRemitoDeSalida =(mercaderia_posicion)=>dispatch => {
+//   return dispatch({type: AGREGAR_AL_REMITO_SALIDA, payload: mercaderia_posicion })
 
-}
+// }
 
 
-export const deletePartidaSalida = (mercaderia) => dispatch => {
-  return dispatch({ type: ELIMINAR_PARTIDA_AL_REMITO_SALIDA, payload: mercaderia });
-};
+// export const deletePartidaSalida = (mercaderia) => dispatch => {
+//   return dispatch({ type: ELIMINAR_PARTIDA_AL_REMITO_SALIDA, payload: mercaderia });
+// };
 
-export const subirRemitoSalida =(remitoSalida)=> dispatch => {
-  return axios.post(`${URL}/movimientos/remito-salida`, remitoSalida ) 
-  .then(data => {
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: data.message,
-      showConfirmButton: false,
-      timer: 1500
-    });
-    })
-    .catch(error => {
-        console.error("Error in datosBaseRemito:", error);
-    });
-};
+// export const subirRemitoSalida =(remitoSalida)=> dispatch => {
+//   return axios.post(`${URL}/movimientos/remito-salida`, remitoSalida ) 
+//   .then(data => {
+//     Swal.fire({
+//       position: "top-end",
+//       icon: "success",
+//       title: data.message,
+//       showConfirmButton: false,
+//       timer: 1500
+//     });
+//     })
+//     .catch(error => {
+//         console.error("Error in datosBaseRemito:", error);
+//     });
+// };
 
 
 
 //----------------------------------------------------------------------------------
 
 
-export const movimientoPosicion1Posicion2 =(movimiento)=>dispatch => {
-return axios.post(`${URL}/movimientos/interno`, movimiento ) 
-.then(data => {
-  Swal.fire({
-    position: "top-end",
-    icon: "success",
-    title: data.message,
-    showConfirmButton: false,
-    timer: 1500
-  });
-  })
-  .catch(error => {
-      console.error("Error in datosBaseRemito:", error);
-  });
-}
+// export const movimientoPosicion1Posicion2 =(movimiento)=>dispatch => {
+// return axios.post(`${URL}/movimientos/interno`, movimiento ) 
+// .then(data => {
+//   Swal.fire({
+//     position: "top-end",
+//     icon: "success",
+//     title: data.message,
+//     showConfirmButton: false,
+//     timer: 1500
+//   });
+//   })
+//   .catch(error => {
+//       console.error("Error in datosBaseRemito:", error);
+//   });
+// }
 
 //----------------------------------------------------------------------------------
 
