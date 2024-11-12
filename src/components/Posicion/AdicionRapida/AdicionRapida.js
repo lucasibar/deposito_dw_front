@@ -28,6 +28,10 @@ export default function AdicionRapida({ open, onClose, idPosicion }) {
     onClose();
   };
 
+  const handleChangeProveedor = (e) => {
+    dispatch(seleccionarProveedor(e.target.value))
+    setProveedorSeleccionado(e.target.value);
+  };
   return (
     <Modal open={open} onClose={onClose}>
       <Box 
@@ -47,7 +51,7 @@ export default function AdicionRapida({ open, onClose, idPosicion }) {
         <TextField
           label="Proveedor"
           value={proveedor}
-          onChange={(e) => setProveedor(e.target.value)}
+          onChange={handleChangeProveedor}
           select
           fullWidth
           margin="normal"
