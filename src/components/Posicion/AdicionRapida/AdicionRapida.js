@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, MenuItem, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { adicionRapida } from '../../../redux/actions';
+import { adicionRapida, seleccionarProveedor } from '../../../redux/actions';
 import ItemsSearchBar from './ItemsSearchBar/ItemsSearchBar';
 
 export default function AdicionRapida({ open, onClose, idPosicion }) {
@@ -30,7 +30,7 @@ export default function AdicionRapida({ open, onClose, idPosicion }) {
 
   const handleChangeProveedor = (e) => {
     dispatch(seleccionarProveedor(e.target.value))
-    setProveedorSeleccionado(e.target.value);
+    setProveedor(e.target.value);
   };
   return (
     <Modal open={open} onClose={onClose}>
