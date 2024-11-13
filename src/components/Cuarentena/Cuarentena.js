@@ -4,7 +4,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import UpdateIcon from '@mui/icons-material/Update';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import NavBar from '../Utils/NavBar';
 import ModalPopup from './ModalPopup/ModalPopup';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,10 +23,12 @@ export default function Cuarentena() {
 
   const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
 
-  // Filtrar partidas por número de partida
-  const partidasFiltradas = partidasCuarentena.filter((partida) =>
-    partida.numeroPartida.toString().includes(filtroNumeroPartida)
-  );
+  // Filtrar y ordenar partidas por número de partida y por fecha
+  const partidasFiltradas = partidasCuarentena
+    .filter((partida) =>
+      partida.numeroPartida.toString().includes(filtroNumeroPartida)
+    )
+    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)); // Ordenar por fecha descendente
 
   // Abrir y cerrar el modal para la partida seleccionada
   const handleOpenModal = (partida) => {
@@ -44,7 +45,7 @@ export default function Cuarentena() {
     if (partida.estado === 'cuarentena') {
       Swal.fire({
         title: '¿Llevar a revisión?',
-        text: "¿Llevarás la mercadería a testear?",
+        text: '¿Llevarás la mercadería a testear?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sí, llevar a revisión',
@@ -57,7 +58,7 @@ export default function Cuarentena() {
     } else if (partida.estado === 'cuarentena-revision') {
       Swal.fire({
         title: 'Acción requerida',
-        text: "Aprobar o devolver a cuarentena",
+        text: 'Aprobar o devolver a cuarentena',
         icon: 'question',
         showDenyButton: true,
         confirmButtonText: 'Aprobar',
@@ -72,7 +73,7 @@ export default function Cuarentena() {
     } else if (partida.estado === 'cuarentena-aprobada') {
       Swal.fire({
         title: 'Partida aprobada',
-        text: "¿Volver a revisión?",
+        text: '¿Volver a revisión?',
         icon: 'info',
         showCancelButton: true,
         confirmButtonText: 'Sí, volver a revisar',
@@ -88,7 +89,7 @@ export default function Cuarentena() {
   const handleRechazarPartida = (partida) => {
     Swal.fire({
       title: '¿Rechazar partida?',
-      text: "Esta acción no se puede deshacer",
+      text: 'Esta acción no se puede deshacer',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, rechazar',
@@ -128,7 +129,7 @@ export default function Cuarentena() {
               onClick={() => handleOpenModal(partida)}
             >
               <Typography variant="subtitle1">
-                Partida: {partida.numeroPartida}
+                Partida: {partida.numeroPartida} || Fecha de entrada: {partida.fecha}
               </Typography>
               <Typography variant="body2" mt={2}>
                 {`${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`}
@@ -136,7 +137,7 @@ export default function Cuarentena() {
               <Typography variant="body2" mt={2}>
                 Kilos: {partida.kilos} - Unidades: {partida.unidades}
               </Typography>
-
+              
               {/* Botones de estado */}
               <IconButton
                 sx={{ position: 'absolute', top: 8, right: 8 }}
@@ -154,6 +155,7 @@ export default function Cuarentena() {
                 )}
               </IconButton>
 
+              {/* Botón para rechazar */}
               <IconButton
                 sx={{ position: 'absolute', bottom: 8, right: 8 }}
                 color="error"
