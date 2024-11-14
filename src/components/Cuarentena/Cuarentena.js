@@ -126,10 +126,9 @@ export default function Cuarentena() {
                 borderRadius: '16px',
                 position: 'relative',
               }}
-              onClick={() => handleOpenModal(partida)}
             >
               <Typography variant="subtitle1">
-                Partida: {partida.numeroPartida} || Fecha de entrada: {partida.fecha}
+                Part: {partida.numeroPartida} || Fecha {partida.fecha}
               </Typography>
               <Typography variant="body2" mt={2}>
                 {`${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`}
@@ -147,9 +146,16 @@ export default function Cuarentena() {
                 }}
               >
                 {partida.estado === 'cuarentena' ? (
-                  <CheckIcon />
+                <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+                  Mercaderia a testear
+                </Typography>
                 ) : partida.estado === 'cuarentena-revision' ? (
-                  <UpdateIcon sx={{ color: 'orange' }} />
+                <>
+                  <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+                  En proceso
+                </Typography>
+                <UpdateIcon sx={{ color: 'orange' }} />
+                </>
                 ) : (
                   <DoneAllIcon sx={{ color: 'green' }} />
                 )}
@@ -157,15 +163,32 @@ export default function Cuarentena() {
 
               {/* Botón para rechazar */}
               <IconButton
-                sx={{ position: 'absolute', bottom: 8, right: 8 }}
-                color="error"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRechazarPartida(partida);
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
+  sx={{ position: 'absolute', bottom: 8, right: 8 }}
+  color="error"
+  onClick={(e) => {
+    e.stopPropagation();
+    if (partida.estado === 'cuarentena-revision') {
+      handleRechazarPartida(partida);
+    } else {
+      handleOpenModal(partida);
+    }
+  }}
+>
+  {partida.estado === 'cuarentena' ? (
+    null
+  ) : partida.estado === 'cuarentena-revision' ? (
+    <>
+      <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+        Rechazar
+      </Typography>
+      <CloseIcon />
+    </>
+  ) : (
+    <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+      Asignar posicion deposito
+    </Typography>
+  )}
+</IconButton>
             </Paper>
           ))
         ) : (
