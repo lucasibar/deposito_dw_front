@@ -185,7 +185,7 @@ export default function Cuarentena() {
     </>
   ) : (
     <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
-      Asignar posicion deposito
+      Asignar posicion
     </Typography>
   )}
 </IconButton>
