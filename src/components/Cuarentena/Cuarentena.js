@@ -131,7 +131,7 @@ export default function Cuarentena() {
                 Part: {partida.numeroPartida} || Fecha {partida.fecha}
               </Typography>
               <Typography variant="body2" mt={2}>
-                {`${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`}
+                {partida.item ? `${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`: null}
               </Typography>
               <Typography variant="body2" mt={2}>
                 Kilos: {partida.kilos} - Unidades: {partida.unidades}
