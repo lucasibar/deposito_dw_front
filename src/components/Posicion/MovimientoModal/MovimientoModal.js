@@ -21,7 +21,7 @@ export default function MovimientoModal({ open, onClose, item, id }) {
       <Box sx={{ padding: 4, backgroundColor: 'white', borderRadius: '8px', maxWidth: 400, margin: 'auto', marginTop: '10%' }}>
         <Typography variant="h6">Movimiento interno</Typography>
         <TextField
-          label="Rack"
+          label="Fila"
           value={rack}
           onChange={(e) => setRack(e.target.value)}
           disabled={pasillo !== ''}
@@ -34,7 +34,7 @@ export default function MovimientoModal({ open, onClose, item, id }) {
           ))}
         </TextField>
         <TextField
-          label="Fila"
+          label="Rack"
           value={fila}
           onChange={(e) => setFila(e.target.value)}
           disabled={pasillo !== ''}

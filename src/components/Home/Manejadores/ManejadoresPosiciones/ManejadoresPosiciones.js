@@ -27,7 +27,7 @@ export default function ManejadoresPosiciones() {
       <Grid container spacing={2} sx={{ marginTop: 1 }}>
         <Grid item xs={4} sm={4} md={4}>
           <FormControl fullWidth>
-            <InputLabel>Rack</InputLabel>
+            <InputLabel>Fila</InputLabel>
             <Select value={rack} onChange={handleRackChange}>
               <MenuItem key={"a"} value={""}>todos</MenuItem>
               {racks?.map((rak, i) => (
@@ -41,7 +41,7 @@ export default function ManejadoresPosiciones() {
 
         <Grid item xs={4} sm={4} md={4}>
           <FormControl fullWidth>
-            <InputLabel>Fila</InputLabel>
+            <InputLabel>Rack</InputLabel>
             <Select value={fila} onChange={handleFilaChange}>
               <MenuItem key={"a"} value={""}>todos</MenuItem>
             {filas?.map((fil, i) => (

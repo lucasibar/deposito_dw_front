@@ -42,7 +42,7 @@ const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
 
   return (
     <>
-      <NavBar titulo={`Posición R${rack} - F${fila} - P${AB}`} />
+      <NavBar titulo={`Posición F${rack} - R${fila} - P${AB}`} />
       <Box sx={{ padding: 2 }}>
         {itemsRenderizar.length > 0 ? (
           itemsRenderizar.map((item, index) => (

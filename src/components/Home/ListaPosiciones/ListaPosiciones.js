@@ -78,7 +78,7 @@ export default function ListaPosiciones() {
                   <Typography variant="subtitle1">
                     {posicion.pasillo
                       ? `Pasillo: ${posicion.pasillo}`
-                      : `Rack ${posicion.rack} - Fila ${posicion.fila} - ${posicion.AB}`}
+                      : `Fila ${posicion.rack} - Rack ${posicion.fila} - ${posicion.AB}`}
                   </Typography>
 
                   {/* Mostrar los números de partidas concatenados */}

@@ -163,7 +163,7 @@ export default function ModalPopup({ open, handleClose, partida }) {
 
         {/* Selector de Rack */}
         <FormControl fullWidth margin="normal" disabled={!!pasillo}>
-          <InputLabel id="rack-label">Rack</InputLabel>
+          <InputLabel id="rack-label">Fila</InputLabel>
           <Select
             labelId="rack-label"
             value={rack}
@@ -180,7 +180,7 @@ export default function ModalPopup({ open, handleClose, partida }) {
 
         {/* Selector de Fila */}
         <FormControl fullWidth margin="normal" disabled={!!pasillo}>
-          <InputLabel id="fila-label">Fila</InputLabel>
+          <InputLabel id="fila-label">Rack</InputLabel>
           <Select
             labelId="fila-label"
             value={fila}
