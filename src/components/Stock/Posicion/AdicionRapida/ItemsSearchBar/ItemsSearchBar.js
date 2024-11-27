@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { agragarPartidaAlRemito, getItems, generarNuevoProveedor, subirRemito } from '../../../../redux/actions';
+import { agragarPartidaAlRemito, getItems, generarNuevoProveedor, subirRemito } from '../../../../../redux/actions';
 import { InputLabel, MenuItem, FormControl, Select, Button, TextField, Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 

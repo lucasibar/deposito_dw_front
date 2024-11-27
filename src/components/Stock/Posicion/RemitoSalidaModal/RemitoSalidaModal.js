@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, IconButton } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { agregarAlRemitoSalida } from '../../../redux/actions';
+import { agregarAlRemitoSalida } from '../../../../redux/actions';
 
 export default function RemitoSalidaModal({ open, onClose, item, id}) {
   const dispatch = useDispatch();

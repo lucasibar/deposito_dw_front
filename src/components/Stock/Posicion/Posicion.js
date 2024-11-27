@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { obtenerItemsPorPosicion } from '../../redux/actions';
+import { obtenerItemsPorPosicion } from '../../../redux/actions';
 import { Paper, Typography, Box, IconButton, SpeedDial, SpeedDialIcon } from '@mui/material';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import NavBar from '../Utils/NavBar';
+import NavBar from '../../Utils/NavBar';
 
 import MovimientoModal from './MovimientoModal/MovimientoModal';
 import AjusteModal from './AjusteModal/AjusteModal';

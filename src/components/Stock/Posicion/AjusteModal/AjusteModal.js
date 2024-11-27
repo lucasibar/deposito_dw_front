@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, IconButton } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { actualizarKilosUnidades } from '../../../redux/actions';
+import { actualizarKilosUnidades } from '../../../../redux/actions';
 
 export default function AjusteModal({ open, onClose, item }) {
   const dispatch = useDispatch();

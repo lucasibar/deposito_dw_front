@@ -3,19 +3,19 @@ import { Route, Routes } from "react-router-dom";
 import Remito from './components/Remito/Remito'
 import NuevoItem from './components/Remito/FormRemito/ItemsSearchBar/NuevoItem/NuevoItem'
 import Cuarentena from './components/Cuarentena/Cuarentena'
-import Home from './components/Home/Home'
 import Salida from './components/Salida/Salida';
 import HistorialSalida from './components/HistorialSalida/HistorialSalida';
-import Posicion from './components/Posicion/Posicion';
+import Posicion from './components/Stock/Posicion/Posicion';
 import Agenda from './components/Utils/Agenda/Agenda';
 import QRDisplay from './components/Utils/Qr/QRDisplay';
+import Stock from './components/Stock/Stock';
 
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route exact path="/deposito_dw_front/" element={<Home />} />
+      <Route exact path="/deposito_dw_front/" element={<Stock />} />
         <Route exact path="/deposito_dw_front/remito" element={<Remito />} />
         <Route exact path="/deposito_dw_front/cuarentena" element={<Cuarentena />} />
         <Route exact path="/deposito_dw_front/descripcion-posicion/:id/:rack/:fila/:AB" element={<Posicion />} /> {/* Ruta con el parámetro id */}

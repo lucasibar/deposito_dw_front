@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, MenuItem, IconButton } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { enviarMovimiento } from '../../../redux/actions';
+import { enviarMovimiento } from '../../../../redux/actions';
 
 export default function MovimientoModal({ open, onClose, item, id }) {
   const dispatch = useDispatch();
