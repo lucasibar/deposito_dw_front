@@ -5,18 +5,19 @@ import NuevoItem from './components/Remito/FormRemito/ItemsSearchBar/NuevoItem/N
 import Cuarentena from './components/Cuarentena/Cuarentena'
 import Salida from './components/Salida/Salida';
 import HistorialSalida from './components/HistorialSalida/HistorialSalida';
-import Posicion from './components/Stock/Posicion/Posicion';
+import Posicion from './components/StockHilado/Posicion/Posicion';
 import Agenda from './components/Utils/Agenda/Agenda';
 import QRDisplay from './components/Utils/Qr/QRDisplay';
-import Stock from './components/Stock/Stock';
-
+import StockHilado from './components/StockHilado/StockHilado';
+import Login from './components/Login/Login';
 
 function App() {
   return (
     <div className="App">
       <Routes>
-      <Route exact path="/deposito_dw_front/" element={<Stock />} />
-        <Route exact path="/deposito_dw_front/remito" element={<Remito />} />
+      <Route exact path="/deposito_dw_front/" element={<Login />} />
+      <Route exact path="/deposito_dw_front/remito" element={<Remito />} />
+      <Route exact path="/deposito_dw_front/deposito-hilado" element={<StockHilado />} />
         <Route exact path="/deposito_dw_front/cuarentena" element={<Cuarentena />} />
         <Route exact path="/deposito_dw_front/descripcion-posicion/:id/:rack/:fila/:AB" element={<Posicion />} /> {/* Ruta con el parámetro id */}
         <Route exact path="/deposito_dw_front/historial-salida" element={<HistorialSalida />} /> {/* Ruta con el parámetro id */}

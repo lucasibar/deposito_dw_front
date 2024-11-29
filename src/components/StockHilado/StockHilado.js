@@ -8,11 +8,11 @@ import { Box } from '@mui/system';
 import ListaPosiciones from './ListaPosiciones/ListaPosiciones'
 import { NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import BarraNavegador from '../Utils/BarraNavegador';
+import BarraNavegador from './BarraNavegador/BarraNavegador';
 import BotonesNavegacion from '../Utils/BotonesNavegacion/BotonesNavegacion';
 
 
-   export default function Stock() {
+   export default function StockHilado() {
       const dispatch = useDispatch();
     
       const [inputBarraNavegador, setInputBarraNavegador]= useState("")
@@ -23,7 +23,7 @@ import BotonesNavegacion from '../Utils/BotonesNavegacion/BotonesNavegacion';
       return (
     <>
         <BarraNavegador titulo={"Der Will"} setInputBarraNavegador={setInputBarraNavegador}/>
-        <BotonesNavegacion />
+        <BotonesNavegacion pagina= 'depositohilado'/>
         <Box sx={{ padding: 2 }}>        
         <ListaPosiciones inputBarraNavegador={inputBarraNavegador}/>
         </Box>    

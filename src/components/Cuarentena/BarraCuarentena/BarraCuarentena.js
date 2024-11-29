@@ -6,7 +6,10 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import DoneIcon from '@mui/icons-material/Done';
+import UpdateIcon from '@mui/icons-material/Update';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 import SearchIcon from '@mui/icons-material/Search';
 
 const Search = styled('div')(({ theme }) => ({
@@ -39,7 +42,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
@@ -51,9 +53,44 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function BarraNavegador({ titulo, setInputBarraNavegador }) {
-  const handleSearchChange = (event) => {
-    setInputBarraNavegador(event.target.value);
+export default function BarraCuarentena({ titulo, setFilterState }) {
+  const [currentIcon, setCurrentIcon] = React.useState('FilterAlt'); // Estado del ícono actual
+
+  const handleIconClick = () => {
+    switch (currentIcon) {
+      case 'FilterAlt':
+        setCurrentIcon('Done');
+        setFilterState('cuarentena');
+        break;
+      case 'Done':
+        setCurrentIcon('Update');
+        setFilterState('cuarentena-revision');
+        break;
+      case 'Update':
+        setCurrentIcon('DoneAll');
+        setFilterState('cuarentena-aprobada');
+        break;
+      case 'DoneAll':
+        setCurrentIcon('FilterAlt');
+        setFilterState(null); // Mostrar todas las partidas
+        break;
+      default:
+        setCurrentIcon('FilterAlt');
+        setFilterState(null);
+    }
+  };
+
+  const getIconComponent = () => {
+    switch (currentIcon) {
+      case 'Done':
+        return <DoneIcon />;
+      case 'Update':
+        return <UpdateIcon />;
+      case 'DoneAll':
+        return <DoneAllIcon />;
+      default:
+        return <FilterAltIcon />;
+    }
   };
 
   return (
@@ -64,10 +101,11 @@ export default function BarraNavegador({ titulo, setInputBarraNavegador }) {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="open drawer"
+            aria-label="filter"
             sx={{ mr: 2 }}
+            onClick={handleIconClick}
           >
-            <AssignmentIcon />
+            {getIconComponent()}
           </IconButton>
           <Typography
             variant="h6"
@@ -84,7 +122,6 @@ export default function BarraNavegador({ titulo, setInputBarraNavegador }) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
-              onChange={handleSearchChange} 
             />
           </Search>
         </Toolbar>
