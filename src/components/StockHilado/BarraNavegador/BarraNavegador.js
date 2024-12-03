@@ -1,7 +1,7 @@
 import React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
+import Box from "@mui/system/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -42,7 +42,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: "100%",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
@@ -54,36 +53,67 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function BarraNavegador({ titulo, setInputBarraNavegador }) {
+const ShortInput = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(1),
+  width: "6ch", // Doble del ancho original
+  height: "40px", // Alto consistente con el SearchBar
+  marginLeft: theme.spacing(2),
+  "& .MuiInputBase-input": {
+    textAlign: "center",
+    height: "40px", // Ajustar el contenido al alto del input
+  },
+}));
+
+export default function BarraNavegador({
+  titulo,
+  setInputBarraNavegador,
+  setRack,
+  setFila,
+  setPasillo,
+}) {
   const posiciones = useSelector((state) => state.posiciones);
 
   const handleSearchChange = (event) => {
     setInputBarraNavegador(event.target.value);
   };
 
-  const exportToExcel = () => {
-    // Convertir las posiciones en un formato plano para el Excel
-    const flatData = posiciones.map((pos) => ({
-      PosicionID: pos.posicionId,
-      Fila: pos.fila || "N/A",
-      Rack: pos.rack || "N/A",
-      AB: pos.AB || "N/A",
-      Pasillo: pos.pasillo || "N/A",
-      Entrada: pos.entrada ? "Sí" : "No",
-      Items: pos.items?.length || 0, // Cantidad de items
-    }));
+  const handleRackChange = (event) => {
+    setRack(event.target.value);
+  };
 
-    // Crear hoja de Excel
+  const handleFilaChange = (event) => {
+    setFila(event.target.value);
+  };
+
+  const handlePasilloChange = (event) => {
+    setPasillo(event.target.value);
+  };
+
+  const exportToExcel = () => {
+    const flatData = posiciones.flatMap((pos) =>
+      pos.items.map((item) => ({
+        Proveedor: item.proveedor.nombre,
+        Categoría: item.categoria,
+        Descripción: item.descripcion,
+        Partida: item.partida,
+        Kilos: item.kilos,
+        Unidades: item.unidades,
+        Rack: pos.rack || "N/A",
+        Fila: pos.fila || "N/A",
+        Pasillo: pos.pasillo || "N/A",
+      }))
+    );
+
     const worksheet = XLSX.utils.json_to_sheet(flatData);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Posiciones");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Items");
 
-    // Generar archivo Excel
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-
-    // Guardar archivo
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
-    saveAs(blob, "posiciones.xlsx");
+    saveAs(blob, "items_posiciones.xlsx");
   };
 
   return (
@@ -96,7 +126,7 @@ export default function BarraNavegador({ titulo, setInputBarraNavegador }) {
             color="inherit"
             aria-label="export excel"
             sx={{ mr: 2 }}
-            onClick={exportToExcel} // Ejecutar función al hacer clic
+            onClick={exportToExcel}
           >
             <AssignmentIcon />
           </IconButton>
@@ -113,11 +143,30 @@ export default function BarraNavegador({ titulo, setInputBarraNavegador }) {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Buscar…"
               inputProps={{ "aria-label": "search" }}
               onChange={handleSearchChange}
             />
           </Search>
+          {/* Inputs para Rack, Fila y Pasillo */}
+          <ShortInput
+            placeholder=""
+            type="text"
+            inputProps={{ "aria-label": "rack" }}
+            onChange={handleRackChange}
+          />
+          <ShortInput
+            placeholder=""
+            type="text"
+            inputProps={{ "aria-label": "fila" }}
+            onChange={handleFilaChange}
+          />
+          <ShortInput
+            placeholder=""
+            type="text"
+            inputProps={{ "aria-label": "pasillo" }}
+            onChange={handlePasilloChange}
+          />
         </Toolbar>
       </AppBar>
     </Box>

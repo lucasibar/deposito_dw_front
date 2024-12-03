@@ -1,41 +1,59 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Paper, Typography } from '@mui/material';
-import { Box } from '@mui/system';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Paper, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
-export default function ListaPosiciones({ inputBarraNavegador }) {
+export default function ListaPosiciones({
+  inputBarraNavegador,
+  rack,
+  fila,
+  pasillo,
+}) {
   const navigate = useNavigate();
   const posiciones = useSelector((state) => state.posiciones);
 
-  // Convertir el texto del usuario a minúsculas para comparación insensible a mayúsculas
+  // Convertir el texto del usuario a minúsculas
   const searchText = inputBarraNavegador.toLowerCase();
 
-  // Filtrar posiciones según el texto ingresado
   const posicionesFiltradas = posiciones.filter((posicion) => {
-    // Excluir posiciones con `entrada: true`
     if (posicion.entrada) return false;
 
-    // Caso 1: Buscar por rack y fila ("número-guion-número")
-    if (/^\d+-\d+$/.test(searchText)) {
-      const [rack, fila] = searchText.split('-').map(Number);
-      return posicion.rack === rack && posicion.fila === fila;
-    }
+    // Validar el filtro por rack
+    const cumpleRack = rack ? posicion.rack === Number(rack) : true;
 
-    // Caso 2: Buscar por un solo número (pasillo o rack)
-    if (/^\d+$/.test(searchText)) {
-      const numero = Number(searchText);
-      return posicion.pasillo === numero || posicion.rack === numero;
-    }
+    // Validar el filtro por fila
+    const cumpleFila = fila ? posicion.fila === Number(fila) : true;
 
-    // Caso 3: Búsqueda general
-    return posicion.items.some((item) => {
-      const partidaIncluyeTexto = item.partida.toString().includes(searchText);
-      const nombreProveedorIncluyeTexto = item.proveedor.nombre.toLowerCase().includes(searchText);
-      const descripcionIncluyeTexto = item.descripcion.toLowerCase().includes(searchText);
+    // Validar el filtro por pasillo
+    const cumplePasillo = pasillo ? posicion.pasillo === Number(pasillo) : true;
 
-      return partidaIncluyeTexto || nombreProveedorIncluyeTexto || descripcionIncluyeTexto;
+    // Búsqueda general (proveedor, partida, descripción o material)
+    const cumpleBusquedaGeneral = posicion.items.some((item) => {
+      const partidaIncluyeTexto = item.partida
+        ?.toString()
+        .includes(searchText);
+      const nombreProveedorIncluyeTexto = item.proveedor?.nombre
+        .toLowerCase()
+        .includes(searchText);
+      const descripcionIncluyeTexto = item.descripcion
+        ?.toLowerCase()
+        .includes(searchText);
+      const materialIncluyeTexto = item.categoria
+        ?.toLowerCase()
+        .includes(searchText);
+
+      return (
+        partidaIncluyeTexto ||
+        nombreProveedorIncluyeTexto ||
+        descripcionIncluyeTexto ||
+        materialIncluyeTexto
+      );
     });
+
+    // Devuelve posiciones que cumplan con rack, fila y pasillo,
+    // incluso si no tienen items
+    return cumpleRack && cumpleFila && cumplePasillo && (cumpleBusquedaGeneral || posicion.items.length === 0);
   });
 
   return (
@@ -47,10 +65,10 @@ export default function ListaPosiciones({ inputBarraNavegador }) {
             sx={{
               padding: 2,
               marginBottom: 2,
-              borderRadius: '16px',
-              cursor: 'pointer',
-              '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.04)',
+              borderRadius: "16px",
+              cursor: "pointer",
+              "&:hover": {
+                backgroundColor: "rgba(0, 0, 0, 0.04)",
               },
             }}
             onClick={() =>
@@ -59,19 +77,19 @@ export default function ListaPosiciones({ inputBarraNavegador }) {
               )
             }
           >
-            {/* Información principal de la posición */}
             <Typography variant="subtitle1">
-              {posicion.pasillo
-                ? `Pasillo: ${posicion.pasillo}`
-                : `Fila ${posicion.rack || 'N/A'} - Rack ${posicion.fila || 'N/A'} - ${posicion.AB || 'N/A'}`}
+              {`Pasillo: ${posicion.pasillo || "N/A"} - Rack: ${
+                posicion.rack || "N/A"
+              } - Fila: ${posicion.fila || "N/A"} - ${
+                posicion.AB || "N/A"
+              }`}
             </Typography>
-
-            {/* Lista de items o texto "VACÍO" */}
             {posicion.items.length > 0 ? (
               <Box mt={2}>
                 {posicion.items.map((item, idx) => (
                   <Typography key={idx} variant="body2" mt={1}>
-                    {item.categoria} - {item.descripcion} | Partida: {item.partida}
+                    {item.categoria} - {item.descripcion} | Partida:{" "}
+                    {item.partida}
                   </Typography>
                 ))}
               </Box>

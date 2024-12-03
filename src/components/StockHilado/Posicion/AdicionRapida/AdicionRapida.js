@@ -1,75 +1,86 @@
-import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, MenuItem, Button } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { adicionRapida, seleccionarProveedor } from '../../../../redux/actions';
-import ItemsSearchBar from './ItemsSearchBar/ItemsSearchBar';
+import React, { useEffect, useState } from "react";
+import { Modal, Box, Typography, TextField, MenuItem, Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { adicionRapida, seleccionarProveedor, dataProveedoresItems } from "../../../../redux/actions";
+import ItemsSearchBar from "./ItemsSearchBar/ItemsSearchBar";
 
 export default function AdicionRapida({ open, onClose, idPosicion }) {
   const dispatch = useDispatch();
-  const proveedores = useSelector((state) => state.proveedores);
-  // const items = useSelector((state) => state.items);
 
-  const [proveedor, setProveedor] = useState('');
-  const [item, setItem] = useState('');
-  const [kilos, setKilos] = useState('');
-  const [unidades, setUnidades] = useState('');
-  const [partida, setPartida] = useState('');
+  useEffect(() => {
+    dispatch(dataProveedoresItems());
+  }, [dispatch]);
+
+  const proveedores = useSelector((state) => state.proveedores);
+
+  const [proveedor, setProveedor] = useState("");
+  const [item, setItem] = useState("");
+  const [kilos, setKilos] = useState("");
+  const [unidades, setUnidades] = useState("");
+  const [partida, setPartida] = useState("");
 
   const handleSubmit = () => {
-    dispatch(adicionRapida({ 
-      proveedor,
-      tipoMovimiento: "ajusteSUMA",
-      item,
-      kilos,
-      unidades,
-      partida,
-      posicion: idPosicion
-     }));
+    dispatch(
+      adicionRapida({
+        proveedor,
+        tipoMovimiento: "ajusteSUMA",
+        item,
+        kilos,
+        unidades,
+        partida,
+        posicion: idPosicion,
+      })
+    );
     onClose();
   };
 
   const handleChangeProveedor = (e) => {
-    dispatch(seleccionarProveedor(e.target.value))
+    dispatch(seleccionarProveedor(e.target.value));
     setProveedor(e.target.value);
   };
+
+  const inputStyle = { fullWidth: true, margin: "normal" }; // Estilo uniforme para inputs
+
   return (
     <Modal open={open} onClose={onClose}>
-      <Box 
+      <Box
         sx={{
           padding: 4,
-          backgroundColor: 'white',
-          borderRadius: '8px',
+          backgroundColor: "white",
+          borderRadius: "8px",
           maxWidth: 400,
-          margin: 'auto',
-          marginTop: '10%',
-          maxHeight: '80vh', // Limitar altura del modal
-          overflowY: 'auto'  // Activar scroll en contenido largo
+          margin: "auto",
+          marginTop: "10%",
+          maxHeight: "80vh",
+          overflowY: "auto",
         }}
       >
-        <Typography variant="h6" mb={2}>Agregar Nuevo Ítem</Typography>
-        
+        <Typography variant="h6" mb={2}>
+          Agregar Nuevo Ítem
+        </Typography>
+
         <TextField
           label="Proveedor"
           value={proveedor}
           onChange={handleChangeProveedor}
           select
-          fullWidth
-          margin="normal"
+          {...inputStyle}
         >
           {proveedores.map((prov) => (
-            <MenuItem key={prov.id} value={prov}>{prov.nombre}</MenuItem>
+            <MenuItem key={prov.id} value={prov}>
+              {prov.nombre}
+            </MenuItem>
           ))}
         </TextField>
 
-        <ItemsSearchBar proveedor={proveedor} setItem={setItem}/>
+        <ItemsSearchBar proveedor={proveedor} setItem={setItem} inputStyle={inputStyle} />
 
         <TextField
           label="Kilos"
           type="number"
           value={kilos}
           onChange={(e) => setKilos(e.target.value)}
-          fullWidth
-          margin="normal"
+          {...inputStyle}
         />
 
         <TextField
@@ -77,19 +88,17 @@ export default function AdicionRapida({ open, onClose, idPosicion }) {
           type="number"
           value={unidades}
           onChange={(e) => setUnidades(e.target.value)}
-          fullWidth
-          margin="normal"
+          {...inputStyle}
         />
 
         <TextField
           label="Número de Partida"
           value={partida}
           onChange={(e) => setPartida(e.target.value)}
-          fullWidth
-          margin="normal"
+          {...inputStyle}
         />
 
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>
             Agregar
           </Button>
