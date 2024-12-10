@@ -44,7 +44,7 @@ export default function Cuarentena() {
     // Retornar true si alguna de las condiciones coincide
     return numeroPartidaMatch || descripcionMatch || categoriaMatch || proveedorMatch;
   })
-  .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)); // Ordenar por fecha descendente
+    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)); // Ordenar por fecha descendente
 
   const handleOpenModal = (partida) => {
     setSelectedPartida(partida);
@@ -100,7 +100,34 @@ export default function Cuarentena() {
   };
 
   const handleRechazarPartida = (partida) => {
-    // Mantener lógica de rechazar partida aquí
+    Swal.fire({
+      title: '¿Rechazar partida?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, rechazar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(cambiarEstadoPartida(partida.id, 'rechazada'));
+      }
+    });
+  };
+
+  const handleAsignarPosicion = (partida) => {
+    Swal.fire({
+      title: 'Asignar posición',
+      text: `¿Deseas asignar una posición a la partida ${partida.numeroPartida}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Asignar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+          handleOpenModal(partida);
+        Swal.fire('Posición asignada', 'La posición fue asignada correctamente.', 'success');
+      }
+    });
   };
 
   return (
@@ -157,6 +184,13 @@ export default function Cuarentena() {
                     <DoneAllIcon sx={{ color: 'green' }} />
                   )}
                 </IconButton>
+                {partida.estado === 'cuarentena-aprobada' && (
+                  <IconButton onClick={() => handleAsignarPosicion(partida)}>
+                    <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+                      Asignar posición
+                    </Typography>
+                  </IconButton>
+                )}
               </Paper>
             ) : (
               // Diseño para pantallas pequeñas (tablet y móvil)
@@ -180,8 +214,6 @@ export default function Cuarentena() {
                 <Typography variant="body2" mt={2}>
                   Kilos: {partida.kilos} - Unidades: {partida.unidades}
                 </Typography>
-
-                {/* Botones existentes */}
                 <IconButton
                   sx={{ position: 'absolute', top: 8, right: 8 }}
                   onClick={(e) => {
@@ -204,32 +236,19 @@ export default function Cuarentena() {
                     <DoneAllIcon sx={{ color: 'green' }} />
                   )}
                 </IconButton>
-
-                <IconButton
-                  sx={{ position: 'absolute', bottom: 8, right: 8 }}
-                  color="error"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (partida.estado === 'cuarentena-revision') {
-                      handleRechazarPartida(partida);
-                    } else {
-                      handleOpenModal(partida);
-                    }
-                  }}
-                >
-                  {partida.estado === 'cuarentena' ? null : partida.estado === 'cuarentena-revision' ? (
-                    <>
-                      <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
-                        Rechazar
-                      </Typography>
-                      <CloseIcon />
-                    </>
-                  ) : (
+                {partida.estado === 'cuarentena-aprobada' && (
+                  <IconButton
+                    sx={{ position: 'absolute', bottom: 8, right: 8 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAsignarPosicion(partida);
+                    }}
+                  >
                     <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
                       Asignar posición
                     </Typography>
-                  )}
-                </IconButton>
+                  </IconButton>
+                )}
               </Paper>
             )
           )
