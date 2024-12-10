@@ -111,19 +111,19 @@ return axios.post(`${URL}/movimientos/adicion-rapida`, adicion)
   });
 }
            
-export const agregarAlRemitoSalida = (selectedItem, kilos, unidades, id, proveedor) => async (dispatch) => { 
-  // return axios.post(`${URL}/movimientos/salida-desde-posicion`, {selectedItem, kilos, unidades, id, proveedor})
-  // .then(data=>{
-  //   Swal.fire({
-  //     title: "La mercaderia se agrego al remito de salida",
-  //     text: "La mercaderia se agrego al remito de salida",
-  //     icon: "success"
-  //   });
-  //   dispatch({ type: AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION, payload: {selectedItem, kilos, unidades, id}})
-  //    })
-  //   .catch(error => {
-  //      console.error("Error in datosBaseRemito:", error);
-  //   });
+export const agregarAlRemitoSalida = (selectedItem, kilos, unidades, id, proveedor, fecha) => async (dispatch) => { 
+  return axios.post(`${URL}/movimientos/salida-desde-posicion`, {selectedItem, kilos, unidades, id, proveedor})
+  .then(data=>{
+    Swal.fire({
+      title: "La mercaderia se agrego al remito de salida",
+      text: "La mercaderia se agrego al remito de salida",
+      icon: "success"
+    });
+    dispatch({ type: AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION, payload: {selectedItem, kilos, unidades, id}})
+     })
+    .catch(error => {
+       console.error("Error in datosBaseRemito:", error);
+    });
 }
 
 export const cambiarEstadoPartida = (id, estado) => async (dispatch) => {

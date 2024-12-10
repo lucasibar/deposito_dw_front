@@ -22,16 +22,20 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
   const [proveedor, setProveedor] = useState("");
   const [kilos, setKilos] = useState(item.kilos);
   const [unidades, setUnidades] = useState(item.unidades);
+  const [fecha, setFecha] = useState("");
 
   const handleProveedorChange = (e) => {
     setProveedor(e.target.value);
   };
 
+  const handleFechaChange = (e) => {
+    const value = e.target.value;
+    setFecha(value);
+  };
   const handleAjusteSubmit = () => {
-    dispatch(agregarAlRemitoSalida(item, proveedor, kilos, unidades, id));
+    dispatch(agregarAlRemitoSalida(item, proveedor, kilos, unidades, id, fecha));
     onClose();
   };
-
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -77,6 +81,15 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
           onChange={(e) => setUnidades(e.target.value)}
           fullWidth
           margin="normal"
+        />
+          <TextField
+          fullWidth
+          label="Fecha"
+          type="date"
+          value={fecha}
+          onChange={handleFechaChange}
+          InputLabelProps={{ shrink: true }}
+          sx={{ marginBottom: "20px" }}
         />
         <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
           <IconButton onClick={onClose} color="primary">
