@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { InputLabel, MenuItem, FormControl, Select, Button, TextField, Divider } from '@mui/material';
-import { agregarNuevoItem } from '../../../../../redux/actions';
+import { agregarNuevoItem } from '../../../../redux/actions';
 import './NuevoItem.css';
-import NavBar from '../../../../Utils/NavBar';
+import NavBar from '../../../Utils/NavBar';
 
 
 export default function NuevoItem() {

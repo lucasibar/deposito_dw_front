@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import Remito from './components/Remito/Remito'
-import NuevoItem from './components/Remito/FormRemito/ItemsSearchBar/NuevoItem/NuevoItem'
+import NuevoItem from './components/Remito/FormRemito/NuevoItem/NuevoItem'
 import Cuarentena from './components/Cuarentena/Cuarentena'
 import Salida from './components/Salida/Salida';
 import HistorialSalida from './components/HistorialSalida/HistorialSalida';

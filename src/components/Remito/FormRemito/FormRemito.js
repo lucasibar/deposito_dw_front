@@ -8,6 +8,7 @@ import {
   seleccionarNumeroRemito,
   agragarPartidaAlRemito,
   subirRemitoBDD,
+  generarNuevoProveedor
 } from '../../../redux/actions';
 import {
   Button,
@@ -48,7 +49,7 @@ export default function FormRemito() {
   // Filtrar los ítems según el proveedor seleccionado
   useEffect(() => {
     if (proveedorSeleccionado) {
-      const proveedor = proveedores.find((p) => p.nombre === proveedorSeleccionado);
+      const proveedor = proveedores.find((p) => p.nombre === proveedorSeleccionado.nombre);
       if (proveedor) {
         const itemsDelProveedor = itemsRedux.filter(
           (item) => item.proveedor && item.proveedor.id === proveedor.id
@@ -69,13 +70,13 @@ export default function FormRemito() {
   const handleNumeroRemitoChange = (e) => {
     const value = e.target.value;
     setNumeroRemito(value);
-    dispatch(seleccionarNumeroRemito(value));
+    // dispatch(seleccionarNumeroRemito(value));
   };
 
   const handleFechaChange = (e) => {
     const value = e.target.value;
     setFecha(value);
-    dispatch(seleccionarFecha(value));
+    // dispatch(seleccionarFecha(value));
   };
 
   const handleInputChange = (field) => (e) => {
@@ -94,10 +95,34 @@ export default function FormRemito() {
     }
   };
 
+  const crearNuevoProveedor = () => {
+    Swal.fire({
+      title: "Nombre del nuevo proveedor",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
+      showCancelButton: true,
+      confirmButtonText: "Cargar proveedor",
+      showLoaderOnConfirm: true,
+      preConfirm: async (nombreProveedor) => {
+        try {
+          dispatch(generarNuevoProveedor({nombre: nombreProveedor, categoria:"proveedor"}))
+        } catch (error) {
+          Swal.showValidationMessage(`
+            Request failed: ${error}
+            `);
+          }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+      })
+    };
+
+
   const subirRemito = () => {
     if (proveedorSeleccionado && numeroRemito && fecha) {
       const remito = {
-        proveedorSeleccionado,
+        proveedorSeleccionado: proveedorSeleccionado.nombre,
         fechaSeleccionado: fecha,
         numeroRemitoSeleccionado: numeroRemito,
         partidasRemito: partidasRemitoRedux,
@@ -118,8 +143,11 @@ export default function FormRemito() {
         <FormControl fullWidth sx={{ marginBottom: "20px" }}>
           <InputLabel>Proveedor</InputLabel>
           <Select value={proveedorSeleccionado} onChange={handleChangeProveedor}>
+            <Button onClick={crearNuevoProveedor} style={{ color: "blue" }}>
+              NUEVO PROVEEDOR
+            </Button>
             {proveedores.map((prov) => (
-              <MenuItem key={prov.id} value={prov.nombre}>
+              <MenuItem key={prov.id} value={prov}>
                 {prov.nombre}
               </MenuItem>
             ))}
@@ -149,14 +177,31 @@ export default function FormRemito() {
 
       {/* Selección de ítems y datos de la partida */}
       <div>
-        <Autocomplete
-          options={itemsFiltrados}
-          getOptionLabel={(option) => `${option.categoria} ${option.descripcion}`}
-          value={itemSeleccionado}
-          onChange={(event, newValue) => setItemSeleccionado(newValue)}
-          renderInput={(params) => <TextField {...params} label="Seleccionar ítem" />}
-          sx={{ marginBottom: "20px" }}
-        />
+      <Autocomplete
+  options={proveedorSeleccionado ? [...itemsFiltrados, { id: "nuevo-item", descripcion: "NUEVO ITEM", especial: true }] : []}
+  getOptionLabel={(option) =>
+    option.especial ? option.descripcion : `${option.categoria} ${option.descripcion}`
+  }
+  value={itemSeleccionado}
+  onChange={(event, newValue) => {
+    if (newValue?.especial) {
+      navigate('/deposito_dw_front/nuevoitem');
+    } else {
+      setItemSeleccionado(newValue);
+    }
+  }}
+  renderOption={(props, option) => (
+    <li
+      {...props}
+      style={{ color: option.especial ? "blue" : "inherit", fontWeight: option.especial ? "bold" : "normal" }}
+    >
+      {option.especial ? option.descripcion : `${option.categoria} ${option.descripcion}`}
+    </li>
+  )}
+  renderInput={(params) => <TextField {...params} label="Seleccionar ítem" />}
+  disabled={!proveedorSeleccionado} // Deshabilita si no hay proveedor seleccionado
+  sx={{ marginBottom: "20px" }}
+/>
 
         <TextField
           fullWidth
