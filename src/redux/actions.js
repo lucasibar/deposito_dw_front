@@ -112,7 +112,6 @@ return axios.post(`${URL}/movimientos/adicion-rapida`, adicion)
 }
            
 export const agregarAlRemitoSalida = (selectedItem, proveedor, kilos, unidades, id,  fecha) => async (dispatch) => { 
-  console.log(selectedItem, proveedor, kilos, unidades, id,  fecha)
   return axios.post(`${URL}/movimientos/salida-desde-posicion`, {selectedItem, kilos, unidades, id, proveedor, fecha})
   .then(data=>{
     Swal.fire({
