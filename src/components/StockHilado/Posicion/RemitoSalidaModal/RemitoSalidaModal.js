@@ -60,7 +60,7 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
           margin="normal"
         >
           {proveedoresFiltrados.map((prov) => (
-            <MenuItem key={prov.id} value={prov}>
+            <MenuItem key={prov.id} value={prov.id}>
               {prov.nombre}
             </MenuItem>
           ))}

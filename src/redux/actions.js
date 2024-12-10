@@ -111,8 +111,9 @@ return axios.post(`${URL}/movimientos/adicion-rapida`, adicion)
   });
 }
            
-export const agregarAlRemitoSalida = (selectedItem, kilos, unidades, id, proveedor, fecha) => async (dispatch) => { 
-  return axios.post(`${URL}/movimientos/salida-desde-posicion`, {selectedItem, kilos, unidades, id, proveedor})
+export const agregarAlRemitoSalida = (selectedItem, proveedor, kilos, unidades, id,  fecha) => async (dispatch) => { 
+  console.log(selectedItem, proveedor, kilos, unidades, id,  fecha)
+  return axios.post(`${URL}/movimientos/salida-desde-posicion`, {selectedItem, kilos, unidades, id, proveedor, fecha})
   .then(data=>{
     Swal.fire({
       title: "La mercaderia se agrego al remito de salida",
@@ -122,7 +123,7 @@ export const agregarAlRemitoSalida = (selectedItem, kilos, unidades, id, proveed
     dispatch({ type: AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION, payload: {selectedItem, kilos, unidades, id}})
      })
     .catch(error => {
-       console.error("Error in datosBaseRemito:", error);
+       console.error("Error in agregar al remito salida:", error);
     });
 }
 
