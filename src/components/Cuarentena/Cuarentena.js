@@ -46,7 +46,47 @@ export default function Cuarentena() {
   };
 
   const handleTogglePartidaEstado = (partida) => {
-    // Mantener lógica de cambiar estado aquí
+    if (partida.estado === 'cuarentena') {
+      Swal.fire({
+        title: '¿Llevar a revisión?',
+        text: '¿Llevarás la mercadería a testear?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, llevar a revisión',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
+        }
+      });
+    } else if (partida.estado === 'cuarentena-revision') {
+      Swal.fire({
+        title: 'Acción requerida',
+        text: 'Aprobar o devolver a cuarentena',
+        icon: 'question',
+        showDenyButton: true,
+        confirmButtonText: 'Aprobar',
+        denyButtonText: 'Devolver a cuarentena',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-aprobada'));
+        } else if (result.isDenied) {
+          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena'));
+        }
+      });
+    } else if (partida.estado === 'cuarentena-aprobada') {
+      Swal.fire({
+        title: 'Partida aprobada',
+        text: '¿Volver a revisión?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, volver a revisar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(cambiarEstadoPartida(partida.id, 'cuarentena-revision'));
+        }
+      });
+    }
   };
 
   const handleRechazarPartida = (partida) => {

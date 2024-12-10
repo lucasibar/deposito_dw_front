@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { adicionRapida, seleccionarProveedor, dataProveedoresItems } from "../../../../redux/actions";
 import ItemsSearchBar from "./ItemsSearchBar/ItemsSearchBar";
 
-export default function AdicionRapida({ open, onClose, idPosicion }) {
+export default function Devolucion({ open, onClose, idPosicion }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function AdicionRapida({ open, onClose, idPosicion }) {
         }}
       >
         <Typography variant="h6" mb={2}>
-          Agregar Nuevo Ítem
+        Devolucion
         </Typography>
 
         <TextField

@@ -62,46 +62,7 @@ export default function NavBar({ titulo }) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {titulo}
           </Typography>
-          {auth && (
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                {/* Iteramos sobre las rutas para crear los enlaces */}
-                {rutas.map((ruta) => (
-                  <MenuItem
-                    key={ruta.path}
-                    onClick={() => handleNavigate(ruta.path)}
-                    sx={{ fontWeight: 300 }} // Aquí ajustamos el grosor de la fuente
-                  >
-                    {ruta.nombre}
-                  </MenuItem>
-                ))}
-              </Menu>
-            </div>
-          )}
+          
         </Toolbar>
       </AppBar>
     </Box>

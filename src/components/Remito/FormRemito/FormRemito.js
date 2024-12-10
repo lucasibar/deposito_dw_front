@@ -30,6 +30,7 @@ export default function FormRemito() {
   // Estados globales
   const proveedores = useSelector((state) => state.proveedores);
   const itemsRedux = useSelector((state) => state.items); // Cambia "itemsProveedor" a "items" basado en las imágenes de tu estado
+  const partidasRemitoRedux = useSelector((state) => state.partidasRemito); // Cambia "itemsProveedor" a "items" basado en las imágenes de tu estado
 
   // Estados locales
   const [proveedorSeleccionado, setProveedorSeleccionado] = useState("");
@@ -50,7 +51,7 @@ export default function FormRemito() {
       const proveedor = proveedores.find((p) => p.nombre === proveedorSeleccionado);
       if (proveedor) {
         const itemsDelProveedor = itemsRedux.filter(
-          (item) => item.proveedor.id === proveedor.id
+          (item) => item.proveedor && item.proveedor.id === proveedor.id
         );
         setItemsFiltrados(itemsDelProveedor);
       }
@@ -99,11 +100,11 @@ export default function FormRemito() {
         proveedorSeleccionado,
         fechaSeleccionado: fecha,
         numeroRemitoSeleccionado: numeroRemito,
-        partidasRemito: [],
+        partidasRemito: partidasRemitoRedux,
         tipoMovimiento: "remitoEntrada",
       };
       dispatch(subirRemitoBDD(remito));
-      navigate("/deposito_dw_front/");
+      navigate("/deposito_dw_front/remito");
     } else {
       Swal.fire("Error", "Completa todos los campos obligatorios.", "error");
     }

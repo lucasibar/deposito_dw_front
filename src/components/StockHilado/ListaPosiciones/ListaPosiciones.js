@@ -19,6 +19,14 @@ export default function ListaPosiciones({
   const posicionesFiltradas = posiciones.filter((posicion) => {
     if (posicion.entrada) return false;
 
+    // Si no hay texto en la barra de búsqueda, devolver todas las posiciones
+    if (!searchText) {
+      const cumpleRack = rack ? posicion.rack === Number(rack) : true;
+      const cumpleFila = fila ? posicion.fila === Number(fila) : true;
+      const cumplePasillo = pasillo ? posicion.pasillo === Number(pasillo) : true;
+      return cumpleRack && cumpleFila && cumplePasillo;
+    }
+
     // Validar el filtro por rack
     const cumpleRack = rack ? posicion.rack === Number(rack) : true;
 
@@ -51,9 +59,7 @@ export default function ListaPosiciones({
       );
     });
 
-    // Devuelve posiciones que cumplan con rack, fila y pasillo,
-    // incluso si no tienen items
-    return cumpleRack && cumpleFila && cumplePasillo && (cumpleBusquedaGeneral || posicion.items.length === 0);
+    return cumpleRack && cumpleFila && cumplePasillo && cumpleBusquedaGeneral;
   });
 
   return (

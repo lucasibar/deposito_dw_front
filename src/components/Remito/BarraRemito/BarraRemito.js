@@ -5,8 +5,12 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function BarraRemito({ titulo }) {
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -18,6 +22,7 @@ export default function BarraRemito({ titulo }) {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={() => navigate('/deposito_dw_front/historial-salida')}
           >
             <AssignmentIcon />
           </IconButton>

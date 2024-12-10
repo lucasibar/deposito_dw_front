@@ -11,7 +11,7 @@ import NavBar from '../../Utils/NavBar';
 import MovimientoModal from './MovimientoModal/MovimientoModal';
 import AjusteModal from './AjusteModal/AjusteModal';
 import RemitoSalidaModal from './RemitoSalidaModal/RemitoSalidaModal';
-import AdicionRapida from './AdicionRapida/AdicionRapida';
+import Devolucion from './Devolucion/Devolucion'
 
 export default function Posiciones() {
   const { id, rack, fila, AB } = useParams();
@@ -96,7 +96,7 @@ const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
           </>
         )}
         
-        <AdicionRapida open={openAdicionRapida} onClose={handleCloseAdicionRapida} idPosicion={id}/>
+        <Devolucion open={openAdicionRapida} onClose={handleCloseAdicionRapida} idPosicion={id}/>
         </Box>
     </>
   );
