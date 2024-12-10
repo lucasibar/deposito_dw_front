@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -54,7 +54,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function BarraCuarentena({ titulo, setFilterState }) {
-  const [currentIcon, setCurrentIcon] = React.useState('FilterAlt'); // Estado del ícono actual
+  const [currentIcon, setCurrentIcon] = useState('FilterAlt'); // Estado del ícono actual
 
   const handleIconClick = () => {
     switch (currentIcon) {
@@ -93,6 +93,11 @@ export default function BarraCuarentena({ titulo, setFilterState }) {
     }
   };
 
+  const handleSearchChange = (e) => {
+    const searchValue = e.target.value;
+    setFilterState(searchValue); // Actualizar el estado en el componente padre
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -120,8 +125,9 @@ export default function BarraCuarentena({ titulo, setFilterState }) {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="Buscar…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleSearchChange} // Manejador para capturar cambios en la barra de búsqueda
             />
           </Search>
         </Toolbar>

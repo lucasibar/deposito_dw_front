@@ -29,12 +29,22 @@ export default function Cuarentena() {
   const partidasCuarentena = useSelector((state) => state.partidasCuarentena);
 
   // Filtrar las partidas según el estado seleccionado
-  const partidasFiltradas = partidasCuarentena
-    .filter((partida) => {
-      if (!filterState) return true; // Si no hay filtro, mostrar todas
-      return partida.estado === filterState;
-    })
-    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)); // Ordenar por fecha descendente
+  const partidasFiltradas = partidasCuarentena.filter((partida) => {
+    if (!filterState) return true; // Si no hay filtro, mostrar todas
+
+    // Convertir `filterState` a minúsculas para comparación insensible a mayúsculas/minúsculas
+    const filterText = filterState.toLowerCase();
+
+    // Verificar si hay coincidencia en número de partida, descripción, categoría o nombre del proveedor
+    const numeroPartidaMatch = partida.numeroPartida.toString().toLowerCase().includes(filterText);
+    const descripcionMatch = partida.item?.descripcion?.toLowerCase().includes(filterText);
+    const categoriaMatch = partida.item?.categoria?.toLowerCase().includes(filterText);
+    const proveedorMatch = partida.item?.proveedor?.nombre?.toLowerCase().includes(filterText);
+
+    // Retornar true si alguna de las condiciones coincide
+    return numeroPartidaMatch || descripcionMatch || categoriaMatch || proveedorMatch;
+  })
+  .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)); // Ordenar por fecha descendente
 
   const handleOpenModal = (partida) => {
     setSelectedPartida(partida);
