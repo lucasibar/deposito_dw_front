@@ -39,10 +39,19 @@ export default function HistorialSalida() {
 
     let y = 60;
     remito.items.forEach((item, index) => {
-      doc.text(`${index + 1}. Proveedor: ${item.proveedor || 'Sin proveedor'}, Descripción: ${item.descripcion}`, 10, y);
-      doc.text(`   Kilos: ${item.kilos} kg, Unidades: ${item.unidades}`, 10, y + 10);
+      doc.text(
+        `Proveedor: ${item.proveedor || 'Sin proveedor'}, Descripción: ${item.categoria} ${item.descripcion}`,
+        10,
+        y
+      );
+      doc.text(
+        `   Partida: ${item.partida || 'Sin partida'}, Kilos: ${item.kilos} kg, Unidades: ${item.unidades}`,
+        10,
+        y + 10
+      );
       y += 20;
     });
+    
 
     // Save the PDF
     doc.save(`remito_${remito.numeroRemito || 'sin_numero'}.pdf`);
@@ -110,8 +119,11 @@ export default function HistorialSalida() {
                       <Typography variant="body2" sx={{ flex: 1 }}>
                         {item.proveedor || 'Sin proveedor'}
                       </Typography>
+                      <Typography variant="body2" sx={{ flex: 1 }}>
+                        Partida {item.partida || 'Sin partida'}
+                      </Typography>
                       <Typography variant="body2" sx={{ flex: 2 }}>
-                        {item.descripcion}
+                      {item.categoria} {item.descripcion}
                       </Typography>
                       <Typography variant="body2" sx={{ flex: 1, textAlign: 'right' }}>
                         {item.kilos} kg
