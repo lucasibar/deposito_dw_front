@@ -53,7 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function BarraCuarentena({ titulo, setFilterState }) {
+export default function BarraCuarentena({ titulo, setFilterState, setFilterTextState }) {
   const [currentIcon, setCurrentIcon] = useState('FilterAlt'); // Estado del ícono actual
 
   const handleIconClick = () => {
@@ -95,7 +95,7 @@ export default function BarraCuarentena({ titulo, setFilterState }) {
 
   const handleSearchChange = (e) => {
     const searchValue = e.target.value;
-    setFilterState(searchValue); // Actualizar el estado en el componente padre
+    setFilterTextState(searchValue); // Actualizar el estado en el componente padre
   };
 
   return (

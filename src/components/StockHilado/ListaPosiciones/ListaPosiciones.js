@@ -84,10 +84,10 @@ export default function ListaPosiciones({
             }
           >
             <Typography variant="subtitle1">
-              {`Pasillo: ${posicion.pasillo || "N/A"} - Rack: ${
-                posicion.rack || "N/A"
-              } - Fila: ${posicion.fila || "N/A"} - ${
-                posicion.AB || "N/A"
+              {`Pasillo: ${posicion.pasillo || "-"}   Rack: ${
+                posicion.rack || "-"
+              }   Fila: ${posicion.fila || "-"}   Piso: ${
+                posicion.AB || "-"
               }`}
             </Typography>
             {posicion.items.length > 0 ? (

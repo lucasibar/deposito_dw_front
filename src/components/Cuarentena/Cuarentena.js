@@ -9,11 +9,12 @@ import BarraCuarentena from './BarraCuarentena/BarraCuarentena';
 import BotonesNavegacion from '../Utils/BotonesNavegacion/BotonesNavegacion';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { partidasEnCuarentena, cambiarEstadoPartida } from '../../redux/actions';
+import { partidasEnCuarentena, cambiarEstadoPartida, agregarAlRemitoSalida } from '../../redux/actions';
 import Swal from 'sweetalert2';
 
 export default function Cuarentena() {
   const [filterState, setFilterState] = useState(null); // Estado para manejar el filtro dinámico
+  const [filterTextState, setFilterTextState] = useState(null); // Estado para manejar el filtro dinámico
   const [openModal, setOpenModal] = useState(false);
   const [selectedPartida, setSelectedPartida] = useState(null);
   const dispatch = useDispatch();
@@ -30,21 +31,23 @@ export default function Cuarentena() {
 
   // Filtrar las partidas según el estado seleccionado
   const partidasFiltradas = partidasCuarentena.filter((partida) => {
-    if (!filterState) return true; // Si no hay filtro, mostrar todas
-
-    // Convertir `filterState` a minúsculas para comparación insensible a mayúsculas/minúsculas
-    const filterText = filterState.toLowerCase();
-
-    // Verificar si hay coincidencia en número de partida, descripción, categoría o nombre del proveedor
+    // Filtrar por estado si filterState está definido
+    const estadoMatch = filterState ? partida.estado === filterState : true;
+  
+    // Filtrar por texto si filterTextState está definido
+    const filterText = filterTextState ? filterTextState.toLowerCase() : '';
     const numeroPartidaMatch = partida.numeroPartida.toString().toLowerCase().includes(filterText);
     const descripcionMatch = partida.item?.descripcion?.toLowerCase().includes(filterText);
     const categoriaMatch = partida.item?.categoria?.toLowerCase().includes(filterText);
     const proveedorMatch = partida.item?.proveedor?.nombre?.toLowerCase().includes(filterText);
-
-    // Retornar true si alguna de las condiciones coincide
-    return numeroPartidaMatch || descripcionMatch || categoriaMatch || proveedorMatch;
+  
+    const textoMatch = numeroPartidaMatch || descripcionMatch || categoriaMatch || proveedorMatch;
+  
+    // Retornar true solo si ambos filtros coinciden
+    return estadoMatch && textoMatch;
   })
-    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)); // Ordenar por fecha descendente
+  .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)); // Ordenar por fecha descendente
+  
 
   const handleOpenModal = (partida) => {
     setSelectedPartida(partida);
@@ -99,7 +102,9 @@ export default function Cuarentena() {
     }
   };
 
-  const handleRechazarPartida = (partida) => {
+   const handleRechazarPartida = (partida) => {
+    const fecha = new Date().toISOString().split('T')[0]; // Obtener la fecha actual en formato "AAAA-MM-DD"
+
     Swal.fire({
       title: '¿Rechazar partida?',
       text: 'Esta acción no se puede deshacer',
@@ -109,6 +114,16 @@ export default function Cuarentena() {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
+        dispatch(
+          agregarAlRemitoSalida(
+            partida.item,
+            "9ee1c0f3-28ee-408e-991a-3c8cc3d8a7d7",
+            partida.kilos,
+            partida.unidades,
+            "34e65960-48e3-4aef-bf65-58d71511bb0b",
+            fecha 
+          )
+        );
         dispatch(cambiarEstadoPartida(partida.id, 'rechazada'));
       }
     });
@@ -132,7 +147,7 @@ export default function Cuarentena() {
 
   return (
     <>
-      <BarraCuarentena titulo="Cuarentena" setFilterState={setFilterState} />
+      <BarraCuarentena titulo="Cuarentena" setFilterState={setFilterState} setFilterTextState={setFilterTextState}   />
 
       <BotonesNavegacion pagina="cuarentena" />
 
@@ -156,23 +171,15 @@ export default function Cuarentena() {
                   <strong>Partida:</strong> {partida.numeroPartida}
                 </Typography>
                 <Typography variant="subtitle1" sx={{ flex: 1 }}>
-                  <strong>Proveedor:</strong> {partida.item?.proveedor?.nombre || '-'}
+                  {partida.item?.proveedor?.nombre || '-'}
                 </Typography>
                 <Typography variant="subtitle1" sx={{ flex: 1 }}>
-                  <strong>Categoría:</strong> {partida.item?.categoria || '-'}
+                  {partida.item?.categoria || '-'} {partida.item?.descripcion || '-'}
                 </Typography>
                 <Typography variant="subtitle1" sx={{ flex: 1 }}>
-                  <strong>Descripción:</strong> {partida.item?.descripcion || '-'}
+                  <strong>Kilos:</strong> {partida.kilos} <strong>Unidades:</strong> {partida.unidades}
                 </Typography>
-                <Typography variant="subtitle1" sx={{ flex: 1 }}>
-                  <strong>Kilos:</strong> {partida.kilos}
-                </Typography>
-                <Typography variant="subtitle1" sx={{ flex: 1 }}>
-                  <strong>Unidades:</strong> {partida.unidades}
-                </Typography>
-                <Typography variant="subtitle1" sx={{ flex: 1 }}>
-                  <strong>Estado:</strong> {partida.estado}
-                </Typography>
+
                 <IconButton onClick={() => handleTogglePartidaEstado(partida)}>
                   {partida.estado === 'cuarentena' ? (
                     <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
@@ -184,13 +191,19 @@ export default function Cuarentena() {
                     <DoneAllIcon sx={{ color: 'green' }} />
                   )}
                 </IconButton>
-                {partida.estado === 'cuarentena-aprobada' && (
-                  <IconButton onClick={() => handleAsignarPosicion(partida)}>
-                    <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
-                      Asignar posición
-                    </Typography>
-                  </IconButton>
-                )}
+                {partida.estado === 'cuarentena-aprobada' ? (
+                <IconButton onClick={() => handleAsignarPosicion(partida)}>
+                  <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+                    Asignar posición
+                  </Typography>
+                </IconButton>
+              ) : (
+                <IconButton onClick={() => handleRechazarPartida(partida)}>
+                  <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+                    Rechazo
+                  </Typography>
+                </IconButton>
+              )}
               </Paper>
             ) : (
               // Diseño para pantallas pequeñas (tablet y móvil)
@@ -223,20 +236,17 @@ export default function Cuarentena() {
                 >
                   {partida.estado === 'cuarentena' ? (
                     <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
-                      Mercaderia a testear
+                      Testear
                     </Typography>
                   ) : partida.estado === 'cuarentena-revision' ? (
                     <>
-                      <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
-                        En proceso
-                      </Typography>
                       <UpdateIcon sx={{ color: 'orange' }} />
                     </>
                   ) : (
                     <DoneAllIcon sx={{ color: 'green' }} />
                   )}
                 </IconButton>
-                {partida.estado === 'cuarentena-aprobada' && (
+                {partida.estado === 'cuarentena-aprobada' ? (
                   <IconButton
                     sx={{ position: 'absolute', bottom: 8, right: 8 }}
                     onClick={(e) => {
@@ -246,6 +256,14 @@ export default function Cuarentena() {
                   >
                     <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
                       Asignar posición
+                    </Typography>
+                  </IconButton>
+                ): (
+                  <IconButton 
+                  sx={{ position: 'absolute', bottom: 8, right: 8 }}
+                  onClick={() => handleRechazarPartida(partida)}>
+                    <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+                      Rechazo
                     </Typography>
                   </IconButton>
                 )}

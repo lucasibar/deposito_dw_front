@@ -48,7 +48,7 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
           marginTop: "10%",
         }}
       >
-        <Typography variant="h6">Remito de salida</Typography>
+        <Typography variant="h6">Agregar a Remito de salida</Typography>
 
         {/* Select de proveedores filtrados */}
         <TextField

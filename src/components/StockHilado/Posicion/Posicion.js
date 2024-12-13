@@ -69,7 +69,9 @@ const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
               </IconButton>
 
               <IconButton sx={{ position: 'absolute', top: 8, right: 8 }} color="primary" onClick={() => handleOpenRemitoModal(item)}>
-                <AddCircleIcon />
+              <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+                      Remito Salida
+              </Typography>
               </IconButton>
             </Paper>
           ))
