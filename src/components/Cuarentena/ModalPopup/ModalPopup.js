@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { partidaAprobada } from '../../../redux/actions';
+import { pasarPartidaAStock } from '../../../redux/actions';
 
 import { Modal, Box, Typography, TextField, Button, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import ListadoKilosPartidaPorPosicion from './ListadoKilosPartidaPorPosicion/ListadoKilosPartidaPorPosicion'
@@ -93,7 +93,7 @@ export default function ModalPopup({ open, handleClose, partida }) {
         confirmButtonText: "Aprobada",
       }).then((result) => {
         if (result.isConfirmed) {
-          dispatch(partidaAprobada(nuevaDistribucion));
+          dispatch(pasarPartidaAStock(nuevaDistribucion));
         }
         // Limpiar el estado después de guardar
         setRack("");

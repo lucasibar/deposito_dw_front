@@ -431,7 +431,7 @@ export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
   return dispatch({ type: ELIMINAR_PARTIDA_AL_REMITO, payload: numeroPartida });
 };
 
-export const partidaAprobada = (partida) => dispatch => {  
+export const pasarPartidaAStock = (partida) => dispatch => {  
   return axios.put(`${URL}/partidas/cuarentena-stock`, partida)
   .then(data => {
       dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
