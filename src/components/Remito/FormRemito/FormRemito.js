@@ -81,14 +81,26 @@ export default function FormRemito() {
 
   const handleInputChange = (field) => (e) => {
     const value = e.target.value;
-    if (/^\d*$/.test(value)) {
+    if (field === "kilos" || field === "unidades") {
+      // Para kilos y unidades, mantener la validación numérica
+      if (/^\d*$/.test(value)) {
+        setPartida((prev) => ({ ...prev, [field]: value }));
+      }
+    } else if (field === "numeroPartida") {
+      // Para numeroPartida, asegurarnos que se guarde como string
+      setPartida((prev) => ({ ...prev, [field]: value.toString() }));
+    } else {
       setPartida((prev) => ({ ...prev, [field]: value }));
     }
   };
 
   const agregarPartida = () => {
     if (itemSeleccionado) {
-      const nuevaPartida = { ...partida, item: itemSeleccionado };
+      const nuevaPartida = { 
+        ...partida, 
+        numeroPartida: partida.numeroPartida.toString(), // Asegurar que sea string
+        item: itemSeleccionado 
+      };
       dispatch(agragarPartidaAlRemito(nuevaPartida));
       setPartida({ kilos: "", numeroPartida: "", unidades: "" });
       setItemSeleccionado(null);

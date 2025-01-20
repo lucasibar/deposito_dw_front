@@ -36,7 +36,7 @@ export default function Cuarentena() {
   
     // Filtrar por texto si filterTextState está definido
     const filterText = filterTextState ? filterTextState.toLowerCase() : '';
-    const numeroPartidaMatch = partida.numeroPartida.toString().toLowerCase().includes(filterText);
+    const numeroPartidaMatch = String(partida.numeroPartida).toLowerCase().includes(filterText);
     const descripcionMatch = partida.item?.descripcion?.toLowerCase().includes(filterText);
     const categoriaMatch = partida.item?.categoria?.toLowerCase().includes(filterText);
     const proveedorMatch = partida.item?.proveedor?.nombre?.toLowerCase().includes(filterText);
