@@ -27,7 +27,8 @@ import {
   OBTENER_MOVIMIENTOS_SIN_REMITO,
   SELECCIONAR_PARTIDA_SALIDA,
   ELIMINAR_PARTIDA_AL_REMITO,
-  PARTIDAS_EN_CUARENTENA
+  PARTIDAS_EN_CUARENTENA,
+  PARTIDAS_DE_CUARENTENA_A_STOCK
 } from './actions';
 
 const initialState = { 
@@ -55,6 +56,15 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case PARTIDAS_DE_CUARENTENA_A_STOCK:
+
+    return {
+      ...state,
+      partidasCuarentena: state.partidasCuarentena.filter(partida => partida.id !== action.payload[0].partida.id)
+    } 
+
+
+
   case SELECCIONAR_PARTIDA_SALIDA:
     const partidaExiste = state.movimientosSalidaRemito.find(
       (p) => p.id === action.payload.id

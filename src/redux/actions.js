@@ -34,6 +34,7 @@ export const OBTENER_MOVIMIENTOS_SIN_REMITO = 'OBTENER_MOVIMIENTOS_SIN_REMITO';
 export const SELECCIONAR_PARTIDA_SALIDA = 'SELECCIONAR_PARTIDA_SALIDA';
 export const GENERAR_REMITO_SALIDA = 'GENERAR_REMITO_SALIDA';
 export const ELIMINAR_PARTIDA_AL_REMITO = 'ELIMINAR_PARTIDA_AL_REMITO';
+export const PARTIDAS_DE_CUARENTENA_A_STOCK = 'PARTIDAS_DE_CUARENTENA_A_STOCK';
 
 export const URL = "https://derwill-deposito-backend.onrender.com";
 
@@ -432,9 +433,10 @@ export const deletePartidaDelRemito = (numeroPartida) => dispatch => {
 };
 
 export const pasarPartidaAStock = (partida) => dispatch => {  
-  return axios.put(`${URL}/partidas/cuarentena-stock`, partida)
+  console.log("partida", partida)
+  return axios.post(`${URL}/movimientos/entrada-posicion`, partida)
   .then(data => {
-      dispatch({ type: PARTIDAS_EN_CUARENTENA, payload: data.data });
+      dispatch({ type: PARTIDAS_DE_CUARENTENA_A_STOCK, payload: partida });
   })
   .catch(error => {
       Swal.fire({
