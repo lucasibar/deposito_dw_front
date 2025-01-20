@@ -218,9 +218,9 @@ export default function ModalPopup({ open, handleClose, partida }) {
             onChange={handlePasilloChange}
           >
             <MenuItem value=""><em>None</em></MenuItem>
-            {Array.from({ length: 22 }, (_, index) => (
-              <MenuItem key={index} value={index}>
-                {`Pasillo ${index}`}
+            {Array.from({ length: 11 }, (_, index) => (
+              <MenuItem key={index} value={index+1}>
+                {`Pasillo ${index+1}`}
               </MenuItem>
             ))}
           </Select>
