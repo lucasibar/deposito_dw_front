@@ -28,6 +28,13 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
     setProveedor(e.target.value);
   };
 
+  const handleCajasResta = (e) => {
+    const value = e.target.value;
+    const kilosArestar=(item.kilos/item.unidades)*value
+    setKilos(kilosArestar)
+    setUnidades(value);
+  };
+
   const handleFechaChange = (e) => {
     const value = e.target.value;
     setFecha(value);
@@ -66,19 +73,14 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
           ))}
         </TextField>
 
-        <TextField
-          label="Kilos"
-          type="number"
-          value={kilos}
-          onChange={(e) => setKilos(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
+        <Typography variant="h6" component="h6">
+          Kilos {kilos}
+        </Typography>
         <TextField
           label="Unidades"
           type="number"
           value={unidades}
-          onChange={(e) => setUnidades(e.target.value)}
+          onChange={handleCajasResta}
           fullWidth
           margin="normal"
         />
