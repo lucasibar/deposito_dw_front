@@ -44,18 +44,38 @@ export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispat
 };
 
 export const agregarAlRemitoSalida = (selectedItem, proveedor, kilos, unidades, id, fecha) => async (dispatch) => { 
-  return axios.post(`${URL}/movimientos/salida-desde-posicion`, {selectedItem, kilos, unidades, id, proveedor, fecha})
-    .then(data => {
-      Swal.fire({
-        title: "La mercaderia se agrego al remito de salida",
-        text: "La mercaderia se agrego al remito de salida",
-        icon: "success"
-      });
-      dispatch({ type: AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION, payload: {selectedItem, kilos, unidades, id}});
-    })
-    .catch(error => {
-      console.error("Error in agregar al remito salida:", error);
+  return axios.post(`${URL}/movimientos/salida-desde-posicion`, {
+    selectedItem, 
+    kilos: parseFloat(kilos),
+    unidades: parseInt(unidades),
+    id, 
+    proveedor, 
+    fecha
+  })
+  .then(data => {
+    Swal.fire({
+      title: "La mercaderia se agrego al remito de salida",
+      text: "La mercaderia se agrego al remito de salida",
+      icon: "success"
     });
+    // Primero actualizamos el estado local
+    dispatch({ 
+      type: AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION, 
+      payload: {
+        selectedItem, 
+        kilos: parseFloat(kilos),
+        unidades: parseInt(unidades),
+      }
+    });
+  })
+  .catch(error => {
+    console.error("Error in agregar al remito salida:", error);
+    Swal.fire({
+      title: "Error",
+      text: "No se pudo agregar la mercadería al remito",
+      icon: "error"
+    });
+  });
 };
 
 export const obtenerMovimientosSinRemito = () => async (dispatch) => {

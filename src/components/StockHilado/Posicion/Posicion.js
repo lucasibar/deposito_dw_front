@@ -17,10 +17,16 @@ export default function Posiciones() {
   const { id, rack, fila, AB } = useParams();
   const dispatch = useDispatch();
   const itemsPosicion = useSelector((state) => state.itemsPosicion);
-  const [itemsRenderizar, setItemsRenderizar] = useState(false);
-  useEffect(() => { setItemsRenderizar(itemsPosicion) }, [itemsPosicion]);
+  const [itemsArenderizar, setItemsArenderizar] = useState(false);
 
-  useEffect(() => { dispatch(obtenerItemsPorPosicion(id)) }, [dispatch, id]);
+
+  useEffect(() => {
+    dispatch(obtenerItemsPorPosicion(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    setItemsArenderizar(itemsPosicion);
+  }, [itemsPosicion]);
 
   const [openMovimientoModal, setOpenMovimientoModal] = useState(false);
   const [openAjusteModal, setOpenAjusteModal] = useState(false);
@@ -44,36 +50,40 @@ const handleCloseAdicionRapida = () => setOpenAdicionRapida(false);
     <>
       <NavBar titulo={`Posición F${rack} - R${fila} - P${AB}`} />
       <Box sx={{ padding: 2 }}>
-        {itemsRenderizar.length > 0 ? (
-          itemsRenderizar.map((item, index) => (
-            <Paper
-              key={index}
-              sx={{ padding: 2, marginBottom: 2, borderRadius: '16px', cursor: 'pointer', position: 'relative' }}
-            >
-              <Typography variant="subtitle1"> {`Partida: ${item.partida}`}</Typography>
-              <Typography variant="body2" mt={2}>{item.proveedor.nombre} {item.categoria} {item.descripcion}</Typography>
-              
-              <Typography variant="body2" mt={2}>
-                Kilos: 
-                <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleOpenAjusteModal(item)}>
-                  {item.kilos}
-                </span> 
-                - Unidades: 
-                <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleOpenAjusteModal(item)}>
-                  {item.unidades}
-                </span>
-              </Typography>
+        {itemsArenderizar.length > 0 ? (
+          itemsArenderizar.map((item, index) => (
+            item.kilos > 0 && item.unidades > 0 ? (
+              <Paper
+                key={index}
+                sx={{ padding: 2, marginBottom: 2, borderRadius: '16px', cursor: 'pointer', position: 'relative' }}
+              >
+                <Typography variant="subtitle1">{`Partida: ${item.partida}`}</Typography>
+                <Typography variant="body2" mt={2}>
+                  {item.proveedor.nombre} {item.categoria} {item.descripcion}
+                </Typography>
+                
+                <Typography variant="body2" mt={2}>
+                  Kilos: 
+                  <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleOpenAjusteModal(item)}>
+                    {item.kilos}
+                  </span> 
+                  - Unidades: 
+                  <span style={{ color: 'blue', cursor: 'pointer' }} onClick={() => handleOpenAjusteModal(item)}>
+                    {item.unidades}
+                  </span>
+                </Typography>
 
-              <IconButton sx={{ position: 'absolute', bottom: 8, right: 8 }} color="error" onClick={() => handleOpenMovimientoModal(item)}>
-                <KeyboardDoubleArrowRightIcon />
-              </IconButton>
+                <IconButton sx={{ position: 'absolute', bottom: 8, right: 8 }} color="error" onClick={() => handleOpenMovimientoModal(item)}>
+                  <KeyboardDoubleArrowRightIcon />
+                </IconButton>
 
-              <IconButton sx={{ position: 'absolute', top: 8, right: 8 }} color="primary" onClick={() => handleOpenRemitoModal(item)}>
-              <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
-                      Remito Salida
-              </Typography>
-              </IconButton>
-            </Paper>
+                <IconButton sx={{ position: 'absolute', top: 8, right: 8 }} color="primary" onClick={() => handleOpenRemitoModal(item)}>
+                <Typography sx={{ color: 'blue', fontWeight: 'bold', fontSize: '0.875rem' }}>
+                        Remito Salida
+                </Typography>
+                </IconButton>
+              </Paper>
+            ) : null
           ))
         ) : (
           <Typography variant="body2" mt={2}>

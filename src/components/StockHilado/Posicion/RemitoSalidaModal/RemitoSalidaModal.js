@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Box, Typography, TextField, IconButton, MenuItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { agregarAlRemitoSalida, dataProveedoresItems } from "../../../../redux/actions";
+import Swal from "sweetalert2";
 
 export default function RemitoSalidaModal({ open, onClose, item, id }) {
   const dispatch = useDispatch();
@@ -20,9 +21,14 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
   );
 
   const [proveedor, setProveedor] = useState("");
-  const [kilos, setKilos] = useState(item.kilos);
-  const [unidades, setUnidades] = useState(item.unidades);
+  const [kilos, setKilos] = useState(0);
+  const [unidades, setUnidades] = useState(0);
   const [fecha, setFecha] = useState("");
+
+useEffect(() => {
+  setKilos(item.kilos);
+  setUnidades(item.unidades);
+}, [item]);
 
   const handleProveedorChange = (e) => {
     setProveedor(e.target.value);
@@ -30,8 +36,9 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
 
   const handleCajasResta = (e) => {
     const value = e.target.value;
-    const kilosArestar=(item.kilos/item.unidades)*value
-    setKilos(kilosArestar)
+    // Calcular kilos proporcionalmente a las unidades
+    const kilosArestar = (item.kilos/item.unidades) * value;
+    setKilos(kilosArestar);
     setUnidades(value);
   };
 
@@ -39,10 +46,34 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
     const value = e.target.value;
     setFecha(value);
   };
+
   const handleAjusteSubmit = () => {
-    dispatch(agregarAlRemitoSalida(item, proveedor, kilos, unidades, id, fecha));
-    onClose();
+    if (kilos > item.kilos || unidades > item.unidades) {
+      Swal.fire({
+        title: "Error",
+        text: "No puede sacar más mercadería de la que hay disponible",
+        icon: "error"
+      });
+      return;
+    }
+
+    dispatch(agregarAlRemitoSalida(
+      item, 
+      proveedor, 
+      parseFloat(kilos),
+      parseInt(unidades), 
+      id, 
+      fecha
+    )).then(() => {
+      onClose();
+    });
   };
+
+  // Función para validar que todos los campos estén completos
+  const isFormValid = () => {
+    return proveedor && fecha;
+  };
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -93,13 +124,25 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
           InputLabelProps={{ shrink: true }}
           sx={{ marginBottom: "20px" }}
         />
-        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-          <IconButton onClick={onClose} color="primary">
-            Cerrar
+        <Box 
+          sx={{ 
+            display: "flex", 
+            justifyContent: "flex-end", 
+            mt: 2,
+            gap: 2 // Espacio entre botones
+          }}
+        >
+          <IconButton 
+            onClick={onClose} 
+            color="error"
+          >
+            Cancelar
           </IconButton>
-        </Box>
-        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-          <IconButton onClick={handleAjusteSubmit} color="primary">
+          <IconButton 
+            onClick={handleAjusteSubmit} 
+            color="primary"
+            disabled={!isFormValid()} // Deshabilitar si el formulario no es válido
+          >
             Aceptar
           </IconButton>
         </Box>

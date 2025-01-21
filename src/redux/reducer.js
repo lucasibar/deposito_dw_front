@@ -83,18 +83,18 @@ switch (action.type) {
     }   
 
   case AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION:
-    const { selectedItem, kilos, unidades, id } = action.payload;
+    const { selectedItem, kilos, unidades } = action.payload;
     return {
       ...state,
       itemsPosicion: state.itemsPosicion.map(itm => 
-        itm.id === selectedItem.id
+        (itm.itemId === selectedItem.itemId)
           ? {
               ...itm,
-              kilos: itm.kilos - kilos,
-              unidades: itm.unidades - unidades
+              kilos: parseFloat((itm.kilos - kilos).toFixed(2)),
+              unidades: parseInt(itm.unidades - unidades)
             }
           : itm
-      )
+      ).filter(itm => itm.kilos > 0 && itm.unidades > 0)
     };
 
   case ADICION_RAPIDA_A_POSICION:
