@@ -38,7 +38,7 @@ export default function Posiciones() {
   const handleCloseMovimientoModal = () => setOpenMovimientoModal(false);
 
   const handleOpenAjusteModal = (item) => { setSelectedItem(item); setOpenAjusteModal(true); };
-  const handleCloseAjusteModal = () => setOpenAjusteModal(false);
+  const handleCloseAjusteModal = () => setOpenAjusteModal(false); 
 
   const handleOpenRemitoModal = (item) => { setSelectedItem(item); setOpenRemitoModal(true); };
   const handleCloseRemitoModal = () => setOpenRemitoModal(false);

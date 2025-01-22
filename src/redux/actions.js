@@ -38,12 +38,9 @@ export const PARTIDAS_DE_CUARENTENA_A_STOCK = 'PARTIDAS_DE_CUARENTENA_A_STOCK';
 
 export const URL = "https://derwill-deposito-backend.onrender.com";
 
-// Mantener solo las funciones no duplicadas y limpias
-export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 
-  console.log("actualizarKilosUnidades", selectedItem, data, id);
-};
 
 export const agregarAlRemitoSalida = (selectedItem, proveedor, kilos, unidades, id, fecha) => async (dispatch) => { 
+  console.log("agregarAlRemitoSalida", selectedItem, proveedor, kilos, unidades, id, fecha);
   return axios.post(`${URL}/movimientos/salida-desde-posicion`, {
     selectedItem, 
     kilos: parseFloat(kilos),
@@ -77,6 +74,21 @@ export const agregarAlRemitoSalida = (selectedItem, proveedor, kilos, unidades, 
     });
   });
 };
+
+
+
+
+
+
+
+
+
+// Mantener solo las funciones no duplicadas y limpias
+export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 
+  console.log("actualizarKilosUnidades", selectedItem, data, id);
+};
+
+
 
 export const obtenerMovimientosSinRemito = () => async (dispatch) => {
   return axios.get(`${URL}/movimientos/sin-remito`)

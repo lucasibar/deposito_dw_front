@@ -56,6 +56,27 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
 switch (action.type) {
+  case AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION:
+    const { selectedItem, kilos, unidades } = action.payload;
+    return {
+      ...state,
+      itemsPosicion: state.itemsPosicion.map(itm => 
+        (itm.itemId === selectedItem.itemId && itm.partida === selectedItem.partida)
+          ? {
+              ...itm,
+              kilos: itm.kilos - kilos,
+              unidades: parseInt(itm.unidades - unidades)
+            }
+          : itm
+      ).filter(itm => itm.kilos > 0 && itm.unidades > 0)
+    };
+
+  
+  
+  
+  
+  
+  
   case PARTIDAS_DE_CUARENTENA_A_STOCK:
 
     return {
@@ -82,20 +103,6 @@ switch (action.type) {
       movimientosSinRemito: action.payload,
     }   
 
-  case AJUSTAR_CANTIDAD_PARTIDA_DE_POSICION:
-    const { selectedItem, kilos, unidades } = action.payload;
-    return {
-      ...state,
-      itemsPosicion: state.itemsPosicion.map(itm => 
-        (itm.itemId === selectedItem.itemId)
-          ? {
-              ...itm,
-              kilos: parseFloat((itm.kilos - kilos).toFixed(2)),
-              unidades: parseInt(itm.unidades - unidades)
-            }
-          : itm
-      ).filter(itm => itm.kilos > 0 && itm.unidades > 0)
-    };
 
   case ADICION_RAPIDA_A_POSICION:
     return {

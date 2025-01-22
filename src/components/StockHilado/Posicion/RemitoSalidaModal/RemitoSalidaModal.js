@@ -36,8 +36,8 @@ useEffect(() => {
 
   const handleCajasResta = (e) => {
     const value = e.target.value;
-    // Calcular kilos proporcionalmente a las unidades
-    const kilosArestar = (item.kilos/item.unidades) * value;
+    // Calcular kilos proporcionalmente a las unidades y redondear a entero
+    const kilosArestar = Math.round((item.kilos/item.unidades) * value);
     setKilos(kilosArestar);
     setUnidades(value);
   };
@@ -60,7 +60,7 @@ useEffect(() => {
     dispatch(agregarAlRemitoSalida(
       item, 
       proveedor, 
-      parseFloat(kilos),
+      parseFloat(kilos),  // Ya no necesitamos Math.round aquí
       parseInt(unidades), 
       id, 
       fecha
