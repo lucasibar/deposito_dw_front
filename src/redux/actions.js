@@ -35,6 +35,7 @@ export const SELECCIONAR_PARTIDA_SALIDA = 'SELECCIONAR_PARTIDA_SALIDA';
 export const GENERAR_REMITO_SALIDA = 'GENERAR_REMITO_SALIDA';
 export const ELIMINAR_PARTIDA_AL_REMITO = 'ELIMINAR_PARTIDA_AL_REMITO';
 export const PARTIDAS_DE_CUARENTENA_A_STOCK = 'PARTIDAS_DE_CUARENTENA_A_STOCK';
+export const LIMPIAR_REMITO = 'LIMPIAR_REMITO';
 
 export const URL = "https://derwill-deposito-backend.onrender.com";
 
@@ -76,12 +77,9 @@ export const agregarAlRemitoSalida = (selectedItem, proveedor, kilos, unidades, 
 };
 
 
-
-
-
-
-
-
+export const limpiarRemito =()=> dispatch => {  
+  return dispatch({type: LIMPIAR_REMITO})
+};
 
 // Mantener solo las funciones no duplicadas y limpias
 export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => { 

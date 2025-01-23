@@ -28,7 +28,8 @@ import {
   SELECCIONAR_PARTIDA_SALIDA,
   ELIMINAR_PARTIDA_AL_REMITO,
   PARTIDAS_EN_CUARENTENA,
-  PARTIDAS_DE_CUARENTENA_A_STOCK
+  PARTIDAS_DE_CUARENTENA_A_STOCK,
+  LIMPIAR_REMITO
 } from './actions';
 
 const initialState = { 
@@ -71,11 +72,12 @@ switch (action.type) {
       ).filter(itm => itm.kilos > 0 && itm.unidades > 0)
     };
 
-  
-  
-  
-  
-  
+    case LIMPIAR_REMITO:
+
+    return {
+      ...state,
+      partidasRemito: []
+    } 
   
   case PARTIDAS_DE_CUARENTENA_A_STOCK:
 

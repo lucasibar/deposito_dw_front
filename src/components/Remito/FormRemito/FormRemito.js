@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   dataProveedoresItems,
   seleccionarProveedor,
-  seleccionarFecha,
-  seleccionarNumeroRemito,
+  limpiarRemito,
   agragarPartidaAlRemito,
   subirRemitoBDD,
   generarNuevoProveedor
@@ -141,7 +140,8 @@ export default function FormRemito() {
         tipoMovimiento: "remitoEntrada",
       };
       dispatch(subirRemitoBDD(remito));
-      navigate("/deposito_dw_front/remito");
+
+      // navigate("/deposito_dw_front/remito");
     } else {
       Swal.fire("Error", "Completa todos los campos obligatorios.", "error");
     }
