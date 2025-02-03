@@ -99,11 +99,12 @@ export default function BarraNavegador({
         Categoría: item.categoria,
         Descripción: item.descripcion,
         Partida: item.partida,
+        EstadoPartida: item.partidaEstado,
         Kilos: item.kilos,
         Unidades: item.unidades,
-        Rack: pos.rack || "N/A",
-        Fila: pos.fila || "N/A",
-        Pasillo: pos.pasillo || "N/A",
+        Rack: pos.rack || "-",
+        Fila: pos.fila || "-",
+        Pasillo: pos.pasillo || "-",
       }))
     );
 
