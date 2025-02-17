@@ -7,7 +7,7 @@ import HistorialSalida from './components/HistorialSalida/HistorialSalida';
 import Posicion from './components/StockHilado/Posicion/Posicion';
 import StockHilado from './components/StockHilado/StockHilado';
 import Login from './components/Login/Login';
-
+//QUIERO VER QUE SE SUBAN LOS CAMBIOS QUE HAGA
 function App() {
   return (
     <div className="App">
