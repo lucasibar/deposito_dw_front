@@ -5,7 +5,6 @@ import remitoReducer from '../../features/remito/model/slice';
 import historialReducer from '../../features/historial/model/slice';
 import cuarentenaReducer from '../../features/cuarentena/model/slice';
 import posicionDetalleReducer from '../../features/posicion/model/slice';
-import rootReducer from '../../redux/reducer';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +14,5 @@ export const store = configureStore({
     historial: historialReducer,
     cuarentena: cuarentenaReducer,
     posicionDetalle: posicionDetalleReducer,
-    ...rootReducer
   },
 }); 
