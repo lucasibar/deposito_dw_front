@@ -1,0 +1,1 @@
+export { StockHiladoWidget } from './ui/StockHiladoWidget'; 

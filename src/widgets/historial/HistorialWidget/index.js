@@ -1,0 +1,1 @@
+export { HistorialWidget } from './ui/HistorialWidget'; 
