@@ -5,28 +5,63 @@
 }
 
 .partidaItem {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.partidaItem h3 {
-  margin: 0 0 0.5rem 0;
+.partidaHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.partidaHeader h3 {
+  margin: 0;
   color: #333;
+  font-size: 1.2rem;
 }
 
-.partidaItem p {
-  margin: 0.25rem 0;
+.estado {
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  background-color: #f5f5f5;
   color: #666;
+  font-size: 0.9rem;
+}
+
+.descripcion {
+  color: #444;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.detalles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.detalles p {
+  margin: 0;
+  color: #666;
+}
+
+.fecha {
+  color: #888;
+  margin: 0;
+  font-size: 0.9rem;
+  text-align: right;
 }
 
 .emptyMessage {
   text-align: center;
   padding: 2rem;
   color: #666;
-  font-size: 1.1rem;
   background: #f8f9fa;
   border-radius: 8px;
   border: 1px dashed #dee2e6;

@@ -1,7 +1,19 @@
+.header {
+  width: 100vw;
+  background-color: white;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  position: relative;
+}
+
 .title {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1.5rem;
-  text-transform: uppercase;
+  margin: 0 auto;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: #2ecc71; /* Verde Commons */
+  text-align: left;
+  max-width: 1200px;
 } 

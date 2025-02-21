@@ -10,10 +10,11 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
 .searchInput:focus {
   outline: none;
-  border-color: #2196f3;
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+  border-color: #2ecc71; /* Verde Commons */
+  box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2); /* Sombra verde suave */
 } 
