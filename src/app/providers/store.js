@@ -5,6 +5,7 @@ import remitoReducer from '../../features/remito/model/slice';
 import historialReducer from '../../features/historial/model/slice';
 import cuarentenaReducer from '../../features/cuarentena/model/slice';
 import posicionDetalleReducer from '../../features/posicion/model/slice';
+import partidasReducer from '../../features/partidas/model/slice';
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     historial: historialReducer,
     cuarentena: cuarentenaReducer,
     posicionDetalle: posicionDetalleReducer,
+    partidas: partidasReducer,
   },
 }); 
