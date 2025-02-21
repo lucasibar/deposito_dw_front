@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useNavigate } from "react-router-dom";
 
 export const ListaPosiciones = ({
   inputBarraNavegador,
@@ -11,7 +10,6 @@ export const ListaPosiciones = ({
   pasillo,
   onPosicionClick
 }) => {
-  const navigate = useNavigate();
   const posiciones = useSelector((state) => state.posiciones.items);
 
   // Convertir el texto del usuario a minúsculas
@@ -61,12 +59,6 @@ export const ListaPosiciones = ({
     return cumpleRack && cumpleFila && cumplePasillo && cumpleBusquedaGeneral;
   });
 
-  // Agregar console.log para debug
-  const handleClick = (posicion) => {
-    console.log('Posición clickeada:', posicion);
-    onPosicionClick(posicion);
-  };
-
   return (
     <Box>
       {posicionesFiltradas.length > 0 ? (
@@ -82,7 +74,7 @@ export const ListaPosiciones = ({
                 backgroundColor: "rgba(0, 0, 0, 0.04)",
               },
             }}
-            onClick={() => handleClick(posicion)}
+            onClick={() => onPosicionClick(posicion)}
           >
             <Typography variant="subtitle1">
               {`Pasillo: ${posicion.pasillo || "-"}   Rack: ${

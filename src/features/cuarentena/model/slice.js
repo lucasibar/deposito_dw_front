@@ -24,7 +24,7 @@ export const fetchPartidasCuarentena = createAsyncThunk(
 export const cambiarEstadoPartida = createAsyncThunk(
   'cuarentena/cambiarEstado',
   async ({ partidaId, nuevoEstado }) => {
-    const response = await axios.put(`${URL}/cuarentena/${partidaId}`, { estado: nuevoEstado });
+    const response = await axios.put(`${URL}/partidas/cuarentena-stock  `, { estado: nuevoEstado });
     return { partidaId, nuevoEstado };
   }
 );
@@ -32,7 +32,7 @@ export const cambiarEstadoPartida = createAsyncThunk(
 export const pasarPartidaAStock = createAsyncThunk(
   'cuarentena/pasarAStock',
   async (distribucion) => {
-    const response = await axios.post(`${URL}/cuarentena/aprobar`, distribucion);
+    const response = await axios.put(`${URL}/partidas/estado-partida`, distribucion);
     return response.data;
   }
 );

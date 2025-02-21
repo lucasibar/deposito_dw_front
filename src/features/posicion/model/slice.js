@@ -10,6 +10,14 @@ const initialState = {
   error: null
 };
 
+export const fetchPosiciones = createAsyncThunk(
+  'posiciones/fetchPosiciones',
+  async () => {
+    const response = await axios.get(`${URL}/posiciones/items`);
+    return response.data;
+  }
+);
+
 export const fetchItemsPosicion = createAsyncThunk(
   'posicion/fetchItems',
   async (posicionId) => {
@@ -55,14 +63,24 @@ const posicionSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchItemsPosicion.pending, (state) => {
+      .addCase(fetchPosiciones.pending, (state) => {
         state.loading = true;
         state.error = null;
+      })
+      .addCase(fetchPosiciones.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(fetchPosiciones.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchItemsPosicion.pending, (state) => {
+        state.loading = true;
       })
       .addCase(fetchItemsPosicion.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        state.error = null;
       })
       .addCase(fetchItemsPosicion.rejected, (state, action) => {
         state.loading = false;

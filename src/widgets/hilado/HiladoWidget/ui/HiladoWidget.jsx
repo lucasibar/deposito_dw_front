@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Box } from "@mui/system";
-import { ListaPosiciones } from "../../../../features/stock/posicion/ui/ListaPosiciones";
-import { BarraNavegador } from "../../../../features/stock/hilado/ui/BarraNavegador";
+import { ListaPosiciones } from "../../../../features/posicion/ui/ListaPosiciones";
+import { BarraNavegador } from "../../../../features/hilado/ui/BarraNavegador";
 import { BotonesNavegacion } from "../../../../shared/ui/BotonesNavegacion";
-import { fetchPosiciones } from "../../../../features/stock/posicion/model/slice";
-import { setFilters } from "../../../../features/stock/hilado/model/slice";
+import { fetchPosiciones } from "../../../../features/posicion/model/slice";
+import { setFilters } from "../../../../features/hilado/model/slice";
 import { useNavigate } from 'react-router-dom';
 
-export const StockHiladoWidget = () => {
+export const HiladoWidget = () => {
   const dispatch = useDispatch();
   const [inputBarraNavegador, setInputBarraNavegador] = useState("");
   const [rack, setRack] = useState("");
