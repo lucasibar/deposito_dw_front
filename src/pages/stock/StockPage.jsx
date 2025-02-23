@@ -6,6 +6,8 @@ import { PosicionesList } from '../../widgets/stock/PosicionesList/PosicionesLis
 import { fetchPosiciones } from '../../features/stock/model/slice';
 import { useStockFilter } from '../../features/stock/hooks/useStockFilter';
 import { Title } from '../../shared/ui/Title/Title';
+import { ChartCarousel } from '../../widgets/charts/ChartCarousel/ChartCarousel';
+
 export const StockPage = () => {
   const dispatch = useDispatch();
   const [searchTerms, setSearchTerms] = useState([]);
@@ -22,9 +24,14 @@ export const StockPage = () => {
   return (
     <div className={styles.container}>
       <Title>Stock</Title>
+      <div className={styles.searchContainer}>
         <SearchBar onSearch={handleSearch} />
-      <div className={styles.content}>
+      </div>
+      <div className={styles.mainContent}>
         <PosicionesList posiciones={filteredData} loading={loading} error={error} />
+        <div className={styles.chartContainer}>
+          <ChartCarousel posiciones={filteredData} />
+        </div>
       </div>
     </div>
   );

@@ -3,22 +3,54 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 100vh; /* Toma toda la altura de la ventana */
 }
 
-.header {
+/* SearchBar mantiene el ancho completo */
+.searchContainer {
+  width: 100%;
+}
+
+/* Contenedor para el layout de dos columnas */
+.mainContent {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.content {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
+  flex-direction: column;
   gap: 20px;
+  flex: 1; /* Toma el espacio restante */
+  overflow: hidden; /* Contiene el scroll */
 }
 
-@media (max-width: 768px) {
-  .content {
-    grid-template-columns: 1fr;
+/* Por defecto (móvil), el gráfico va primero */
+.mainContent > *:first-child {
+  order: 2; /* La lista va después */
+  overflow-y: auto; /* Scroll vertical para la lista */
+  max-height: calc(100vh - 500px); /* Altura máxima considerando otros elementos */
+}
+
+.chartContainer {
+  order: 1; /* El gráfico va primero */
+}
+
+/* En pantallas más grandes que tablet (>768px) */
+@media (min-width: 768px) {
+  .mainContent {
+    flex-direction: row;
+    gap: 40px;
   }
+
+  .mainContent > *:first-child {
+    order: 0; /* Restauramos el orden original */
+    flex: 6; /* Lista ocupa 60% */
+    max-height: calc(100vh - 150px); /* Ajusta según el header */
+  }
+
+  .chartContainer {
+    order: 0; /* Restauramos el orden original */
+    flex: 4; /* Gráfico ocupa 40% */
+    margin-top: 0;
+  }
+}
+
+.chartContainer {
+  margin-top: 20px;
 } 
