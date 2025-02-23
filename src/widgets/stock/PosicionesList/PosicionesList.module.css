@@ -1,0 +1,105 @@
+.container {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header {
+  margin-bottom: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.item {
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.itemContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.leftContent {
+  flex: 1;
+}
+
+.proveedorTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.categoryDesc {
+  margin: 0 0 8px 0;
+  color: #666;
+}
+
+.quantities {
+  margin: 0;
+  font-weight: 500;
+}
+
+.menuContainer {
+  margin-left: 16px;
+}
+
+.item p {
+  margin: 4px 0;
+}
+
+.searchBar {
+  margin-bottom: 16px;
+}
+
+.posicionContainer {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.posicionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.posicionHeader:hover {
+  background-color: #eeeeee;
+}
+
+.posicionHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.items {
+  padding: 16px;
+  background-color: white;
+} 

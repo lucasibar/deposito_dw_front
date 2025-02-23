@@ -1,0 +1,11 @@
+.container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chartContainer {
+  margin-top: 20px;
+  height: 450px;
+} 

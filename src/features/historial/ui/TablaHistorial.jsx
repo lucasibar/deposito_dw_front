@@ -12,14 +12,14 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { jsPDF } from 'jspdf';
-import { fetchMovimientosSalida } from '../model/slice';
+import { fetchHistorialSalida } from '../model/slice';
 
 export const TablaHistorial = () => {
   const dispatch = useDispatch();
   const remitosSalida = useSelector((state) => state.historial.movimientos);
 
   useEffect(() => {
-    dispatch(fetchMovimientosSalida());
+    dispatch(fetchHistorialSalida());
   }, [dispatch]);
 
   const generatePDF = (remito) => {
