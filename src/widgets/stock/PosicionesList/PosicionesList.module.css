@@ -102,4 +102,97 @@
 .items {
   padding: 16px;
   background-color: white;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 10px;
+}
+
+.itemCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-height: 100px;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.description {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.providerRow {
+  display: flex;
+  gap: 24px;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.provider {
+  font-weight: 500;
+}
+
+.partida {
+  color: #666;
+}
+
+.metricsRow {
+  display: flex;
+  gap: 32px;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.metricsRow span {
+  font-weight: 500;
+}
+
+.sideContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding-left: 24px;
+  min-width: 120px;
+  height: 100%;
+  gap: 8px;
+}
+
+.date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.testIcon {
+  color: #ff9800;
+  font-size: 1.5rem;
+}
+
+.approveIcon {
+  color: #4CAF50;
+  font-size: 1.5rem;
 } 

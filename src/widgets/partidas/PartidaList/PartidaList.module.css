@@ -14,9 +14,7 @@
 
 .partidaHeader {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
 }
 
 .partidaHeader h3 {
@@ -40,8 +38,7 @@
 }
 
 .detalles {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
 }

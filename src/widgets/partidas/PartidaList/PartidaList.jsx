@@ -36,13 +36,11 @@ export const PartidaList = ({ searchTerms, estado }) => {
       {partidasFinal.map((partida) => (
         <div key={partida.id} className={styles.partidaItem}>
           <div className={styles.partidaHeader}>
-            <h3>Partida: {partida.numeroPartida}</h3>
-            <span className={styles.estado}>{partida.estado}</span>
+            <h3>{partida.descripcionItem} Partida: {partida.numeroPartida}</h3>
           </div>
-          <p className={styles.descripcion}>{partida.descripcionItem}</p>
+          <p className={styles.descripcion}>{partida.proveedor}</p>
           <div className={styles.detalles}>
-            <p>Proveedor: {partida.proveedor}</p>
-            <p>Kilos: {partida.kilos}</p>
+            <p>Kilos: {partida.kilos}  </p>
             <p>Unidades: {partida.unidades}</p>
           </div>
           <p className={styles.fecha}>Fecha: {partida.fecha}</p>

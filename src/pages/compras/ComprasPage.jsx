@@ -24,8 +24,8 @@ export const ComprasPage = () => {
   return (
     <div className={styles.container}>
       <Title>Compras</Title>
-      <SearchBar onSearch={handleSearch} />
       <div className={styles.chartContainer}>
+      <SearchBar onSearch={handleSearch} />
         <InformeConsumo chartData={chartData} loading={loading} error={error} />
       </div>
       <RemitosSalidaList remitos={filteredData} />
