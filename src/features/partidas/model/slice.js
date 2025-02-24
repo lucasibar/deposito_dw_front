@@ -8,6 +8,25 @@ export const fetchPartidasEnCuarentena = createAsyncThunk(
   }
 );
 
+// Nuevo thunk para actualizar el estado de una partida
+export const actualizarEstadoPartida = createAsyncThunk(
+  'partidas/actualizarEstadoPartida',
+  async ({ partidaId: id, nuevoEstado: estado }, { rejectWithValue }) => {
+    try {
+      console.log('Datos antes de enviar:', { id, estado }); // Para debug
+      const response = await partidasApi.actualizarEstadoPartida(id, estado);
+      console.log('Respuesta del servidor:', response); // Para debug
+      return { 
+        partidaId: id, 
+        nuevoEstado: estado 
+      };
+    } catch (error) {
+      console.error('Error completo:', error.response || error); // Para ver el error completo
+      return rejectWithValue(error.response?.data?.message || 'Error al actualizar el estado de la partida');
+    }
+  }
+);
+
 const initialState = {
   partidas: [],
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -46,22 +65,42 @@ const partidasSlice = createSlice({
       })
       .addCase(fetchPartidasEnCuarentena.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        // Transformamos los datos antes de guardarlos
-        state.partidas = action.payload.map(partida => ({
-          id: partida.id, 
-          numeroPartida: partida.numeroPartida,
-          descripcionItem: `${partida.item.descripcion} ${partida.item.categoria}`||"QUE PASO?!",
-          kilos: partida.kilos,
-          unidades: partida.unidades,
-          estado: partida.estado,
-          proveedor: partida.item.proveedor.nombre,
-          fecha: new Date(partida.fechaIngreso).toLocaleDateString(),
-          fechaModificacion: null
-        }));
+        state.partidas = action.payload.map(partida => {
+          // Formatear la fecha
+          const fechaOriginal = new Date(partida.fecha);
+          const dia = fechaOriginal.getDate().toString().padStart(2, '0');
+          const mes = (fechaOriginal.getMonth() + 1).toString().padStart(2, '0');
+          const año = fechaOriginal.getFullYear();
+          const fechaFormateada = `${dia}-${mes}-${año}`;
+
+          return {
+            id: partida.id, 
+            numeroPartida: partida.numeroPartida,
+            descripcionItem: `${partida.item.descripcion} ${partida.item.categoria}`||"QUE PASO?!",
+            kilos: partida.kilos,
+            unidades: partida.unidades,
+            estado: partida.estado,
+            proveedor: partida.item.proveedor.nombre,
+            fecha: fechaFormateada,
+            fechaModificacion: null
+          };
+        });
       })
       .addCase(fetchPartidasEnCuarentena.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(actualizarEstadoPartida.fulfilled, (state, action) => {
+        console.log(action.payload);
+        const { partidaId, nuevoEstado } = action.payload;
+        const partida = state.partidas.find(p => p.id === partidaId);
+        if (partida) {
+          partida.estado = nuevoEstado;
+          partida.fechaModificacion = new Date().toISOString();
+        }
+      })
+      .addCase(actualizarEstadoPartida.rejected, (state, action) => {
+        state.error = 'Error al actualizar el estado de la partida';
       });
   }
 });

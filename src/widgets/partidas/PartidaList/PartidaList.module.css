@@ -1,20 +1,57 @@
 .listContainer {
   display: grid;
   gap: 1rem;
-  padding: 1rem;
+
 }
 
 .partidaItem {
+  display: flex;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 1.5rem;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  width: 100%;
+  min-width: 0;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  padding-right: 1.5rem;
+}
+
+.stateIcon {
+  font-size: 2rem;
+  color: #2ecc71;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.stateIcon:hover {
+  color: #27ae60;
+}
+
+.contentContainer {
+  flex: 1;
 }
 
 .partidaHeader {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.headerLeft {
+  flex: 1;
+}
+
+.headerRight {
+  display: flex;
   align-items: center;
+  padding-right: 2.5rem;
+  min-width: fit-content;
 }
 
 .partidaHeader h3 {
@@ -49,10 +86,11 @@
 }
 
 .fecha {
-  color: #888;
+  color: #333;
   margin: 0;
-  font-size: 0.9rem;
-  text-align: right;
+  font-size: 1.2rem;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .emptyMessage {
