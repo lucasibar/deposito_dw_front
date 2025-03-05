@@ -129,7 +129,7 @@
 .mainContent {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   flex: 1;
 }
 
@@ -184,4 +184,15 @@
 
 .approveIcon {
   color: #10b981;
+}
+
+.locationInfo {
+  font-weight: normal;
+  color: #666;
+  margin-top: 12px;
+}
+
+.locationInfo strong {
+  color: #333;
+  font-weight: 500;
 } 
