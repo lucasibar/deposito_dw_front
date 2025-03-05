@@ -3,15 +3,15 @@ import { useDispatch } from 'react-redux';
 import styles from './StockPage.module.css';
 import { SearchBar } from '../../shared/ui/SearchBar/SearchBar';
 import { PosicionesList } from '../../widgets/stock/PosicionesList/PosicionesList';
-import { fetchPosiciones } from '../../features/stock/model/slice';
-import { useStockFilter } from '../../features/stock/hooks/useStockFilter';
+import { fetchPosiciones } from '../../features/posicion/model/slice';
+import { usePosicionFilter } from '../../features/posicion/hooks/usePosicionFilter';
 import { Title } from '../../shared/ui/Title/Title';
 import { ChartCarousel } from '../../widgets/charts/ChartCarousel/ChartCarousel';
 
 export const StockPage = () => {
   const dispatch = useDispatch();
   const [searchTerms, setSearchTerms] = useState([]);
-  const { filteredData, loading, error } = useStockFilter(searchTerms);
+  const { filteredData, loading, error } = usePosicionFilter(searchTerms);
 
   useEffect(() => {
     dispatch(fetchPosiciones());
@@ -24,11 +24,11 @@ export const StockPage = () => {
   return (
     <div className={styles.container}>
       <Title>Stock</Title>
-      <div className={styles.searchContainer}>
-        <SearchBar onSearch={handleSearch} />
-      </div>
+      <SearchBar onSearch={handleSearch} />
       <div className={styles.mainContent}>
-        <PosicionesList posiciones={filteredData} loading={loading} error={error} />
+        <div className={styles.listContainer}>
+          <PosicionesList posiciones={filteredData} loading={loading} error={error} />
+        </div>
         <div className={styles.chartContainer}>
           <ChartCarousel posiciones={filteredData} />
         </div>

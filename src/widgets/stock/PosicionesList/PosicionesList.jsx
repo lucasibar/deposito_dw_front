@@ -10,8 +10,8 @@ export const PosicionesList = ({ posiciones, loading, error }) => {
   return (
     <div className={styles.listContainer}>
       {posiciones.map((posicion) => (
-        posicion.items.map((item) => (
-          <div key={`${posicion.id}-${item.id}`} className={styles.itemCard}>
+        posicion.items.map((item, index) => (
+          <div key={`${posicion.id}-${item.id}-${index}`} className={styles.itemCard}>
             <div className={styles.mainContent}>
               <div className={styles.titleRow}>
                 <span className={styles.description}>

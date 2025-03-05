@@ -6,7 +6,7 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    navigate('/deposito_dw_front/deposito-hilado');
+    navigate('/deposito_dw_front/stock');
   };
 
   return (
@@ -22,9 +22,18 @@ export const Login = () => {
     >
       <Typography variant="h4">Der Will</Typography>
       <Button 
-        variant="contained" 
+        variant="outlined" 
         onClick={handleLogin}
-        sx={{ width: 200 }}
+        sx={{ 
+          width: 200,
+          color: '#2e7d32',
+          borderColor: '#2e7d32',
+          '&:hover': {
+            backgroundColor: '#2e7d32',
+            color: 'white',
+            borderColor: '#2e7d32'
+          }
+        }}
       >
         Ingresar
       </Button>

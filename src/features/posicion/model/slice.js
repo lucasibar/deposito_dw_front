@@ -5,7 +5,7 @@ const URL = "https://derwill-deposito-backend.onrender.com";
 
 /** @type {import('./types').PosicionState} */
 const initialState = {
-  items: [],
+  posiciones: [],
   loading: false,
   error: null
 };
@@ -69,7 +69,7 @@ const posicionSlice = createSlice({
       })
       .addCase(fetchPosiciones.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.posiciones = action.payload;
       })
       .addCase(fetchPosiciones.rejected, (state, action) => {
         state.loading = false;
@@ -78,27 +78,49 @@ const posicionSlice = createSlice({
       .addCase(fetchItemsPosicion.pending, (state) => {
         state.loading = true;
       })
+
+
+      
       .addCase(fetchItemsPosicion.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        // Actualizar los items de una posición específica
+        const posicionIndex = state.posiciones.findIndex(p => p.id === action.meta.arg);
+        if (posicionIndex !== -1) {
+          state.posiciones[posicionIndex].items = action.payload;
+        }
       })
       .addCase(fetchItemsPosicion.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
       .addCase(enviarMovimiento.fulfilled, (state, action) => {
-        // Actualizar estado después del movimiento
-        state.items = state.items.map(item => 
-          item.id === action.payload.id ? action.payload : item
-        );
+        // Actualizar el item en la posición correspondiente
+        const { posicionId } = action.meta.arg;
+        const posicionIndex = state.posiciones.findIndex(p => p.id === posicionId);
+        if (posicionIndex !== -1) {
+          const itemIndex = state.posiciones[posicionIndex].items.findIndex(
+            item => item.id === action.payload.id
+          );
+          if (itemIndex !== -1) {
+            state.posiciones[posicionIndex].items[itemIndex] = action.payload;
+          }
+        }
       })
       .addCase(actualizarKilosUnidades.fulfilled, (state, action) => {
-        state.items = state.items.map(item =>
-          item.id === action.payload.id ? action.payload : item
-        );
+        // Actualizar el item en todas las posiciones donde aparezca
+        state.posiciones = state.posiciones.map(posicion => ({
+          ...posicion,
+          items: posicion.items.map(item =>
+            item.id === action.payload.id ? action.payload : item
+          )
+        }));
       })
       .addCase(adicionRapida.fulfilled, (state, action) => {
-        state.items.push(action.payload);
+        // Agregar el nuevo item a la posición correspondiente
+        const posicionIndex = state.posiciones.findIndex(p => p.id === action.payload.posicionId);
+        if (posicionIndex !== -1) {
+          state.posiciones[posicionIndex].items.push(action.payload);
+        }
       });
   }
 });

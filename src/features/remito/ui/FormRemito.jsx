@@ -11,8 +11,13 @@ import {
   TextField,
   Autocomplete,
   Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Snackbar,
+  Alert,
 } from '@mui/material';
-import Swal from 'sweetalert2';
 import {
   fetchItems,
   setProveedor,
@@ -37,6 +42,12 @@ export const FormRemito = () => {
   const [itemsFiltrados, setItemsFiltrados] = useState([]);
   const [itemSeleccionado, setItemSeleccionado] = useState(null);
   const [partida, setPartida] = useState({ kilos: "", numeroPartida: "", unidades: "" });
+  
+  // Nuevos estados para los diálogos
+  const [openNuevoProveedorDialog, setOpenNuevoProveedorDialog] = useState(false);
+  const [nuevoProveedorNombre, setNuevoProveedorNombre] = useState("");
+  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Efectos para cargar datos
   useEffect(() => {
@@ -91,24 +102,19 @@ export const FormRemito = () => {
   };
 
   const crearNuevoProveedor = () => {
-    Swal.fire({
-      title: "Nombre del nuevo proveedor",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off"
-      },
-      showCancelButton: true,
-      confirmButtonText: "Cargar proveedor",
-      showLoaderOnConfirm: true,
-      preConfirm: async (nombreProveedor) => {
-        try {
-          dispatch(generarNuevoProveedor({nombre: nombreProveedor, categoria:"proveedor"}))
-        } catch (error) {
-          Swal.showValidationMessage(`Request failed: ${error}`);
-        }
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    });
+    setOpenNuevoProveedorDialog(true);
+  };
+
+  const handleCloseNuevoProveedorDialog = () => {
+    setOpenNuevoProveedorDialog(false);
+    setNuevoProveedorNombre("");
+  };
+
+  const handleSubmitNuevoProveedor = () => {
+    if (nuevoProveedorNombre.trim()) {
+      dispatch(generarNuevoProveedor({nombre: nuevoProveedorNombre.trim(), categoria:"proveedor"}));
+      handleCloseNuevoProveedorDialog();
+    }
   };
 
   const subirRemito = () => {
@@ -122,7 +128,8 @@ export const FormRemito = () => {
       };
       dispatch(agregarPartida(remito));
     } else {
-      Swal.fire("Error", "Completa todos los campos obligatorios.", "error");
+      setErrorMessage("Completa todos los campos obligatorios.");
+      setOpenErrorSnackbar(true);
     }
   };
 
@@ -227,6 +234,44 @@ export const FormRemito = () => {
           Subir remito
         </Button>
       </div>
+
+      {/* Diálogo para nuevo proveedor */}
+      <Dialog open={openNuevoProveedorDialog} onClose={handleCloseNuevoProveedorDialog}>
+        <DialogTitle>Nuevo Proveedor</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Nombre del proveedor"
+            type="text"
+            fullWidth
+            value={nuevoProveedorNombre}
+            onChange={(e) => setNuevoProveedorNombre(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseNuevoProveedorDialog}>Cancelar</Button>
+          <Button onClick={handleSubmitNuevoProveedor} variant="contained">
+            Crear Proveedor
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Snackbar para errores */}
+      <Snackbar 
+        open={openErrorSnackbar} 
+        autoHideDuration={6000} 
+        onClose={() => setOpenErrorSnackbar(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={() => setOpenErrorSnackbar(false)} 
+          severity="error" 
+          sx={{ width: '100%' }}
+        >
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }; 

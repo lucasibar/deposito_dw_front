@@ -2,8 +2,8 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { normalizeText } from '../../../shared/lib/utils/dateUtils';
 
-export const useStockFilter = (searchTerms = []) => {
-  const { posiciones, loading, error } = useSelector(state => state.stock);
+export const usePosicionFilter = (searchTerms = []) => {
+  const { posiciones, loading, error } = useSelector(state => state.posiciones);
 
   const filteredData = useMemo(() => {
     if (!searchTerms.length) return posiciones;

@@ -108,7 +108,9 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 10px;
+  padding: 0;
+  padding-right: 24px;
+  min-height: 200px;
 }
 
 .itemCard {
@@ -118,8 +120,10 @@
   padding: 20px;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   min-height: 100px;
+  width: calc(100% - 8px);
+  margin-right: 8px;
 }
 
 .mainContent {
@@ -127,28 +131,25 @@
   flex-direction: column;
   gap: 8px;
   flex: 1;
-  justify-content: center;
 }
 
 .titleRow {
   display: flex;
   align-items: center;
-  margin: 0;
-  line-height: 1.4;
+  gap: 8px;
 }
 
 .description {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 500;
   color: #333;
 }
 
 .providerRow {
   display: flex;
-  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
   color: #666;
-  margin: 0;
-  line-height: 1.4;
 }
 
 .provider {
@@ -156,29 +157,19 @@
 }
 
 .partida {
-  color: #666;
+  font-size: 0.9rem;
 }
 
 .metricsRow {
   display: flex;
-  gap: 32px;
-  color: #666;
-  margin: 0;
-  line-height: 1.4;
-}
-
-.metricsRow span {
-  font-weight: 500;
+  gap: 16px;
+  color: #444;
 }
 
 .sideContent {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: center;
-  padding-left: 24px;
-  min-width: 120px;
-  height: 100%;
   gap: 8px;
 }
 
@@ -188,11 +179,9 @@
 }
 
 .testIcon {
-  color: #ff9800;
-  font-size: 1.5rem;
+  color: #f59e0b;
 }
 
 .approveIcon {
-  color: #4CAF50;
-  font-size: 1.5rem;
+  color: #10b981;
 } 
