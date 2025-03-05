@@ -9,7 +9,7 @@ import { Login } from '../features/auth/ui/Login';
 import { CalidadPage } from '../pages/calidad/CalidadPage';
 import { ComprasPage } from '../pages/compras/ComprasPage';
 import { StockPage } from '../pages/stock/StockPage';
-      
+      //blabla
 export const App = () => {
   return (
     <div className="App">
