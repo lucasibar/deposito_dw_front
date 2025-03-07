@@ -195,4 +195,33 @@
 .locationInfo strong {
   color: #333;
   font-weight: 500;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: #f5f5f5;
+  color: #2ecc71;
+}
+
+.actionButton svg {
+  width: 20px;
+  height: 20px;
 } 

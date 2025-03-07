@@ -7,22 +7,24 @@ import { PosicionWidget } from '../widgets/posicion/PosicionWidget';
 import { HiladoWidget } from '../widgets/hilado/HiladoWidget';
 import { Login } from '../features/auth/ui/Login';
 import { CalidadPage } from '../pages/calidad/CalidadPage';
-import { ComprasPage } from '../pages/compras/ComprasPage';
 import { StockPage } from '../pages/stock/StockPage';
+import { ConsumosPage } from '../pages/consumos/ConsumosPage';
+import { RemitoEntradaInsumosPage } from '../pages/remito-entrada-insumos/RemitoEntradaInsumosPage';
 
 export const App = () => {
   return (
     <div className="App">
       <Routes>
-        <Route path="/deposito_dw_front/calidad" element={<CalidadPage />} />
-        <Route path="/deposito_dw_front/compras" element={<ComprasPage />} />
         <Route exact path="/deposito_dw_front/remito" element={<RemitoWidget />} />
         <Route exact path="/deposito_dw_front/deposito-hilado" element={<HiladoWidget />} />
         <Route exact path="/deposito_dw_front/cuarentena" element={<CuarentenaWidget />} />
         <Route exact path="/deposito_dw_front/descripcion-posicion/:id/:rack/:fila/:AB" element={<PosicionWidget />} />
         <Route exact path="/deposito_dw_front/historial-salida" element={<HistorialWidget />} />
         
+        <Route exact path="/deposito_dw_front/remitoinsumos" element={<RemitoEntradaInsumosPage />} />
+        <Route path="/deposito_dw_front/calidad" element={<CalidadPage />} />
         <Route path="/deposito_dw_front/stock" element={<StockPage />} />
+        <Route path="/deposito_dw_front/consumos" element={<ConsumosPage />} />
         <Route exact path="/deposito_dw_front/" element={<Login />} />
       </Routes>
     </div>
