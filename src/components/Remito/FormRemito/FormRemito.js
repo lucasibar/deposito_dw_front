@@ -81,12 +81,13 @@ export default function FormRemito() {
   const handleInputChange = (field) => (e) => {
     const value = e.target.value;
     if (field === "kilos" || field === "unidades") {
-      // Para kilos y unidades, mantener la validación numérica
-      if (/^\d*$/.test(value)) {
-        setPartida((prev) => ({ ...prev, [field]: value }));
+      // Para kilos y unidades, convertir a número
+      const numValue = value === "" ? "" : Number(value);
+      if (value === "" || !isNaN(numValue)) {
+        setPartida((prev) => ({ ...prev, [field]: numValue }));
       }
     } else if (field === "numeroPartida") {
-      // Para numeroPartida, asegurarnos que se guarde como string
+      // Para numeroPartida, mantener como string
       setPartida((prev) => ({ ...prev, [field]: value.toString() }));
     } else {
       setPartida((prev) => ({ ...prev, [field]: value }));
@@ -97,7 +98,9 @@ export default function FormRemito() {
     if (itemSeleccionado) {
       const nuevaPartida = { 
         ...partida, 
-        numeroPartida: partida.numeroPartida.toString(), // Asegurar que sea string
+        numeroPartida: partida.numeroPartida.toString(),
+        kilos: partida.kilos === "" ? 0 : Number(partida.kilos),
+        unidades: partida.unidades === "" ? 0 : Number(partida.unidades),
         item: itemSeleccionado 
       };
       dispatch(agragarPartidaAlRemito(nuevaPartida));
@@ -139,7 +142,8 @@ export default function FormRemito() {
         partidasRemito: partidasRemitoRedux,
         tipoMovimiento: "remitoEntrada",
       };
-      dispatch(subirRemitoBDD(remito));
+      console.log(remito)
+      //dispatch(subirRemitoBDD(remito));
 
       // navigate("/deposito_dw_front/remito");
     } else {
