@@ -13,3 +13,4 @@ root.render(
         </RouterProvider>
     </StoreProvider>
 );
+//que pasa que no se renderiza el componente
