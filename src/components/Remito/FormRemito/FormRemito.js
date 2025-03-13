@@ -143,7 +143,7 @@ export default function FormRemito() {
         tipoMovimiento: "remitoEntrada",
       };
       console.log(remito)
-      //dispatch(subirRemitoBDD(remito));
+      dispatch(subirRemitoBDD(remito));
 
       // navigate("/deposito_dw_front/remito");
     } else {
