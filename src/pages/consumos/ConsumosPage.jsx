@@ -17,19 +17,25 @@ export const ConsumosPage = () => {
     dispatch(fetchHistorialSalida());
   }, [dispatch]);
 
-  const handleSearch = (terms) => {
-    // Implementar búsqueda
+  const handleSearch = (searchTerms, searchValue) => {
+    setSearchTerms(searchTerms);
   };
 
   return (
     <div className={styles.container}>
       <Title>Consumos</Title>
-      <SearchBar onSearch={handleSearch} />
-      <div className={styles.mainContent}>
-        <div className={styles.chartContainer}>
-          <InformeConsumo chartData={chartData} loading={loading} error={error} />
+      <div className={styles.content}>
+        <div className={styles.searchContainer}>
+          <SearchBar onSearch={handleSearch} />
         </div>
-        <RemitosSalidaList remitos={filteredData} />
+        <div className={styles.mainContent}>
+          <div className={styles.chartContainer}>
+            <InformeConsumo chartData={chartData} loading={loading} error={error} />
+          </div>
+          <div className={styles.remitosList}>
+            <RemitosSalidaList remitos={filteredData} />
+          </div>
+        </div>
       </div>
     </div>
   );

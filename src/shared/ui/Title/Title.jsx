@@ -24,10 +24,10 @@ import styles from './Title.module.css';
 
 const rutas = [
   { nombre: 'Home', path: '/deposito_dw_front/', icon: <HomeIcon /> },
-  { nombre: 'Remito entrada', path: '/deposito_dw_front/remito', icon: <ReceiptIcon /> },
-  { nombre: 'Remito insumos', path: '/deposito_dw_front/remitoinsumos', icon: <ReceiptIcon /> },
+  { nombre: 'Remito entrada', path: '/deposito_dw_front/remito-entrada', icon: <ReceiptIcon /> },
   { nombre: 'Cuarentena', path: '/deposito_dw_front/calidad', icon: <WarningIcon /> },
   { nombre: 'Remito salida', path: '/deposito_dw_front/salidas', icon: <LocalShippingIcon /> },
+  { nombre: 'Stock', path: '/deposito_dw_front/stock', icon: <AssessmentIcon /> },
   { nombre: 'Informe consumos', path: '/deposito_dw_front/consumos', icon: <AssessmentIcon /> },
 ];
 

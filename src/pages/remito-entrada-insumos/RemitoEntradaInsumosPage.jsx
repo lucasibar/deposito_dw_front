@@ -1,13 +1,39 @@
 import React from 'react';
-import { Divider, Box, useMediaQuery } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import styles from './RemitoEntradaInsumosPage.module.css';
 import { Title } from '../../shared/ui/Title/Title';
 import { FormRemito } from '../../widgets/remito-entrada-insumos/FormRemito/FormRemito';
 import { ListaPartidasRemito } from '../../widgets/remito-entrada-insumos/ListaPartidasRemito/ListaPartidasRemito';
+import { useSelector, useDispatch } from 'react-redux';
+import { subirRemitoEntrada } from '../../features/remitos/model/slice';
+import Swal from 'sweetalert2';
 
 export const RemitoEntradaInsumosPage = () => {
-  // Media query para verificar el ancho de la pantalla
-  const isDesktop = useMediaQuery('(min-width:1024px)');
+  const dispatch = useDispatch();
+  const partidas = useSelector(state => state.remitos?.partidasRemitoEntrada || []);
+  const formData = useSelector(state => state.remitos?.formData || {});
+
+  const handleSubirRemito = () => {
+    if (!formData.proveedor || !formData.numeroRemito || !formData.fecha) {
+      Swal.fire({
+        title: "Error",
+        text: "Completa todos los campos obligatorios.",
+        icon: "error"
+      });
+      return;
+    }
+
+    if (partidas.length === 0) {
+      Swal.fire({
+        title: "Error",
+        text: "Debe agregar al menos una partida al remito.",
+        icon: "error"
+      });
+      return;
+    }
+
+    dispatch(subirRemitoEntrada({formData, partidas}));
+  };
 
   return (
     <div className={styles.container}>
@@ -16,44 +42,53 @@ export const RemitoEntradaInsumosPage = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: isDesktop ? 'row' : 'column',
-          justifyContent: 'space-between',
-          alignItems: isDesktop ? 'start' : 'center',
+          flexDirection: 'column',
+          gap: '20px',
           padding: '20px',
-          height: '100%',
-          marginTop: '64px'
+          height: 'calc(100vh - 150px)',
+          marginTop: '-30px',
+          maxWidth: '800px',
+          margin: '-30px auto 0',
+          overflow: 'hidden'
         }}
       >
-        {/* Columna izquierda: Inputs y botones */}
-        <Box
-          sx={{
-            flex: isDesktop ? 1 : 'unset',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-            maxWidth: isDesktop ? '50%' : '100%',
-          }}
-        >
-          <FormRemito />
-        </Box>
+        {/* Título de datos del remito */}
+        <Typography variant="h6">
+          Datos del Remito
+        </Typography>
 
-        {/* Divider para monitores */}
-        {isDesktop && (
-          <Divider orientation="vertical" flexItem sx={{ marginX: '20px' }} />
-        )}
+        {/* Formulario de datos del remito */}
+        <FormRemito />
 
-        {/* Columna derecha: Lista de partidas */}
-        <Box
-          sx={{
-            flex: isDesktop ? 1 : 'unset',
-            display: 'flex',
-            flexDirection: 'column',
-            maxWidth: isDesktop ? '50%' : '100%',
-            gap: '20px',
-          }}
-        >
+        {/* Título de la lista de partidas */}
+        <Typography variant="h6">
+          Lista de Partidas
+        </Typography>
+
+        {/* Lista de partidas con scroll */}
+        <Box sx={{ flex: 1, overflow: 'auto' }}>
           <ListaPartidasRemito />
         </Box>
+
+        {/* Botón Subir Remito */}
+        <Button
+          variant="outlined"
+          fullWidth
+          onClick={handleSubirRemito}
+          disabled={partidas.length === 0}
+          sx={{ 
+            mt: 2,
+            color: '#2ecc71',
+            borderColor: '#2ecc71',
+            '&:hover': {
+              borderColor: '#27ae60',
+              color: '#27ae60',
+              bgcolor: 'transparent'
+            }
+          }}
+        >
+          Subir Remito
+        </Button>
       </Box>
     </div>
   );

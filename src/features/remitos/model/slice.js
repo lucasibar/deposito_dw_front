@@ -7,9 +7,16 @@ const URL = "https://derwill-deposito-backend.onrender.com";
 
 const initialState = {
   proveedores: [],
+  items: [],
   remitos: [],
+  partidasRemitoEntrada: [],
   loading: false,
-  error: null
+  error: null,
+  formData: {
+    proveedor: '',
+    fecha: '',
+    numeroRemito: ''
+  }
 };
 
 const remitosSlice = createSlice({
@@ -19,6 +26,9 @@ const remitosSlice = createSlice({
     setProveedores: (state, action) => {
       state.proveedores = action.payload;
     },
+    setItems: (state, action) => {
+      state.items = action.payload;
+    },
     setRemitos: (state, action) => {
       state.remitos = action.payload;
     },
@@ -27,23 +37,92 @@ const remitosSlice = createSlice({
     },
     setError: (state, action) => {
       state.error = action.payload;
+    },
+    addPartidaRemitoEntrada: (state, action) => {
+      state.partidasRemitoEntrada.push(action.payload);
+    },
+    removePartidaRemitoEntrada: (state, action) => {
+      state.partidasRemitoEntrada = state.partidasRemitoEntrada.filter(
+        (_, index) => index !== action.payload
+      );
+    },
+    updatePartidaRemitoEntrada: (state, action) => {
+      const { index, partida } = action.payload;
+      state.partidasRemitoEntrada[index] = partida;
+    },
+    clearPartidasRemitoEntrada: (state) => {
+      state.partidasRemitoEntrada = [];
+    },
+    setFormData: (state, action) => {
+      state.formData = action.payload;
     }
   }
 });
 
-export const { setProveedores, setRemitos, setLoading, setError } = remitosSlice.actions;
+export const { 
+  setProveedores, 
+  setItems, 
+  setRemitos, 
+  setLoading, 
+  setError,
+  addPartidaRemitoEntrada,
+  removePartidaRemitoEntrada,
+  updatePartidaRemitoEntrada,
+  clearPartidasRemitoEntrada,
+  setFormData
+} = remitosSlice.actions;
 
-// Thunks
 export const dataProveedoresItems = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const response = await axios.get(`${URL}/remitos/dataload-remito-recepcion`);
-    dispatch(setProveedores(response.data));
+    
+    if (!response.data.proveedores) {
+      throw new Error('Formato de respuesta inválido');
+    }
+
+    dispatch(setProveedores(response.data.proveedores));
+    dispatch(setItems(response.data.items));
   } catch (error) {
-    console.error("Error cargando proveedores:", error);
+    dispatch(setError('Error al cargar los proveedores'));
     Swal.fire({
       title: "Error",
       text: "No se pudieron cargar los proveedores",
+      icon: "error"
+    });
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const subirRemitoEntrada = ({formData, partidas}) => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const remito = {
+      proveedorSeleccionado: formData.proveedor,
+      fechaSeleccionado: formData.fecha,
+      numeroRemitoSeleccionado: formData.numeroRemito,
+      partidasRemito: partidas,
+      tipoMovimiento: "remitoEntrada",
+    };
+
+    console.log('Enviando remito:', remito);
+
+    await axios.post(`${URL}/movimientos/remito-entrada`, remito);
+    
+    Swal.fire({
+      title: "Éxito",
+      text: "El remito se subió correctamente",
+      icon: "success"
+    });
+
+    dispatch(clearPartidasRemitoEntrada());
+    dispatch(setFormData({ proveedor: '', fecha: '', numeroRemito: '' }));
+    
+  } catch (error) {
+    Swal.fire({
+      title: "Error",
+      text: "No se pudo subir el remito",
       icon: "error"
     });
   } finally {
@@ -72,7 +151,6 @@ export const agregarAlRemitoSalida = (selectedItem, proveedor, kilos, unidades, 
     dispatch(fetchItemsPosicion(id));
     if (onSuccess) onSuccess();
   } catch (error) {
-    console.error("Error agregando al remito de salida:", error);
     Swal.fire({
       title: "Error",
       text: "No se pudo agregar la mercadería al remito",

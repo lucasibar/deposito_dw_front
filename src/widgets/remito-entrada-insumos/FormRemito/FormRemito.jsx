@@ -6,136 +6,135 @@ import {
   Box,
   MenuItem,
   Typography,
-  Paper
+  Paper,
+  CircularProgress
 } from '@mui/material';
-import { dataProveedoresItems } from '../../../features/remitos/model/slice';
+import { dataProveedoresItems, setFormData } from '../../../features/remitos/model/slice';
 import styles from './FormRemito.module.css';
+import { ModalAgregarPartida } from '../ModalAgregarPartida/ModalAgregarPartida';
 
 export const FormRemito = () => {
   const dispatch = useDispatch();
-  const proveedores = useSelector((state) => state.remitos.proveedores) || [];
+  const remitosState = useSelector((state) => state.remitos);
+  const loading = remitosState?.loading;
+  const proveedores = remitosState?.proveedores || [];
+  const formData = useSelector(state => state.remitos?.formData || {});
+
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     dispatch(dataProveedoresItems());
   }, [dispatch]);
 
-  const [formData, setFormData] = useState({
-    proveedor: '',
-    fecha: '',
-    numeroRemito: '',
-    item: '',
-    kilos: '',
-    unidades: '',
-    partida: ''
-  });
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
+    dispatch(setFormData({
+      ...formData,
       [name]: value
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Implementar lógica de envío
+  const handleOpenModal = () => {
+    if (!formData.proveedor) {
+      alert('Por favor seleccione un proveedor primero');
+      return;
+    }
+    setOpenModal(true);
   };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Paper className={styles.formContainer}>
-      <Typography variant="h6" gutterBottom>
-        Datos del Remito
-      </Typography>
-      
-      <form onSubmit={handleSubmit}>
-        <Box className={styles.formGrid}>
-          <TextField
-            select
-            label="Proveedor"
-            name="proveedor"
-            value={formData.proveedor}
-            onChange={handleInputChange}
-            fullWidth
-            required
-          >
-            {proveedores.map((prov) => (
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '20px',
+        mb: 2
+      }}>
+        <TextField
+          select
+          label="Proveedor"
+          name="proveedor"
+          value={formData.proveedor}
+          onChange={handleInputChange}
+          fullWidth
+          required
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '&.Mui-focused fieldset': {
+                borderColor: '#2ecc71',
+              },
+            },
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: '#2ecc71',
+            }
+          }}
+        >
+          {Array.isArray(proveedores) && proveedores.map((prov) => {
+            return (
               <MenuItem key={prov.id} value={prov.id}>
                 {prov.nombre}
               </MenuItem>
-            ))}
-          </TextField>
+            );
+          })}
+        </TextField>
 
-          <TextField
-            type="date"
-            label="Fecha"
-            name="fecha"
-            value={formData.fecha}
-            onChange={handleInputChange}
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            required
-          />
+        <TextField
+          type="date"
+          label="Fecha"
+          name="fecha"
+          value={formData.fecha}
+          onChange={handleInputChange}
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          required
+        />
 
-          <TextField
-            label="Número de Remito"
-            name="numeroRemito"
-            value={formData.numeroRemito}
-            onChange={handleInputChange}
-            fullWidth
-            required
-          />
+        <TextField
+          label="Número de Remito"
+          name="numeroRemito"
+          value={formData.numeroRemito}
+          onChange={handleInputChange}
+          fullWidth
+          required
+        />
+      </Box>
 
-          <TextField
-            label="Item"
-            name="item"
-            value={formData.item}
-            onChange={handleInputChange}
-            fullWidth
-            required
-          />
+      <Box className={styles.buttonContainer}>
+        <Button
+          variant="outlined"
+          fullWidth
+          onClick={handleOpenModal}
+          sx={{
+            color: '#2ecc71',
+            borderColor: '#2ecc71',
+            '&:hover': {
+              borderColor: '#27ae60',
+              color: '#27ae60',
+              bgcolor: 'transparent'
+            }
+          }}
+        >
+          Agregar Partida
+        </Button>
+      </Box>
 
-          <TextField
-            label="Kilos"
-            name="kilos"
-            type="number"
-            value={formData.kilos}
-            onChange={handleInputChange}
-            fullWidth
-            required
-          />
-
-          <TextField
-            label="Unidades"
-            name="unidades"
-            type="number"
-            value={formData.unidades}
-            onChange={handleInputChange}
-            fullWidth
-            required
-          />
-
-          <TextField
-            label="Partida"
-            name="partida"
-            value={formData.partida}
-            onChange={handleInputChange}
-            fullWidth
-            required
-          />
-        </Box>
-
-        <Box className={styles.buttonContainer}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-          >
-            Agregar al Remito
-          </Button>
-        </Box>
-      </form>
+      <ModalAgregarPartida 
+        open={openModal}
+        onClose={handleCloseModal}
+        proveedorId={formData.proveedor}
+      />
     </Paper>
   );
 }; 
