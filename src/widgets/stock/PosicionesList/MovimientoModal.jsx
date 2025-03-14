@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, MenuItem, IconButton } from '@mui/material';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Box,
+  Typography,
+  TextField,
+  MenuItem,
+  Button
+} from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { enviarMovimiento } from '../../../features/movimientos/model/slice';
 
@@ -32,17 +42,15 @@ export default function MovimientoModal({ open, onClose, item, id }) {
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box sx={{ 
-        padding: 4, 
-        backgroundColor: 'white', 
-        borderRadius: '8px', 
-        maxWidth: 400, 
-        margin: 'auto', 
-        marginTop: '10%' 
-      }}>
-        <Typography variant="h6">Movimiento interno</Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, flexWrap: 'wrap' }}>
+    <Dialog 
+      open={open} 
+      onClose={onClose}
+      maxWidth="sm" 
+      fullWidth
+    >
+      <DialogTitle>Movimiento interno</DialogTitle>
+      <DialogContent>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, flexWrap: 'wrap', mt: 2 }}>
           <TextField
             label="Fila"
             value={rack}
@@ -50,7 +58,17 @@ export default function MovimientoModal({ open, onClose, item, id }) {
             disabled={pasillo !== ''}
             select
             margin="normal"
-            sx={{ width: '100px' }}
+            sx={{ 
+              width: '100px',
+              '& .MuiOutlinedInput-root': {
+                '&.Mui-focused fieldset': {
+                  borderColor: '#2ecc71',
+                },
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#2ecc71',
+              }
+            }}
           >
             {[...Array(20)].map((_, i) => (
               <MenuItem key={i + 1} value={i + 1}>{i + 1}</MenuItem>
@@ -63,7 +81,17 @@ export default function MovimientoModal({ open, onClose, item, id }) {
             disabled={pasillo !== ''}
             select
             margin="normal"
-            sx={{ width: '100px' }}
+            sx={{ 
+              width: '100px',
+              '& .MuiOutlinedInput-root': {
+                '&.Mui-focused fieldset': {
+                  borderColor: '#2ecc71',
+                },
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#2ecc71',
+              }
+            }}
           >
             {[...Array(14)].map((_, i) => (
               <MenuItem key={i + 1} value={i + 1}>{i + 1}</MenuItem>
@@ -76,7 +104,17 @@ export default function MovimientoModal({ open, onClose, item, id }) {
             disabled={pasillo !== ''}
             select
             margin="normal"
-            sx={{ width: '100px' }}
+            sx={{ 
+              width: '100px',
+              '& .MuiOutlinedInput-root': {
+                '&.Mui-focused fieldset': {
+                  borderColor: '#2ecc71',
+                },
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#2ecc71',
+              }
+            }}
           >
             {['A', 'B'].map((option) => (
               <MenuItem key={option} value={option}>{option}</MenuItem>
@@ -93,7 +131,17 @@ export default function MovimientoModal({ open, onClose, item, id }) {
             }}
             select
             margin="normal"
-            sx={{ width: '100px' }}
+            sx={{ 
+              width: '100px',
+              '& .MuiOutlinedInput-root': {
+                '&.Mui-focused fieldset': {
+                  borderColor: '#2ecc71',
+                },
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#2ecc71',
+              }
+            }}
           >
             {[...Array(12)].map((_, i) => (
               <MenuItem key={i} value={i}>{i}</MenuItem>
@@ -111,23 +159,44 @@ export default function MovimientoModal({ open, onClose, item, id }) {
           onChange={handleCantidadMovimiento}
           fullWidth
           margin="normal"
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '&.Mui-focused fieldset': {
+                borderColor: '#2ecc71',
+              },
+            },
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: '#2ecc71',
+            }
+          }}
         />
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 2 }}>
-          <IconButton
-            onClick={onClose}
-            color="error"
-          >
-            Cancelar
-          </IconButton>
-          <IconButton
-            onClick={handleMovimientoSubmit}
-            color="primary"
-            disabled={!isLocationSelected()}
-          >
-            Aceptar
-          </IconButton>
-        </Box>
-      </Box>
-    </Modal>
+      </DialogContent>
+      <DialogActions>
+        <Button 
+          onClick={onClose}
+          sx={{
+            color: '#2ecc71',
+          }}
+        >
+          Cerrar
+        </Button>
+        <Button 
+          onClick={handleMovimientoSubmit}
+          variant="outlined"
+          disabled={!isLocationSelected()}
+          sx={{
+            color: '#2ecc71',
+            borderColor: '#2ecc71',
+            '&:hover': {
+              borderColor: '#27ae60',
+              color: '#27ae60',
+              bgcolor: 'transparent'
+            }
+          }}
+        >
+          Aceptar
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 } 

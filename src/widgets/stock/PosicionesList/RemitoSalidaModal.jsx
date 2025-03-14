@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Box, Typography, TextField, IconButton, MenuItem, CircularProgress } from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Box,
+  Typography,
+  TextField,
+  MenuItem,
+  Button,
+  CircularProgress
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { agregarAlRemitoSalida, dataProveedoresItems } from "../../../features/remitos/model/slice";
 import Swal from "sweetalert2";
@@ -65,9 +76,9 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
       parseFloat(kilos),
       parseInt(unidades), 
       id, 
-      fecha,
-      onClose
+      fecha
     ));
+    onClose();
   };
 
   // Función para validar que todos los campos estén completos
@@ -76,32 +87,37 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 4,
-          backgroundColor: "white",
-          borderRadius: "8px",
-          maxWidth: 400,
-          margin: "auto",
-          marginTop: "10%",
-        }}
-      >
-        <Typography variant="h6">Agregar a Remito de salida</Typography>
-
+    <Dialog 
+      open={open} 
+      onClose={onClose}
+      maxWidth="sm" 
+      fullWidth
+    >
+      <DialogTitle>Agregar a Remito de salida</DialogTitle>
+      <DialogContent>
         {proveedores.length === 0 ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', my: 3 }}>
             <CircularProgress />
           </Box>
         ) : (
-          <>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
             <TextField
               label="Proveedor"
               value={proveedor}
               onChange={handleProveedorChange}
               select
               fullWidth
-              margin="normal"
+              required
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#2ecc71',
+                  },
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: '#2ecc71',
+                }
+              }}
             >
               {proveedoresFiltrados.map((prov) => (
                 <MenuItem key={prov.id} value={prov.id}>
@@ -120,6 +136,16 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
               onChange={handleCajasResta}
               fullWidth
               margin="normal"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#2ecc71',
+                  },
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: '#2ecc71',
+                }
+              }}
             />
             <TextField
               fullWidth
@@ -128,33 +154,46 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
               value={fecha}
               onChange={handleFechaChange}
               InputLabelProps={{ shrink: true }}
-              sx={{ marginBottom: "20px" }}
-            />
-            <Box 
-              sx={{ 
-                display: "flex", 
-                justifyContent: "flex-end", 
-                mt: 2,
-                gap: 2
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#2ecc71',
+                  },
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: '#2ecc71',
+                }
               }}
-            >
-              <IconButton 
-                onClick={onClose} 
-                color="error"
-              >
-                Cancelar
-              </IconButton>
-              <IconButton 
-                onClick={handleAjusteSubmit} 
-                color="primary"
-                disabled={!isFormValid()}
-              >
-                Aceptar
-              </IconButton>
-            </Box>
-          </>
+            />
+          </Box>
         )}
-      </Box>
-    </Modal>
+      </DialogContent>
+      <DialogActions>
+        <Button 
+          onClick={onClose}
+          sx={{
+            color: '#2ecc71',
+          }}
+        >
+          Cerrar
+        </Button>
+        <Button 
+          onClick={handleAjusteSubmit}
+          variant="outlined"
+          disabled={!isFormValid()}
+          sx={{
+            color: '#2ecc71',
+            borderColor: '#2ecc71',
+            '&:hover': {
+              borderColor: '#27ae60',
+              color: '#27ae60',
+              bgcolor: 'transparent'
+            }
+          }}
+        >
+          Aceptar
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 } 
