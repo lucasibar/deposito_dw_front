@@ -27,11 +27,11 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import styles from './PartidaList.module.css';
+import { usePartidasFilter } from '../../../features/partidas/hooks/usePartidasFilter';
 
 export const PartidaList = ({ searchTerms, estado }) => {
   const dispatch = useDispatch();
-  const partidas = useSelector(selectPartidas);
-  const status = useSelector(selectStatus);
+  const { filteredData, loading, error } = usePartidasFilter(searchTerms, estado);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedPartida, setSelectedPartida] = useState(null);
   const [positionDialogOpen, setPositionDialogOpen] = useState(false);
@@ -299,12 +299,17 @@ export const PartidaList = ({ searchTerms, estado }) => {
           <>
             <DialogTitle>Asignar Posición</DialogTitle>
             <DialogContent>
-              <Box sx={{ mt: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <Box sx={{ mt: 2, width: '100%', maxWidth: '100%' }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center', 
+                  mb: 2,
+                  flexWrap: 'wrap'
+                }}>
                   <Typography variant="subtitle1">
                     Restante: {remaining.kilos} kilos, {remaining.unidades} unidades
                   </Typography>
-           
                 </Box>
 
                 <FormControl fullWidth sx={{ mb: 2 }}>
@@ -320,64 +325,79 @@ export const PartidaList = ({ searchTerms, estado }) => {
                 </FormControl>
 
                 {positionData.type === 'pasillo' ? (
-                  <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    gap: 2, 
+                    mb: 2,
+                    flexWrap: 'wrap'
+                  }}>
                     <TextField
                       label="Pasillo"
                       value={positionData.pasillo}
                       onChange={handlePositionDataChange('pasillo')}
-                      sx={{ flex: 1 }}
+                      sx={{ flex: '1 1 200px' }}
                     />
                     <TextField
                       label="Kilos"
                       type="number"
                       value={positionData.kilos}
                       onChange={handlePositionDataChange('kilos')}
-                      sx={{ flex: 1 }}
+                      sx={{ flex: '1 1 200px' }}
                     />
                     <TextField
                       label="Unidades"
                       type="number"
                       value={positionData.unidades}
                       onChange={handlePositionDataChange('unidades')}
-                      sx={{ flex: 1 }}
+                      sx={{ flex: '1 1 200px' }}
                     />
                   </Box>
                 ) : (
                   <>
-                    <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      gap: 2, 
+                      mb: 2,
+                      flexWrap: 'wrap'
+                    }}>
                       <TextField
                         label="Rack"
                         value={positionData.rack}
                         onChange={handlePositionDataChange('rack')}
-                        sx={{ flex: 1 }}
+                        sx={{ flex: '1 1 200px' }}
                       />
                       <TextField
                         label="Fila"
                         value={positionData.fila}
                         onChange={handlePositionDataChange('fila')}
-                        sx={{ flex: 1 }}
+                        sx={{ flex: '1 1 200px' }}
                       />
                       <TextField
                         label="AB"
                         value={positionData.ab}
                         onChange={handlePositionDataChange('ab')}
-                        sx={{ flex: 1 }}
+                        sx={{ flex: '1 1 200px' }}
                       />
                     </Box>
-                    <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      gap: 2, 
+                      mb: 2,
+                      flexWrap: 'wrap'
+                    }}>
                       <TextField
                         label="Kilos"
                         type="number"
                         value={positionData.kilos}
                         onChange={handlePositionDataChange('kilos')}
-                        sx={{ flex: 1 }}
+                        sx={{ flex: '1 1 200px' }}
                       />
                       <TextField
                         label="Unidades"
                         type="number"
                         value={positionData.unidades}
                         onChange={handlePositionDataChange('unidades')}
-                        sx={{ flex: 1 }}
+                        sx={{ flex: '1 1 200px' }}
                       />
                     </Box>
                   </>
@@ -393,7 +413,13 @@ export const PartidaList = ({ searchTerms, estado }) => {
                 </Button>
 
                 {assignedPositions.length > 0 && (
-                  <Box sx={{ mt: 2 }}>
+                  <Box sx={{ 
+                    mt: 2,
+                    maxWidth: '100%',
+                    '& .MuiList-root': {
+                      width: '100%'
+                    }
+                  }}>
                     <Typography variant="subtitle1">Posiciones Asignadas:</Typography>
                     <List>
                       {assignedPositions.map((pos) => (
@@ -404,10 +430,17 @@ export const PartidaList = ({ searchTerms, estado }) => {
                               <DeleteIcon />
                             </IconButton>
                           }
+                          sx={{
+                            width: '100%',
+                            pr: 7
+                          }}
                         >
                           <ListItemText
                             primary={`${pos.type === 'pasillo' ? `Pasillo ${pos.pasillo}` : `Rack ${pos.rack}, Fila ${pos.fila}, AB ${pos.ab}`}`}
                             secondary={`Kilos: ${pos.kilos}, Unidades: ${pos.unidades}`}
+                            sx={{
+                              wordBreak: 'break-word'
+                            }}
                           />
                         </ListItem>
                       ))}
@@ -440,28 +473,15 @@ export const PartidaList = ({ searchTerms, estado }) => {
     }
   };
 
-  if (status === 'loading') {
+  if (loading) {
     return <Loading />;
   }
 
-  // Filtrar por estado y ordenar por fecha
-  const partidasFiltradas = partidas
-    .filter(partida => partida.estado === estado)
-    .sort((a, b) => {
-      const fechaA = new Date(a.fecha.split('-').reverse().join('-'));
-      const fechaB = new Date(b.fecha.split('-').reverse().join('-'));
-      return fechaA - fechaB; // Cambiado a orden ascendente (más antigua primero)
-    });
+  if (error) {
+    return <div className={styles.emptyMessage}>Error al cargar las partidas</div>;
+  }
 
-  // Aplicar búsqueda si hay términos
-  const partidasFinal = searchTerms.length > 0
-    ? partidasFiltradas.filter(partida => {
-        const searchableText = `${partida.numeroPartida} ${partida.descripcionItem} ${partida.proveedor}`.toLowerCase();
-        return searchTerms.every(term => searchableText.includes(term));
-      })
-    : partidasFiltradas;
-
-  if (partidasFinal.length === 0) {
+  if (filteredData.length === 0) {
     return (
       <div className={styles.emptyMessage}>
         No hay partidas en este estado
@@ -471,7 +491,7 @@ export const PartidaList = ({ searchTerms, estado }) => {
 
   return (
     <div className={styles.listContainer}>
-      {partidasFinal.map((partida) => (
+      {filteredData.map((partida) => (
         <div key={partida.id} className={styles.partidaItem}>
           <div className={styles.iconContainer}>
             {partida.estado !== 'cuarentena-aprobada' && (
@@ -520,14 +540,20 @@ export const PartidaList = ({ searchTerms, estado }) => {
 
       {dialogOpen && selectedPartida && (
         <Dialog
-        open={dialogOpen}
-        onClose={handleCloseDialog}
-        maxWidth="sm"
-        fullWidth
-      >
-        {renderDialogContent()}
-      </Dialog>
-      
+          open={dialogOpen}
+          onClose={handleCloseDialog}
+          maxWidth="md"
+          fullWidth
+          PaperProps={{
+            sx: {
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              m: 2
+            }
+          }}
+        >
+          {renderDialogContent()}
+        </Dialog>
       )}
 
       {renderConfirmDialog()}

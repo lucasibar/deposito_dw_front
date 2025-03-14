@@ -31,43 +31,43 @@ function a11yProps(index) {
 
 export const CalidadTabs = ({ searchTerms }) => {
   const [value, setValue] = React.useState(0);
-  const partidas = useSelector(selectPartidas);
-  const status = useSelector(selectStatus);
   
-  // Obtener estados únicos de las partidas
-  const estados = React.useMemo(() => {
-    if (!partidas || !Array.isArray(partidas)) return [];
-    
-    const uniqueStates = [...new Set(partidas.map(partida => 
-      partida.estado || 'sin-estado'
-    ))];
-    return uniqueStates.sort();
-  }, [partidas]);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  // Estados ordenados como se requiere
+  const estados = ['cuarentena', 'cuarentena-revision', 'cuarentena-aprobada'];
+
   // Formatear el texto del estado para mostrarlo más amigable
   const formatEstado = (estado) => {
-    return estado
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+    switch (estado) {
+      case 'cuarentena':
+        return 'En Cuarentena';
+      case 'cuarentena-revision':
+        return 'En Revisión';
+      case 'cuarentena-aprobada':
+        return 'Aprobadas';
+      default:
+        return estado;
+    }
   };
-
-  if (status === 'loading' || !estados.length) {
-    return <div>Cargando estados...</div>;
-  }
 
   return (
     <Box sx={{ 
-      width: '100vw',
-      marginLeft: 'calc(-50vw + 50%)',
-      marginRight: 'calc(-50vw + 50%)',
-      position: 'relative'
+      width: '100%',
+      position: 'relative',
+      backgroundColor: '#f5f5f5',
+      borderRadius: '4px',
+      padding: '0',
+      boxShadow: 'none'
     }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box sx={{ 
+        borderBottom: 1, 
+        borderColor: 'divider',
+        display: 'flex',
+        justifyContent: 'space-between'
+      }}>
         <Tabs 
           value={value} 
           onChange={handleChange} 
@@ -81,18 +81,25 @@ export const CalidadTabs = ({ searchTerms }) => {
               opacity: 0.7,
               textTransform: 'none',
               fontSize: '1.1rem',
-              minHeight: '48px'
+              minHeight: '48px',
+              backgroundColor: '#f5f5f5',
+              marginRight: '4px',
+              borderTopLeftRadius: '4px',
+              borderTopRightRadius: '4px',
+              '&:hover': {
+                opacity: 1
+              }
             },
             '& .Mui-selected': {
               color: '#333333 !important',
               fontWeight: 500,
-              opacity: 1
+              opacity: 1,
+              backgroundColor: '#f5f5f5',
             },
             '& .MuiTabs-indicator': {
               backgroundColor: '#2ecc71'
             },
-            maxWidth: '1200px',
-            margin: '0 auto'
+            flex: 1
           }}
         >
           {estados.map((estado, index) => (
@@ -100,6 +107,9 @@ export const CalidadTabs = ({ searchTerms }) => {
               key={estado}
               label={formatEstado(estado)} 
               {...a11yProps(index)}
+              sx={{
+                marginRight: estado === 'cuarentena-aprobada' ? 'auto' : 'inherit'
+              }}
             />
           ))}
         </Tabs>

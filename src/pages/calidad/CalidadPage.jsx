@@ -22,8 +22,14 @@ export const CalidadPage = () => {
   return (
     <div className={styles.container}>
       <Title>Calidad</Title>
-      <SearchBar onSearch={handleSearch} />
-      <CalidadTabs searchTerms={searchTerms} />
+      <div className={styles.content}>
+        <div className={styles.searchContainer}>
+          <SearchBar onSearch={handleSearch} placeholder="Buscar por proveedor, ítem, material, categoría..." />
+        </div>
+        <div className={styles.mainContent}>
+          <CalidadTabs searchTerms={searchTerms} />
+        </div>
+      </div>
       {/* <PartidaList searchTerms={searchTerms} /> */}
     </div>
   );

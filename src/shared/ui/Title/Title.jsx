@@ -26,7 +26,7 @@ const rutas = [
   { nombre: 'Home', path: '/deposito_dw_front/', icon: <HomeIcon /> },
   { nombre: 'Remito entrada', path: '/deposito_dw_front/remito-entrada', icon: <ReceiptIcon /> },
   { nombre: 'Cuarentena', path: '/deposito_dw_front/calidad', icon: <WarningIcon /> },
-  { nombre: 'Remito salida', path: '/deposito_dw_front/salidas', icon: <LocalShippingIcon /> },
+  { nombre: 'Remito salida', path: '/deposito_dw_front/salidas', icon: <LocalShippingIcon />, disabled: true },
   { nombre: 'Stock', path: '/deposito_dw_front/stock', icon: <AssessmentIcon /> },
   { nombre: 'Informe consumos', path: '/deposito_dw_front/consumos', icon: <AssessmentIcon /> },
 ];
@@ -56,20 +56,23 @@ const SideMenu = ({ open, onClose, onNavigate }) => {
           <ListItem 
             button 
             key={ruta.path} 
-            onClick={() => onNavigate(ruta.path)}
+            onClick={() => !ruta.disabled && onNavigate(ruta.path)}
             sx={{ 
               py: 2,
               '&:hover': {
-                backgroundColor: 'rgba(46, 204, 113, 0.08)'
-              }
+                backgroundColor: ruta.disabled ? 'transparent' : 'rgba(46, 204, 113, 0.08)'
+              },
+              opacity: ruta.disabled ? 0.5 : 1,
+              cursor: ruta.disabled ? 'not-allowed' : 'pointer'
             }}
           >
-            <ListItemIcon sx={{ color: '#2ecc71' }}>{ruta.icon}</ListItemIcon>
+            <ListItemIcon sx={{ color: ruta.disabled ? 'rgba(0, 0, 0, 0.38)' : '#2ecc71' }}>{ruta.icon}</ListItemIcon>
             <ListItemText 
               primary={ruta.nombre}
               sx={{
                 '& .MuiListItemText-primary': {
-                  fontWeight: 500
+                  fontWeight: 500,
+                  color: ruta.disabled ? 'rgba(0, 0, 0, 0.38)' : 'inherit'
                 }
               }}
             />
