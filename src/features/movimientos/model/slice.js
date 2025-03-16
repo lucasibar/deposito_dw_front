@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { fetchItemsPosicion } from '../../../features/posicion/model/slice';
-
+import { fetchPosiciones } from '../../../features/posicion/model/slice';
 const URL = "https://derwill-deposito-backend.onrender.com";
 
 const initialState = {
@@ -29,18 +29,27 @@ export const { setLoading, setError } = movimientosSlice.actions;
 export const enviarMovimiento = (selectedItem, data, id, onSuccess) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const response = await axios.post(`${URL}/movimientos/interno`, {selectedItem, data, id});
-    Swal.fire({
-      title: "Éxito",
-      text: "La mercadería se cambió de posición",
-      icon: "success"
+    console.log('Enviando movimiento:', { selectedItem, data, id }); // Para debug
+    const response = await axios.post(`${URL}/movimientos/interno`, {
+      selectedItem,
+      data,
+      id
     });
-    dispatch(fetchItemsPosicion(id));
-    if (onSuccess) onSuccess();
+    
+    if (response.status === 200 || response.status === 201) {
+      Swal.fire({
+        title: "Éxito",
+        text: response.data.message || "La mercadería se cambió de posición correctamente",
+        icon: "success"
+      });
+      await dispatch(fetchPosiciones());
+      if (onSuccess) onSuccess();
+    }
   } catch (error) {
+    console.error('Error en movimiento:', error); // Para debug
     Swal.fire({
       title: "Error",
-      text: "No se pudo realizar el movimiento",
+      text: error.response?.data?.message || "No se pudo realizar el movimiento",
       icon: "error"
     });
   } finally {

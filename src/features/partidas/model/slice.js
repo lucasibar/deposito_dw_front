@@ -56,6 +56,11 @@ const partidasSlice = createSlice({
         revisada: false
       }));
       state.partidas = nuevasPartidas;
+    },
+
+    // Nuevo reducer para remover una partida
+    removePartida: (state, action) => {
+      state.partidas = state.partidas.filter(partida => partida.id !== action.payload);
     }
   },
   extraReducers: (builder) => {
@@ -76,6 +81,7 @@ const partidasSlice = createSlice({
           return {
             id: partida.id, 
             numeroPartida: partida.numeroPartida,
+            item: partida.item,
             descripcionItem: `${partida.item.descripcion} ${partida.item.categoria}`||"QUE PASO?!",
             kilos: partida.kilos,
             unidades: partida.unidades,
@@ -105,4 +111,5 @@ const partidasSlice = createSlice({
   }
 });
 
+export const { marcarPartidaRevisada, actualizarPartidas, removePartida } = partidasSlice.actions;
 export default partidasSlice.reducer; 

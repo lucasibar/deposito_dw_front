@@ -23,12 +23,22 @@ export default function MovimientoModal({ open, onClose, item, id }) {
   const [unidades, setUnidades] = useState(item?.unidades || 0);
 
   const isLocationSelected = () => {
-    return (rack && fila && nivel) || pasillo;
+    return ((rack && fila && nivel) || pasillo) && kilos > 0 && unidades > 0;
   };
 
   const handleMovimientoSubmit = () => {
     const data = pasillo ? { pasillo } : { rack, fila, nivel };
-    dispatch(enviarMovimiento(item, data, id, onClose));
+    const selectedItemWithQuantities = {
+      ...item,
+      id: item.id,
+      itemId: item.id,
+      kilos,
+      unidades,
+      proveedor: item.proveedor || { id: item.proveedorId },
+      partida: item.partida
+    };
+    
+    dispatch(enviarMovimiento(selectedItemWithQuantities, data, id, onClose));
   };
 
   const handleCantidadMovimiento = (e) => {

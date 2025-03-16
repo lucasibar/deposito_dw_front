@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import { selectPartidas, selectStatus } from '../../../features/partidas/model/selectors';
-import { actualizarEstadoPartida } from '../../../features/partidas/model/slice';
+import { actualizarEstadoPartida, removePartida } from '../../../features/partidas/model/slice';
 import { Loading } from '../../../shared/ui/Loading/Loading';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -29,6 +30,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import styles from './PartidaList.module.css';
 import { usePartidasFilter } from '../../../features/partidas/hooks/usePartidasFilter';
 
+const URL = "https://derwill-deposito-backend.onrender.com";
+
 export const PartidaList = ({ searchTerms, estado }) => {
   const dispatch = useDispatch();
   const { filteredData, loading, error } = usePartidasFilter(searchTerms, estado);
@@ -37,6 +40,7 @@ export const PartidaList = ({ searchTerms, estado }) => {
   const [positionDialogOpen, setPositionDialogOpen] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [pendingStateChange, setPendingStateChange] = useState(null);
+  
   const [positionData, setPositionData] = useState({
     type: '', // 'pasillo' or 'rack'
     pasillo: '',
@@ -165,6 +169,45 @@ export const PartidaList = ({ searchTerms, estado }) => {
     } finally {
       handleCloseDialog();
       setConfirmDialogOpen(false);
+    }
+  };
+
+  const handleSendToStock = async () => {
+    try {
+      const positionsData = assignedPositions.map(pos => ({
+        partida: {
+          id: selectedPartida.id,
+          numeroPartida: selectedPartida.numeroPartida,
+          item: selectedPartida.item,
+          kilos: selectedPartida.kilos,
+          unidades: selectedPartida.unidades
+        },
+        rack: pos.type === 'rack' ? parseInt(pos.rack) : null,
+        fila: pos.type === 'rack' ? parseInt(pos.fila) : null,
+        ab: pos.type === 'rack' ? pos.ab : null,
+        pasillo: pos.type === 'pasillo' ? parseInt(pos.pasillo) : null,
+        kilos: parseFloat(pos.kilos),
+        unidades: parseInt(pos.unidades)
+      }));
+
+      // Enviamos las posiciones al servidor
+      const response = await axios.post(`${URL}/movimientos/entrada-posicion`, positionsData);
+      
+      if (response.status === 200 || response.status === 201) {
+        // Actualizamos el estado en Redux removiendo la partida
+        await dispatch(removePartida(selectedPartida.id));
+        
+        // Cerramos el diálogo
+        handleClosePositionDialog();
+        
+        // Opcional: Mostrar mensaje de éxito
+        alert('La mercadería se ha enviado a stock correctamente');
+      }
+    } catch (error) {
+      console.error('Error completo:', error);
+      console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+      alert('Hubo un error al enviar la mercadería a stock. Por favor, intente nuevamente.');
     }
   };
 
@@ -453,7 +496,7 @@ export const PartidaList = ({ searchTerms, estado }) => {
               <Button onClick={handleClosePositionDialog}>Cancelar</Button>
               <Button
                 variant="contained"
-                onClick={() => handleConfirmStateChange('stock')}
+                onClick={handleSendToStock}
                 disabled={remaining.kilos > 0 || remaining.unidades > 0}
                 sx={{ 
                   backgroundColor: '#2ecc71',

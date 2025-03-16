@@ -87,7 +87,7 @@ export const RemitoEntradaInsumosPage = () => {
             }
           }}
         >
-          Subir Remito que onda
+          Subir Remito
         </Button>
       </Box>
     </div>
