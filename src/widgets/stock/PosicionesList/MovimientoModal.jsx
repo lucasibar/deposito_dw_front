@@ -28,17 +28,18 @@ export default function MovimientoModal({ open, onClose, item, id }) {
 
   const handleMovimientoSubmit = () => {
     const data = pasillo ? { pasillo } : { rack, fila, nivel };
-    const selectedItemWithQuantities = {
-      ...item,
-      id: item.id,
-      itemId: item.id,
+    
+    const selectedItemData = {
+      itemId: item.itemId,
+      categoria: item.categoria,
+      descripcion: item.descripcion,
+      proveedor: item.proveedor,
+      partida: item.partida,
       kilos,
-      unidades,
-      proveedor: item.proveedor || { id: item.proveedorId },
-      partida: item.partida
+      unidades
     };
     
-    dispatch(enviarMovimiento(selectedItemWithQuantities, data, id, onClose));
+    dispatch(enviarMovimiento(selectedItemData, data, id, onClose));
   };
 
   const handleCantidadMovimiento = (e) => {

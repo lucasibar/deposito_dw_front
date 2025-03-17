@@ -29,12 +29,21 @@ export const { setLoading, setError } = movimientosSlice.actions;
 export const enviarMovimiento = (selectedItem, data, id, onSuccess) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    console.log('Enviando movimiento:', { selectedItem, data, id }); // Para debug
-    const response = await axios.post(`${URL}/movimientos/interno`, {
-      selectedItem,
+    const payload = {
+      selectedItem: {
+        itemId: selectedItem.itemId,
+        categoria: selectedItem.categoria,
+        descripcion: selectedItem.descripcion,
+        proveedor: selectedItem.proveedor,
+        partida: selectedItem.partida,
+        kilos: selectedItem.kilos,
+        unidades: selectedItem.unidades
+      },
       data,
       id
-    });
+    };
+
+    const response = await axios.post(`${URL}/movimientos/interno`, payload);
     
     if (response.status === 200 || response.status === 201) {
       Swal.fire({
@@ -46,7 +55,6 @@ export const enviarMovimiento = (selectedItem, data, id, onSuccess) => async (di
       if (onSuccess) onSuccess();
     }
   } catch (error) {
-    console.error('Error en movimiento:', error); // Para debug
     Swal.fire({
       title: "Error",
       text: error.response?.data?.message || "No se pudo realizar el movimiento",

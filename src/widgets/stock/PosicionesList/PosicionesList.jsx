@@ -39,9 +39,9 @@ export const PosicionesList = ({ posiciones, loading, error }) => {
 
   return (
     <div className={styles.listContainer}>
-      {posicionesFiltradas.map((posicion) => (
+      {posicionesFiltradas.map((posicion) => 
         posicion.items.map((item, index) => (
-          <div key={`${posicion.id}-${item.id}-${index}`} className={styles.itemCard}>
+          <div key={`${posicion.posicionId}-${item.itemId}-${index}`} className={styles.itemCard}>
             <div className={styles.mainContent}>
               <div className={styles.titleRow}>
                 <span className={styles.description}>
@@ -65,14 +65,14 @@ export const PosicionesList = ({ posiciones, loading, error }) => {
               <div className={styles.actionButtons}>
                 <button 
                   className={styles.actionButton} 
-                  onClick={() => handleOpenRemitoModal(item, posicion.id)}
+                  onClick={() => handleOpenRemitoModal(item, posicion.posicionId)}
                   title="Remito de Salida"
                 >
                   <FaFileExport />
                 </button>
                 <button 
                   className={styles.actionButton} 
-                  onClick={() => handleOpenMovimientoModal(item, posicion.id)}
+                  onClick={() => handleOpenMovimientoModal(item, posicion.posicionId)}
                   title="Movimiento Interno"
                 >
                   <FaExchangeAlt />
@@ -86,7 +86,7 @@ export const PosicionesList = ({ posiciones, loading, error }) => {
             </div>
           </div>
         ))
-      ))}
+      )}
 
       {selectedItem && (
         <>
@@ -100,7 +100,7 @@ export const PosicionesList = ({ posiciones, loading, error }) => {
             open={openMovimientoModal} 
             onClose={handleCloseMovimientoModal} 
             item={selectedItem} 
-            id={selectedItem.posicionId} 
+            id={selectedItem?.posicionId} 
           />
         </>
       )}
