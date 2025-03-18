@@ -12,6 +12,7 @@ import {
 import { dataProveedoresItems, setFormData } from '../../../features/remitos/model/slice';
 import styles from './FormRemito.module.css';
 import { ModalAgregarPartida } from '../ModalAgregarPartida/ModalAgregarPartida';
+import { ModalAgregarProveedor } from '../ModalAgregarProveedor/ModalAgregarProveedor';
 
 export const FormRemito = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export const FormRemito = () => {
   const formData = useSelector(state => state.remitos?.formData || {});
 
   const [openModal, setOpenModal] = useState(false);
+  const [openProveedorModal, setOpenProveedorModal] = useState(false);
 
   useEffect(() => {
     dispatch(dataProveedoresItems());
@@ -44,6 +46,14 @@ export const FormRemito = () => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  const handleProveedorCreado = (nuevoProveedor) => {
+    dispatch(dataProveedoresItems());
+    dispatch(setFormData({
+      ...formData,
+      proveedor: nuevoProveedor.id
+    }));
   };
 
   if (loading) {
@@ -81,13 +91,14 @@ export const FormRemito = () => {
             }
           }}
         >
-          {Array.isArray(proveedores) && proveedores.map((prov) => {
-            return (
-              <MenuItem key={prov.id} value={prov.id}>
-                {prov.nombre}
-              </MenuItem>
-            );
-          })}
+          <MenuItem value="" onClick={() => setOpenProveedorModal(true)}>
+            <em>+ Agregar nuevo proveedor</em>
+          </MenuItem>
+          {Array.isArray(proveedores) && proveedores.map((prov) => (
+            <MenuItem key={prov.id} value={prov.id}>
+              {prov.nombre}
+            </MenuItem>
+          ))}
         </TextField>
 
         <TextField
@@ -134,6 +145,12 @@ export const FormRemito = () => {
         open={openModal}
         onClose={handleCloseModal}
         proveedorId={formData.proveedor}
+      />
+
+      <ModalAgregarProveedor 
+        open={openProveedorModal}
+        onClose={() => setOpenProveedorModal(false)}
+        onProveedorCreado={handleProveedorCreado}
       />
     </Paper>
   );
