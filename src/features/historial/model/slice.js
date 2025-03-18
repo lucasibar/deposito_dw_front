@@ -19,10 +19,21 @@ const convertirFecha = (fecha) => {
 // Función auxiliar para ordenar por fecha
 const sortByDate = (a, b) => {
   // Comparamos directamente las fechas en formato YYYY-MM-DD
-  // Esto funciona porque es un formato que se puede comparar como string
-  if (a.fecha > b.fecha) return 1;  // a es más reciente, va después
-  if (a.fecha < b.fecha) return -1; // b es más reciente, va antes
+  // Ordenamos de más reciente a más antiguo
+  if (a.fecha > b.fecha) return -1;  // a es más reciente, va primero
+  if (a.fecha < b.fecha) return 1;   // b es más reciente, va primero
   return 0; // son iguales
+};
+
+// Función para validar si una fecha es válida en formato YYYY-MM-DD
+const esUnaFechaValida = (fecha) => {
+  if (!fecha || typeof fecha !== 'string') return false;
+  const [year, month, day] = fecha.split('-');
+  const date = new Date(year, month - 1, day);
+  return date instanceof Date && !isNaN(date) &&
+    date.getFullYear() === parseInt(year) &&
+    date.getMonth() === parseInt(month) - 1 &&
+    date.getDate() === parseInt(day);
 };
 
 export const fetchHistorialSalida = createAsyncThunk(
@@ -30,8 +41,11 @@ export const fetchHistorialSalida = createAsyncThunk(
   async () => {
     const response = await axios.get(`${URL}/movimientos/salida`);
     
-    // Primero ordenamos con el formato original
-    const sortedData = response.data.sort(sortByDate);
+    // Filtramos las fechas inválidas antes de ordenar
+    const validData = response.data.filter(remito => esUnaFechaValida(remito.fecha));
+    
+    // Ordenamos los datos válidos
+    const sortedData = validData.sort(sortByDate);
     
     // Luego convertimos el formato para visualización
     return sortedData.map(remito => ({

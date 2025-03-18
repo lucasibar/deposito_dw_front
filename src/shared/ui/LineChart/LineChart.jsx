@@ -37,16 +37,35 @@ export const CustomLineChart = ({
   if (error) return <div className={styles.error}>{error}</div>;
   if (!data || data.length === 0) return <div className={styles.empty}>No hay datos disponibles</div>;
 
+  console.log('Datos recibidos en LineChart:', data);
+
+  const formatDate = (dateStr) => {
+    try {
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) {
+        console.log('Fecha inválida:', dateStr);
+        return dateStr;
+      }
+      return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+    } catch (error) {
+      console.log('Error al formatear fecha:', dateStr, error);
+      return dateStr;
+    }
+  };
+
   const chartData = {
-    labels: data.map(item => item[xAxisKey]),
+    labels: data.map(item => {
+      console.log('Procesando item:', item);
+      return formatDate(item[xAxisKey]);
+    }),
     datasets: [
       {
         label: yAxisLabel,
         data: data.map(item => item[yAxisKey]),
         borderColor: '#8884d8',
         tension: 0.1,
-        pointRadius: 0,
-        hoverPointRadius: 8,
+        pointRadius: 2,
+        hoverPointRadius: 6,
       },
     ],
   };
@@ -61,12 +80,22 @@ export const CustomLineChart = ({
       title: {
         display: false,
       },
+      tooltip: {
+        callbacks: {
+          title: (tooltipItems) => {
+            const index = tooltipItems[0].dataIndex;
+            return data[index][xAxisKey];
+          }
+        }
+      }
     },
     scales: {
       x: {
         ticks: {
           maxRotation: 45,
           minRotation: 45,
+          autoSkip: true,
+          maxTicksLimit: 15,
         },
         title: {
           display: true,
@@ -74,6 +103,7 @@ export const CustomLineChart = ({
         },
       },
       y: {
+        beginAtZero: true,
         title: {
           display: true,
           text: yAxisLabel,

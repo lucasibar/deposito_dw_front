@@ -2,7 +2,13 @@
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1rem;
+}
+
+.remitosList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .remito {
@@ -92,4 +98,40 @@
 
 .itemsTable tr:last-child td {
   border-bottom: none;
+}
+
+/* Estilos para la paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.pageButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #d0d0d0;
+}
+
+.pageButton.active {
+  background: #8884d8;
+  color: white;
+  border-color: #8884d8;
+}
+
+.pageButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 } 

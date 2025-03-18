@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { fetchItemsPosicion } from '../../../features/posicion/model/slice';
+import { fetchPosiciones } from '../../posicion/model/slice';
 
 const URL = "https://derwill-deposito-backend.onrender.com";
 
@@ -148,7 +149,8 @@ export const agregarAlRemitoSalida = (selectedItem, proveedor, kilos, unidades, 
       icon: "success"
     });
     
-    dispatch(fetchItemsPosicion(id));
+    dispatch(fetchPosiciones());
+    
     if (onSuccess) onSuccess();
   } catch (error) {
     Swal.fire({

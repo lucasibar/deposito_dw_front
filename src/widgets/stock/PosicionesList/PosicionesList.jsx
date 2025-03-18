@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { FaFlask, FaCheckCircle, FaExchangeAlt, FaFileExport } from 'react-icons/fa';
 import styles from './PosicionesList.module.css';
 import RemitoSalidaModal from './RemitoSalidaModal';
 import MovimientoModal from './MovimientoModal';
+import { dataProveedoresItems } from '../../../features/remitos/model/slice';
 
 export const PosicionesList = ({ posiciones, loading, error }) => {
+  const dispatch = useDispatch();
   const [selectedItem, setSelectedItem] = useState(null);
   const [openRemitoModal, setOpenRemitoModal] = useState(false);
   const [openMovimientoModal, setOpenMovimientoModal] = useState(false);
+
+  // Cargar proveedores una sola vez al montar el componente
+  useEffect(() => {
+    dispatch(dataProveedoresItems());
+  }, [dispatch]);
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;

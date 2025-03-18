@@ -18,11 +18,6 @@ import Swal from "sweetalert2";
 export default function RemitoSalidaModal({ open, onClose, item, id }) {
   const dispatch = useDispatch();
 
-  // Obtener proveedores de Redux
-  useEffect(() => {
-    dispatch(dataProveedoresItems());
-  }, [dispatch]);
-
   // Obtener la lista de proveedores desde Redux
   const proveedores = useSelector((state) => state.remitos.proveedores) || [];
 
@@ -71,11 +66,11 @@ export default function RemitoSalidaModal({ open, onClose, item, id }) {
     }
 
     dispatch(agregarAlRemitoSalida(
-      item, 
-      proveedor, 
-      parseFloat(kilos),
-      parseInt(unidades), 
-      id, 
+      item,
+      proveedor,
+      parseInt(kilos),
+      parseInt(unidades),
+      id,
       fecha
     ));
     onClose();
