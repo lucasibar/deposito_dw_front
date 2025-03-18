@@ -1,0 +1,1 @@
+export { HiladoWidget } from './ui/HiladoWidget'; 

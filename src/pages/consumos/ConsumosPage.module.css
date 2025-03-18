@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 1rem;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 5px;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.titleBar {
+  display: flex;
+  align-items: center;
+}
+
+.searchContainer {
+  display: flex;
+  width: 100%;
+  margin-top: calc(25px + 1.75rem); /* Aumentado a 25px más la altura del título */
+}
+
+.mainContent {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chartContainer {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 1rem;
+  height: 450px;
+}
+
+.remitosList {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 1rem;
+} 

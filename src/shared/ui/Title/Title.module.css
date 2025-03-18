@@ -1,0 +1,52 @@
+.mainContainer {
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.titleContainer {
+  padding: 0.7rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: #2ecc71;
+}
+
+.menuButton {
+  color: #2ecc71;
+}
+
+.sideMenuDesktop {
+  width: 300px;
+  background-color: white;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  padding-top: 64px; /* Altura del header */
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+  z-index: 900;
+}
+
+/* Ajuste del contenido principal cuando el menú está visible en desktop */
+@media (min-width: 1200px) {
+  .mainContainer {
+    padding-right: 300px;
+  }
+} 

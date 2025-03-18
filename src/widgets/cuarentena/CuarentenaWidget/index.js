@@ -1,0 +1,1 @@
+export { CuarentenaWidget } from './ui/CuarentenaWidget'; 
