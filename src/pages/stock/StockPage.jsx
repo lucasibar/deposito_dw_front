@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import * as XLSX from 'xlsx';
 import styles from './StockPage.module.css';
 import { SearchBar } from '../../shared/ui/SearchBar/SearchBar';
 import { PosicionesList } from '../../widgets/stock/PosicionesList/PosicionesList';
@@ -21,10 +22,48 @@ export const StockPage = () => {
     setSearchTerms(terms);
   };
 
+  const exportToExcel = () => {
+    // Transform the data for Excel
+    const excelData = filteredData.flatMap(posicion => 
+      posicion.items.map(item => ({
+        Proveedor: item.proveedor?.nombre || '',
+        Descripcion: item.descripcion || '',
+        Categoria: item.categoria || '',
+        Partida: item.partida || '',
+        'Estado Partida': item.partidaEstado || '',
+        Kilos: item.kilos || 0,
+        Unidades: item.unidades || 0,
+        Fila: posicion.fila || '',
+        Rack: posicion.rack || '',
+        AB: posicion.AB || '',
+        Pasillo: posicion.pasillo || '',
+        Entrada: posicion.entrada ? 'Sí' : 'No'
+      }))
+    );
+
+    // Create worksheet
+    const ws = XLSX.utils.json_to_sheet(excelData);
+    
+    // Create workbook
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Posiciones");
+    
+    // Generate & Download Excel file
+    XLSX.writeFile(wb, "posiciones.xlsx");
+  };
+
   return (
     <div className={styles.container}>
       <Title>Stock</Title>
-      <SearchBar onSearch={handleSearch} />
+      <div className={styles.controls}>
+        <SearchBar onSearch={handleSearch} />
+        <button 
+          className={styles.exportButton}
+          onClick={exportToExcel}
+        >
+          Exportar a Excel
+        </button>
+      </div>
       <div className={styles.mainContent}>
         <div className={styles.listContainer}>
           <PosicionesList posiciones={filteredData} loading={loading} error={error} />
