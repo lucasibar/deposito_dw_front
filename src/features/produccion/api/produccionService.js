@@ -29,6 +29,11 @@ export const produccionService = {
     return response.data;
   },
 
+  getProduccionByLote: async (numeroLote) => {
+    const response = await axios.get(`${API_URL}/produccion/lote/${numeroLote}`);
+    return response.data;
+  },
+
   getAllProduccion: async () => {
     const response = await axios.get(`${API_URL}/produccion`);
     return response.data;

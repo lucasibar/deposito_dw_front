@@ -3,6 +3,7 @@ export const ROUTES = {
   CUARENTENA: '/deposito_dw_front/cuarentena',
   DEPOSITO_HILADO: '/deposito_dw_front/deposito-hilado',
   HISTORIAL: '/deposito_dw_front/historial-salida',
+  ETIQUETAS: '/deposito_dw_front/etiquetas',
 };
 
 export const PAGES = {
@@ -10,6 +11,7 @@ export const PAGES = {
   CUARENTENA: 'cuarentena',
   DEPOSITO_HILADO: 'depositohilado',
   HISTORIAL: 'historial',
+  ETIQUETAS: 'etiquetas',
 };
 
 export const BOTONES = {

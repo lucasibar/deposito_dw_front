@@ -20,6 +20,7 @@ import WarningIcon from '@mui/icons-material/Warning';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import LabelIcon from '@mui/icons-material/Label';
 import { useNavigate } from 'react-router-dom';
 import styles from './Title.module.css';
 
@@ -31,6 +32,7 @@ const rutas = [
   { nombre: 'Stock', path: '/deposito_dw_front/stock', icon: <AssessmentIcon /> },
   { nombre: 'Informe consumos', path: '/deposito_dw_front/consumos', icon: <AssessmentIcon /> },
   { nombre: 'Producción Diaria', path: '/deposito_dw_front/produccion-diaria', icon: <ProductionQuantityLimitsIcon /> },
+  { nombre: 'Etiquetas Tejeduría', path: '/deposito_dw_front/etiquetas', icon: <LabelIcon /> },
   { nombre: 'Pedidos', path: '/deposito_dw_front/salidas', icon: <LocalShippingIcon />, disabled: true },
 ];
 

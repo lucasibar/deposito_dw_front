@@ -10,6 +10,7 @@ import { StockPage } from '../pages/stock/StockPage';
 import { ConsumosPage } from '../pages/consumos/ConsumosPage';
 import { RemitoEntradaInsumosPage } from '../pages/remito-entrada-insumos/RemitoEntradaInsumosPage';
 import ProduccionDiariaPage from '../pages/produccion-diaria';
+import EtiquetasPage from '../pages/etiquetas';
 
 export const App = () => {
   return (
@@ -24,6 +25,7 @@ export const App = () => {
         <Route path="/deposito_dw_front/stock" element={<StockPage />} />
         <Route path="/deposito_dw_front/consumos" element={<ConsumosPage />} />
         <Route path="/deposito_dw_front/produccion-diaria" element={<ProduccionDiariaPage />} />
+        <Route path="/deposito_dw_front/etiquetas" element={<EtiquetasPage />} />
         <Route exact path="/deposito_dw_front/" element={<Login />} />
         <Route path="*" element={<Navigate to="/deposito_dw_front/" replace />} />
       </Routes>
