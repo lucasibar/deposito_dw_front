@@ -10,7 +10,8 @@ import {
   TableRow,
   IconButton,
   Typography,
-  Tooltip
+  Tooltip,
+  Box
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -44,27 +45,35 @@ export const ListaProduccion = ({ onEdit }) => {
   };
 
   return (
-    <Paper sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ 
+      height: '100%', 
+      display: 'flex', 
+      flexDirection: 'column',
+      mb: 2
+    }}>
       {producciones.length === 0 ? (
         <Typography variant="body2" color="text.secondary" sx={{ p: 2 }}>
           No hay producciones agregadas
         </Typography>
       ) : (
-        <TableContainer>
+        <TableContainer sx={{ 
+          flex: 1,
+          maxHeight: 'calc(100vh - 300px)'
+        }}>
           <Table stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell>Máquina</TableCell>
-                <TableCell>Legajo</TableCell>
-                <TableCell>Artículo</TableCell>
-                <TableCell align="right">Unidades</TableCell>
-                <TableCell>Lote</TableCell>
-                <TableCell align="center">Acciones</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Máquina</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Legajo</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Artículo</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} align="right">Unidades</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Lote</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} align="center">Acciones</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {producciones.map((produccion, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} sx={{ '&:hover': { bgcolor: '#e0e0e0' } }}>
                   <TableCell>{`${produccion.maquina}`}</TableCell>
                   <TableCell>{`${produccion.legajo}`}</TableCell>
                   <TableCell>{`${produccion.articulo}`}</TableCell>
@@ -95,6 +104,6 @@ export const ListaProduccion = ({ onEdit }) => {
           </Table>
         </TableContainer>
       )}
-    </Paper>
+    </Box>
   );
 }; 

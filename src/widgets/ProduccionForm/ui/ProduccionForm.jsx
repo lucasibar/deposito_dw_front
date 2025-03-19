@@ -455,154 +455,181 @@ export const ProduccionForm = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, height: 'calc(100vh - 100px)' }}>
-      <Paper elevation={3} sx={{ p: 3 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Registro de Producción Diaria
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                select
-                fullWidth
-                label="Máquina"
-                name="maquina"
-                value={formData.maquina}
-                onChange={handleChange}
-                required
-                disabled={loading}
-              >
-                <MenuItem value="nuevo" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
-                  + Agregar Nueva Máquina
-                </MenuItem>
-                {(maquinas || []).map((maquina) => (
-                  <MenuItem key={maquina.id} value={maquina.id}>
-                    {maquina.tipoMaquina} - #{maquina.numeroMaquina}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                select
-                fullWidth
-                label="Legajo"
-                name="legajo"
-                value={formData.legajo}
-                onChange={handleChange}
-                required
-                disabled={loading}
-              >
-                <MenuItem value="nuevo" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
-                  + Agregar Nuevo Legajo
-                </MenuItem>
-                {(legajos || []).map((legajo) => (
-                  <MenuItem key={legajo.id} value={legajo.id}>
-                    {legajo.nombre} - #{legajo.numeroLegajo}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Unidades"
-                name="unidades"
-                type="number"
-                value={formData.unidades}
-                onChange={handleChange}
-                required
-                disabled={loading}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Fecha"
-                name="fecha"
-                type="date"
-                value={formData.fecha}
-                onChange={handleChange}
-                required
-                disabled={loading}
-                InputLabelProps={{
-                  shrink: true,
+    <Box sx={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      gap: 3, 
+      height: '100%',
+      bgcolor: '#f5f5f5',
+      p: 3,
+      mt: 8,
+      minHeight: '100vh',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0
+    }}>
+      <Box sx={{ 
+        display: 'flex', 
+        gap: 3, 
+        flex: 1,
+        mt: 2,
+        px: 3
+      }}>
+        {/* Columna izquierda - Formulario */}
+        <Box sx={{ flex: 1 }}>
+          <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+              <Typography variant="h5" component="h2">
+                Registro de Producción Diaria
+              </Typography>
+              <Button
+                variant="outlined"
+                onClick={handleSubirProduccion}
+                disabled={!produccionesTemporales?.length || loading}
+                sx={{ 
+                  color: '#2ecc71',
+                  borderColor: '#2ecc71',
+                  '&:hover': {
+                    borderColor: '#27ae60',
+                    color: '#27ae60',
+                    bgcolor: 'transparent'
+                  }
                 }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                select
-                fullWidth
-                label="Artículo"
-                name="articulo"
-                value={formData.articulo}
-                onChange={handleChange}
-                required
-                disabled={loading}
               >
-                <MenuItem value="nuevo" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
-                  + Agregar Nuevo Artículo
-                </MenuItem>
-                {(articulos || []).map((articulo) => (
-                  <MenuItem key={articulo.id} value={articulo.id}>
-                    {articulo.codigoArticulo} - {articulo.talle}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Número de Lote Producción"
-                name="numeroLoteProduccion"
-                value={formData.numeroLoteProduccion}
-                onChange={handleChange}
-                required
-                disabled={loading}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button 
-                type="submit" 
-                variant="contained" 
-                color="primary" 
-                fullWidth
-                disabled={loading}
-              >
-                {editingIndex !== null ? 'Actualizar Producción' : 'Agregar Producción'}
+                {loading ? 'Subiendo Producción...' : 'Subir Producción Diaria'}
               </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
+            </Box>
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    select
+                    fullWidth
+                    label="Máquina"
+                    name="maquina"
+                    value={formData.maquina}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                  >
+                    <MenuItem value="nuevo" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+                      + Agregar Nueva Máquina
+                    </MenuItem>
+                    {(maquinas || []).map((maquina) => (
+                      <MenuItem key={maquina.id} value={maquina.id}>
+                        {maquina.tipoMaquina} - #{maquina.numeroMaquina}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    select
+                    fullWidth
+                    label="Legajo"
+                    name="legajo"
+                    value={formData.legajo}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                  >
+                    <MenuItem value="nuevo" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+                      + Agregar Nuevo Legajo
+                    </MenuItem>
+                    {(legajos || []).map((legajo) => (
+                      <MenuItem key={legajo.id} value={legajo.id}>
+                        {legajo.nombre} - #{legajo.numeroLegajo}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Unidades"
+                    name="unidades"
+                    type="number"
+                    value={formData.unidades}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Fecha"
+                    name="fecha"
+                    type="date"
+                    value={formData.fecha}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    select
+                    fullWidth
+                    label="Artículo"
+                    name="articulo"
+                    value={formData.articulo}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                  >
+                    <MenuItem value="nuevo" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
+                      + Agregar Nuevo Artículo
+                    </MenuItem>
+                    {(articulos || []).map((articulo) => (
+                      <MenuItem key={articulo.id} value={articulo.id}>
+                        {articulo.codigoArticulo} - {articulo.talle}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Número de Lote Producción"
+                    name="numeroLoteProduccion"
+                    value={formData.numeroLoteProduccion}
+                    onChange={handleChange}
+                    required
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button 
+                    type="submit" 
+                    variant="contained" 
+                    color="primary" 
+                    fullWidth
+                    disabled={loading}
+                  >
+                    {editingIndex !== null ? 'Actualizar Producción' : 'Agregar Producción'}
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Paper>
+        </Box>
 
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
-        <Typography variant="h6" gutterBottom>
-          Lista de Producciones
-        </Typography>
-        <ListaProduccion onEdit={handleEdit} />
+        {/* Columna derecha - Lista de Producciones */}
+        <Box sx={{ flex: 1 }}>
+          <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
+            <Typography variant="h5" component="h2" gutterBottom>
+              Lista de Producciones
+            </Typography>
+            <ListaProduccion onEdit={handleEdit} />
+          </Paper>
+        </Box>
       </Box>
-
-      <Button
-        variant="outlined"
-        fullWidth
-        onClick={handleSubirProduccion}
-        disabled={!produccionesTemporales?.length || loading}
-        sx={{ 
-          mt: 2,
-          color: '#2ecc71',
-          borderColor: '#2ecc71',
-          '&:hover': {
-            borderColor: '#27ae60',
-            color: '#27ae60',
-            bgcolor: 'transparent'
-          }
-        }}
-      >
-        {loading ? 'Subiendo Producción...' : 'Subir Producción Diaria'}
-      </Button>
 
       {/* Modales para crear nuevos items */}
       <NuevaMaquinaModal

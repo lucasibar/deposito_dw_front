@@ -9,8 +9,17 @@ export const produccionService = {
   },
 
   subirProduccionDiaria: async (producciones) => {
+    // Asegurarse de que los IDs sean números
+    const produccionesFormateadas = producciones.map(produccion => ({
+      ...produccion,
+      maquina: Number(produccion.maquina),
+      legajo: Number(produccion.legajo),
+      articulo: Number(produccion.articulo),
+      unidades: Number(produccion.unidades)
+    }));
+
     const response = await axios.post(`${API_URL}/produccion/bulk`, {
-      producciones: producciones
+      producciones: produccionesFormateadas
     });
     return response.data;
   },
