@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { CuarentenaWidget } from '../widgets/cuarentena/CuarentenaWidget';
 import { HistorialWidget } from '../widgets/historial/HistorialWidget';
 import { PosicionWidget } from '../widgets/posicion/PosicionWidget';
@@ -9,6 +9,7 @@ import { CalidadPage } from '../pages/calidad/CalidadPage';
 import { StockPage } from '../pages/stock/StockPage';
 import { ConsumosPage } from '../pages/consumos/ConsumosPage';
 import { RemitoEntradaInsumosPage } from '../pages/remito-entrada-insumos/RemitoEntradaInsumosPage';
+import ProduccionDiariaPage from '../pages/produccion-diaria';
 
 export const App = () => {
   return (
@@ -22,7 +23,9 @@ export const App = () => {
         <Route path="/deposito_dw_front/calidad" element={<CalidadPage />} />
         <Route path="/deposito_dw_front/stock" element={<StockPage />} />
         <Route path="/deposito_dw_front/consumos" element={<ConsumosPage />} />
+        <Route path="/deposito_dw_front/produccion-diaria" element={<ProduccionDiariaPage />} />
         <Route exact path="/deposito_dw_front/" element={<Login />} />
+        <Route path="*" element={<Navigate to="/deposito_dw_front/" replace />} />
       </Routes>
     </div>
   );

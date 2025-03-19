@@ -19,6 +19,7 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import WarningIcon from '@mui/icons-material/Warning';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import { useNavigate } from 'react-router-dom';
 import styles from './Title.module.css';
 
@@ -29,6 +30,8 @@ const rutas = [
   { nombre: 'Remito salida', path: '/deposito_dw_front/salidas', icon: <LocalShippingIcon />, disabled: true },
   { nombre: 'Stock', path: '/deposito_dw_front/stock', icon: <AssessmentIcon /> },
   { nombre: 'Informe consumos', path: '/deposito_dw_front/consumos', icon: <AssessmentIcon /> },
+  { nombre: 'Producción Diaria', path: '/deposito_dw_front/produccion-diaria', icon: <ProductionQuantityLimitsIcon /> },
+  { nombre: 'Pedidos', path: '/deposito_dw_front/salidas', icon: <LocalShippingIcon />, disabled: true },
 ];
 
 const SideMenu = ({ open, onClose, onNavigate }) => {
@@ -46,7 +49,24 @@ const SideMenu = ({ open, onClose, onNavigate }) => {
         p: 2,
         borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
       }}>
-        <Typography variant="h6">Menú</Typography>
+
+
+      <Box sx={{ 
+      p: 2, 
+      display: 'flex',
+      alignItems: 'center',
+      gap: 2,
+      }}>
+        <Avatar sx={{ 
+        width: 40, 
+        height: 40,
+        bgcolor: '#2ecc71'
+        }}>U</Avatar>
+
+        <Typography>Usuario</Typography>
+      </Box>
+
+      
         <IconButton onClick={onClose} sx={{ color: '#2ecc71' }}>
           <CloseIcon />
         </IconButton>
@@ -79,21 +99,7 @@ const SideMenu = ({ open, onClose, onNavigate }) => {
           </ListItem>
         ))}
       </List>
-      <Box sx={{ 
-        p: 2, 
-        borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 2,
-        backgroundColor: 'rgba(46, 204, 113, 0.04)'
-      }}>
-        <Avatar sx={{ 
-          width: 40, 
-          height: 40,
-          bgcolor: '#2ecc71'
-        }}>U</Avatar>
-        <Typography>Nombre de Usuario</Typography>
-      </Box>
+
     </Box>
   );
 };

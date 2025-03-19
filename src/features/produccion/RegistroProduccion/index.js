@@ -1,0 +1,1 @@
+export { RegistroProduccion } from './ui/RegistroProduccion'; 

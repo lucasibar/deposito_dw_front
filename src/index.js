@@ -7,10 +7,12 @@ import { RouterProvider } from "./app/providers/RouterProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <StoreProvider>
-        <RouterProvider>
-            <App />
-        </RouterProvider>
-    </StoreProvider>
+    <React.StrictMode>
+        <StoreProvider>
+            <RouterProvider>
+                <App />
+            </RouterProvider>
+        </StoreProvider>
+    </React.StrictMode>
 );
 //que pasa que no se renderiza el componente
