@@ -64,6 +64,9 @@ export const FormRemito = () => {
     );
   }
 
+  // Encontrar el objeto proveedor completo basado en el ID seleccionado
+  const proveedorSeleccionado = proveedores.find(p => p.id === formData.proveedor);
+
   return (
     <Paper className={styles.formContainer}>
       <Box sx={{
@@ -144,7 +147,7 @@ export const FormRemito = () => {
       <ModalAgregarPartida 
         open={openModal}
         onClose={handleCloseModal}
-        proveedorId={formData.proveedor}
+        proveedor={proveedorSeleccionado}
       />
 
       <ModalAgregarProveedor 

@@ -26,16 +26,53 @@ const CATEGORIAS = [
   "cinta", "plantilla", "film", "consumibes(aceite y parafina)", "faja", "caballete"
 ];
 
+const NuevoItemModal = ({ open, onClose, nuevoItem, setNuevoItem, onSubmit }) => (
+  <Dialog open={open} onClose={onClose}>
+    <DialogTitle>Agregar Nuevo Item</DialogTitle>
+    <DialogContent>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+        <FormControl fullWidth>
+          <InputLabel>Categoría</InputLabel>
+          <Select
+            value={nuevoItem.categoria}
+            label="Categoría"
+            onChange={(e) => setNuevoItem({...nuevoItem, categoria: e.target.value})}
+          >
+            {CATEGORIAS.map((cat) => (
+              <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        
+        <TextField
+          label="Descripción"
+          value={nuevoItem.descripcion}
+          onChange={(e) => setNuevoItem({...nuevoItem, descripcion: e.target.value})}
+          fullWidth
+          required
+          sx={{
+            mt: 2
+          }}
+        />
+      </Box>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={onClose}>Cancelar</Button>
+      <Button onClick={onSubmit}>Guardar</Button>
+    </DialogActions>
+  </Dialog>
+);
+
 export const ModalAgregarPartida = ({ 
   open, 
   onClose, 
-  proveedorId,
+  proveedor,
   editingPartida = null,
   editingIndex = null 
 }) => {
   const dispatch = useDispatch();
   const allItems = useSelector(state => state.remitos?.items || []);
-  const itemsProveedor = allItems.filter(item => item.proveedor?.id === proveedorId);
+  const itemsProveedor = allItems.filter(item => item.proveedor?.id === proveedor?.id);
 
   // Guardamos los valores originales cuando estamos editando
   const [originalValues, setOriginalValues] = useState(null);
@@ -160,7 +197,7 @@ export const ModalAgregarPartida = ({
       const response = await axios.post(`${URL}/items`, {
         descripcion: nuevoItem.descripcion,
         categoria: nuevoItem.categoria,
-        proveedor: proveedorId
+        proveedor: proveedor
       });
 
       // Recargar la lista de items y proveedores
@@ -190,43 +227,6 @@ export const ModalAgregarPartida = ({
       });
     }
   };
-
-  const NuevoItemModal = () => (
-    <Dialog open={openNuevoItem} onClose={() => setOpenNuevoItem(false)}>
-      <DialogTitle>Agregar Nuevo Item</DialogTitle>
-      <DialogContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
-          <FormControl fullWidth>
-            <InputLabel>Categoría</InputLabel>
-            <Select
-              value={nuevoItem.categoria}
-              label="Categoría"
-              onChange={(e) => setNuevoItem({...nuevoItem, categoria: e.target.value})}
-            >
-              {CATEGORIAS.map((cat) => (
-                <MenuItem key={cat} value={cat}>{cat}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          
-          <TextField
-            label="Descripción"
-            value={nuevoItem.descripcion}
-            onChange={(e) => setNuevoItem({...nuevoItem, descripcion: e.target.value})}
-            fullWidth
-            multiline
-            sx={{
-              mt: 2
-            }}
-          />
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpenNuevoItem(false)}>Cancelar</Button>
-        <Button onClick={handleSubmitNuevoItem}>Guardar</Button>
-      </DialogActions>
-    </Dialog>
-  );
 
   return (
     <>
@@ -361,7 +361,13 @@ export const ModalAgregarPartida = ({
         </DialogActions>
       </Dialog>
 
-      <NuevoItemModal />
+      <NuevoItemModal 
+        open={openNuevoItem}
+        onClose={() => setOpenNuevoItem(false)}
+        nuevoItem={nuevoItem}
+        setNuevoItem={setNuevoItem}
+        onSubmit={handleSubmitNuevoItem}
+      />
     </>
   );
 }; 
