@@ -2,15 +2,13 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const URL = "https://derwill-deposito-backend.onrender.com";
 
+// Thunks
 export const fetchClientes = createAsyncThunk(
   'ordenPedido/fetchClientes',
   async () => {
     const response = await fetch(`${URL}/clientes`);
-    if (!response.ok) {
-      throw new Error('Error al obtener los clientes');
-    }
-    const data = await response.json();
-    return data;
+    if (!response.ok) throw new Error('Error al obtener los clientes');
+    return response.json();
   }
 );
 
@@ -19,66 +17,30 @@ export const crearNuevoCliente = createAsyncThunk(
   async (cliente) => {
     const response = await fetch(`${URL}/clientes`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(cliente),
     });
-    if (!response.ok) {
-      throw new Error('Error al crear el cliente');
-    }
-    const data = await response.json();
-    return data;
+    if (!response.ok) throw new Error('Error al crear el cliente');
+    return response.json();
   }
 );
 
-export const crearArticulo = createAsyncThunk(
-  'ordenPedido/crearArticulo',
-  async (articulo) => {
-    const response = await fetch(`${URL}/articulos`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(articulo),
-    });
-    if (!response.ok) {
-      throw new Error('Error al crear el artículo');
-    }
-    const data = await response.json();
-    return data;
-  }
-);
-
-export const agregarArticulo = createAsyncThunk(
-  'ordenPedido/agregarArticulo',
-  async (articulo) => {
-    return articulo;
-  }
-);
-//jjj
-export const agregarPedido = createAsyncThunk(
+export const subirOrdenPedido = createAsyncThunk(
   'ordenPedido/agregarPedido',
   async (pedido) => {
-    const response = await fetch(`${URL}/movimientos-articulo`, {
+    const response = await fetch(`${URL}/movimientos_articulos`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        numeroPO: pedido.numeroPO,
-        cliente: { id: pedido.clienteId },
-        articulo: { id: pedido.detalles[0].articuloId },
-        cantidadArticulos: pedido.detalles[0].cantidad,
-        fecha: pedido.fecha,
+        numeroPO: pedido.formData.numeroPO,
+        cliente: pedido.formData.clienteId ,
+        fecha: pedido.formData.fecha,
+        articulos: pedido.articulos,
         tipoMovimientoArticulo: 'pedido'
       }),
     });
-    if (!response.ok) {
-      throw new Error('Error al crear el pedido');
-    }
-    const data = await response.json();
-    return data;
+    if (!response.ok) throw new Error('Error al crear el pedido');
+    return response.json();
   }
 );
 
@@ -86,25 +48,57 @@ const initialState = {
   clientes: [],
   clienteSeleccionado: null,
   articulosPedido: [],
+  orden: {
+    numeroPO: '',
+    fecha: new Date().toISOString().split('T')[0],
+    clienteId: '',
+  },
   loading: false,
   error: null,
+  ui: {
+    openDialogCliente: false,
+    openDialogArticulo: false,
+    snackbar: {
+      open: false,
+      message: '',
+      severity: 'success'
+    }
+  }
 };
 
 const ordenPedidoSlice = createSlice({
   name: 'ordenPedido',
   initialState,
   reducers: {
+    updateOrden: (state, action) => {
+      state.orden = { ...state.orden, ...action.payload };
+    },
     setClienteSeleccionado: (state, action) => {
       state.clienteSeleccionado = action.payload;
+      state.orden.clienteId = action.payload.id;
+    },
+    agregarArticulo: (state, action) => {
+      state.articulosPedido.push(action.payload);
+      state.ui.openDialogArticulo = false;
     },
     eliminarArticulo: (state, action) => {
       state.articulosPedido = state.articulosPedido.filter(
-        (articulo, index) => index !== action.payload
+        (_, index) => index !== action.payload
       );
+    },
+    setDialogCliente: (state, action) => {
+      state.ui.openDialogCliente = action.payload;
+    },
+    setDialogArticulo: (state, action) => {
+      state.ui.openDialogArticulo = action.payload;
+    },
+    setSnackbar: (state, action) => {
+      state.ui.snackbar = { ...state.ui.snackbar, ...action.payload };
     },
     clearPedido: (state) => {
       state.clienteSeleccionado = null;
       state.articulosPedido = [];
+      state.orden = initialState.orden;
     },
   },
   extraReducers: (builder) => {
@@ -136,33 +130,17 @@ const ordenPedidoSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      // Crear Artículo
-      .addCase(crearArticulo.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(crearArticulo.fulfilled, (state, action) => {
-        state.loading = false;
-      })
-      .addCase(crearArticulo.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
-      // Agregar Artículo
-      .addCase(agregarArticulo.fulfilled, (state, action) => {
-        state.articulosPedido.push(action.payload);
-      })
       // Agregar Pedido
-      .addCase(agregarPedido.pending, (state) => {
+      .addCase(subirOrdenPedido.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(agregarPedido.fulfilled, (state) => {
+      .addCase(subirOrdenPedido.fulfilled, (state) => {
         state.loading = false;
         state.clienteSeleccionado = null;
         state.articulosPedido = [];
       })
-      .addCase(agregarPedido.rejected, (state, action) => {
+      .addCase(subirOrdenPedido.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
@@ -170,8 +148,13 @@ const ordenPedidoSlice = createSlice({
 });
 
 export const {
+  updateOrden,
   setClienteSeleccionado,
+  agregarArticulo,
   eliminarArticulo,
+  setDialogCliente,
+  setDialogArticulo,
+  setSnackbar,
   clearPedido,
 } = ordenPedidoSlice.actions;
 
