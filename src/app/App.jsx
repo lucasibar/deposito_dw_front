@@ -11,6 +11,7 @@ import { ConsumosPage } from '../pages/consumos/ConsumosPage';
 import { RemitoEntradaInsumosPage } from '../pages/remito-entrada-insumos/RemitoEntradaInsumosPage';
 import ProduccionDiariaPage from '../pages/produccion-diaria';
 import EtiquetasPage from '../pages/etiquetas';
+import { OrdenPedidoPage } from '../pages/orden-pedido/OrdenPedidoPage';
 
 export const App = () => {
   return (
@@ -26,6 +27,7 @@ export const App = () => {
         <Route path="/deposito_dw_front/consumos" element={<ConsumosPage />} />
         <Route path="/deposito_dw_front/produccion-diaria" element={<ProduccionDiariaPage />} />
         <Route path="/deposito_dw_front/etiquetas" element={<EtiquetasPage />} />
+        <Route path="/deposito_dw_front/orden-pedido" element={<OrdenPedidoPage />} />
         <Route exact path="/deposito_dw_front/" element={<Login />} />
         <Route path="*" element={<Navigate to="/deposito_dw_front/" replace />} />
       </Routes>

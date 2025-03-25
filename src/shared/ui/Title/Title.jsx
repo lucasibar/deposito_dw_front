@@ -34,6 +34,7 @@ const rutas = [
   { nombre: 'Producción Diaria', path: '/deposito_dw_front/produccion-diaria', icon: <ProductionQuantityLimitsIcon /> },
   { nombre: 'Etiquetas Tejeduría', path: '/deposito_dw_front/etiquetas', icon: <LabelIcon /> },
   { nombre: 'Pedidos', path: '/deposito_dw_front/salidas', icon: <LocalShippingIcon />, disabled: true },
+  { nombre: 'Orden de pedido', path: '/deposito_dw_front/orden-pedido', icon: <LocalShippingIcon /> },
 ];
 
 const SideMenu = ({ open, onClose, onNavigate }) => {
