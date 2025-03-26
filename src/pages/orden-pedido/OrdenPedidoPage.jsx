@@ -12,7 +12,6 @@ export const OrdenPedidoPage = () => {
   const dispatch = useDispatch();
   const { orden } = useSelector(state => state.ordenPedido);
   const articulos = useSelector(state => state.ordenPedido?.articulosPedido || []);
-  const formData = useSelector(state => state.ordenPedido?.formData || {});
 
   const handleSubirOrdenPedido = () => {
     if (!orden.numeroPO || !orden.fecha || !orden.clienteId) {
@@ -32,8 +31,8 @@ export const OrdenPedidoPage = () => {
       });
       return;
     }
-console.log(orden, articulos)
-    //dispatch(subirOrdenPedido({formData, articulos}));
+    console.log(orden, articulos)
+    dispatch(subirOrdenPedido({orden, articulos}));
   };
 
   return (

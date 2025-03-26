@@ -21,20 +21,19 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import LabelIcon from '@mui/icons-material/Label';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import { useNavigate } from 'react-router-dom';
 import styles from './Title.module.css';
 
 const rutas = [
-  { nombre: 'Home', path: '/deposito_dw_front/', icon: <HomeIcon /> },
+  //{ nombre: 'Home', path: '/deposito_dw_front/', icon: <HomeIcon /> },
   { nombre: 'Remito entrada', path: '/deposito_dw_front/remito-entrada', icon: <ReceiptIcon /> },
   { nombre: 'Cuarentena', path: '/deposito_dw_front/calidad', icon: <WarningIcon /> },
-  { nombre: 'Remito salida', path: '/deposito_dw_front/salidas', icon: <LocalShippingIcon />, disabled: true },
   { nombre: 'Stock', path: '/deposito_dw_front/stock', icon: <AssessmentIcon /> },
   { nombre: 'Informe consumos', path: '/deposito_dw_front/consumos', icon: <AssessmentIcon /> },
   { nombre: 'Producción Diaria', path: '/deposito_dw_front/produccion-diaria', icon: <ProductionQuantityLimitsIcon /> },
-  { nombre: 'Etiquetas Tejeduría', path: '/deposito_dw_front/etiquetas', icon: <LabelIcon /> },
-  { nombre: 'Pedidos', path: '/deposito_dw_front/salidas', icon: <LocalShippingIcon />, disabled: true },
   { nombre: 'Orden de pedido', path: '/deposito_dw_front/orden-pedido', icon: <LocalShippingIcon /> },
+  { nombre: 'Artículos', path: '/deposito_dw_front/articulos', icon: <InventoryIcon /> },
 ];
 
 const SideMenu = ({ open, onClose, onNavigate }) => {

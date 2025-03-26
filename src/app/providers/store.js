@@ -8,6 +8,7 @@ import partidasReducer from '../../features/partidas/model/slice';
 import movimientosReducer from '../../features/movimientos/model/slice';
 import produccionReducer from '../../features/produccion/model/slice';
 import ordenPedidoReducer from '../../features/orden-pedido/model/slice';
+import articulosReducer from '../../features/articulos/model/slice';
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     movimientos: movimientosReducer,
     produccion: produccionReducer,
     ordenPedido: ordenPedidoReducer,
+    articulos: articulosReducer
   },
 }); 
