@@ -28,19 +28,31 @@ export const crearNuevoCliente = createAsyncThunk(
 export const subirOrdenPedido = createAsyncThunk(
   'ordenPedido/agregarPedido',
   async (pedido) => {
-    const response = await fetch(`${URL}/movimientos_articulos`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        numeroPO: pedido.formData.numeroPO,
-        cliente: pedido.formData.clienteId ,
-        fecha: pedido.formData.fecha,
-        articulos: pedido.articulos,
+    try {
+      const bodyData = {
+        numeroPO: pedido.orden.numeroPO,
+        clienteId: pedido.orden.clienteId,
+        fecha: pedido.orden.fecha,
+        articulos: pedido.articulosPedido,
         tipoMovimientoArticulo: 'pedido'
-      }),
-    });
-    if (!response.ok) throw new Error('Error al crear el pedido');
-    return response.json();
+      };
+
+      const response = await fetch(`${URL}/movimientos_articulos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        throw new Error(`Error ${response.status}: ${errorData}`);
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('Error completo:', error);
+      throw error;
+    }
   }
 );
 
