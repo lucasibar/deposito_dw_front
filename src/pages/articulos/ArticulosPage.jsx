@@ -23,7 +23,6 @@ export const ArticulosPage = () => {
   useEffect(() => {
     dispatch(fetchArticulos())
       .unwrap()
-      .then((result) => console.log('Fetch success:', result))
       .catch((error) => console.error('Fetch error:', error));
   }, [dispatch]);
 

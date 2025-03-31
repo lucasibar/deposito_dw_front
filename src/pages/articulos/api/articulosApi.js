@@ -5,9 +5,7 @@ export const fetchArticulos = createAsyncThunk(
   'articulos/fetchArticulos',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('https://derwill-deposito-backend.onrender.com/articulos');
-      console.log('API Response:', response.data); // Para debug
-      
+      const response = await axios.get('https://derwill-deposito-backend.onrender.com/articulos');      
       if (!Array.isArray(response.data)) {
         throw new Error('La respuesta no es un array');
       }
@@ -24,6 +22,23 @@ export const fetchArticulos = createAsyncThunk(
       console.error('API Error:', error.response?.data || error.message); // Logging más detallado
       return rejectWithValue(
         error.response?.data?.message || error.message || 'Error desconocido'
+      );
+    }
+  }
+);
+
+export const addYarnComposition = createAsyncThunk(
+  'articulos/addYarnComposition',
+  async ({ articuloId, composicion }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `https://derwill-deposito-backend.onrender.com/articulos/${articuloId}/composicion`,
+        { composicion }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || error.message || 'Error al agregar la composición'
       );
     }
   }
