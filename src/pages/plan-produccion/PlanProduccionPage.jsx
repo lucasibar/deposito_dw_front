@@ -104,7 +104,7 @@ export const PlanProduccionPage = () => {
                 <ListItem key={articulo.id}>
                   <ListItemText
                     primary={`Código: ${articulo.codigo}`}
-                    secondary={`Largo: ${articulo.largo} - Talle: ${articulo.talle}`}
+                    secondary={`Modelo: ${articulo.modelo} - Talle: ${articulo.talle}`}
                   />
                 </ListItem>
               ))}
