@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchArticulos } from '../api/articulosApi';
+import { fetchArticulos } from '../../api/articulosApi';
 
 const initialState = {
   articulosSinComposicion: [],

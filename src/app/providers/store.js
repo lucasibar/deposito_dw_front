@@ -8,6 +8,7 @@ import partidasReducer from '../../features/partidas/model/slice';
 import movimientosReducer from '../../features/movimientos/model/slice';
 import produccionReducer from '../../features/produccion/model/slice';
 import ordenPedidoReducer from '../../features/orden-pedido/model/slice';
+import articulosReducer from '../../pages/articulos/model/slice/articulosSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,9 +17,10 @@ export const store = configureStore({
     remitos: remitosReducer,
     historial: historialReducer,
     cuarentena: cuarentenaReducer,
-    partidas: partidasReducer,
+    partidas: partidasReducer,  
     movimientos: movimientosReducer,
     produccion: produccionReducer,
     ordenPedido: ordenPedidoReducer,
+    articulos: articulosReducer,
   },
 }); 
