@@ -20,10 +20,11 @@ const articulosSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchArticulos.fulfilled, (state, action) => {
+        console.log(action.payload, "QUEEEEEE")
         state.isLoading = false;
-        state.articulosSinComposicion = action.payload.articulosSinComposicion || [];
-        state.articulosConComposicion = action.payload.articulosConComposicion || [];
-        state.articulosInactivos = action.payload.articulosInactivos || [];
+        state.articulosSinComposicion = action.payload.filter(articulo => articulo.composicionHilado.length === 0);
+        state.articulosConComposicion = action.payload.filter(articulo => articulo.composicionHilado.length > 0);
+        state.articulosInactivos = action.payload.filter(articulo => articulo.activo === false);
       })
       .addCase(fetchArticulos.rejected, (state, action) => {
         state.isLoading = false;

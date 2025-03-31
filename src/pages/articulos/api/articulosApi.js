@@ -9,15 +9,7 @@ export const fetchArticulos = createAsyncThunk(
       if (!Array.isArray(response.data)) {
         throw new Error('La respuesta no es un array');
       }
-      
-      // Transformar los datos al formato esperado
-      const articulosOrganizados = {
-        articulosSinComposicion: response.data.filter(articulo => !articulo.composicion),
-        articulosConComposicion: response.data.filter(articulo => articulo.composicion),
-        articulosInactivos: response.data.filter(articulo => !articulo.activo)
-      };
-      
-      return articulosOrganizados;
+      return response.data;
     } catch (error) {
       console.error('API Error:', error.response?.data || error.message); // Logging más detallado
       return rejectWithValue(

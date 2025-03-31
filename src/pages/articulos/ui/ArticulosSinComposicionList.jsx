@@ -4,7 +4,7 @@ import { YarnCompositionDialog } from './YarnCompositionDialog';
 import { useDispatch } from 'react-redux';
 import { addYarnComposition } from '../api/articulosApi';
 
-export const ArticulosList = ({ items = [], title, emptyMessage }) => {
+export const ArticulosSinComposicionList = ({ items = [], title, emptyMessage }) => {
   const [selectedArticulo, setSelectedArticulo] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ export const ArticulosList = ({ items = [], title, emptyMessage }) => {
               >
                 <ListItemText
                   primary={`Código: ${articulo.codigo}`}
-                  secondary={`Largo: soquete/caña larga/ normal - Talle: ${articulo.talle}`}
+                  secondary={`Largo: ${articulo.modelo} - Talle: ${articulo.talle}`}
                 />
               </ListItem>
             ))

@@ -9,11 +9,12 @@ const DialogAgregarArticulo = () => {
   const [articuloSeleccionado, setArticuloSeleccionado] = useState({
     codigoArticulo: '',
     talle: '',
+    modelo: '',
     cantidad: '',
   });
 
   const handleAgregarArticulo = () => {
-    if (!articuloSeleccionado.codigoArticulo || !articuloSeleccionado.talle || !articuloSeleccionado.cantidad) {
+    if (!articuloSeleccionado.codigoArticulo || !articuloSeleccionado.talle || !articuloSeleccionado.modelo || !articuloSeleccionado.cantidad) {
       dispatch(setSnackbar({ 
         open: true, 
         message: 'Por favor complete todos los campos del artículo',
@@ -27,6 +28,7 @@ const DialogAgregarArticulo = () => {
     setArticuloSeleccionado({
       codigoArticulo: '',
       talle: '',
+      modelo: '',
       cantidad: '',
     });
   };
@@ -51,6 +53,15 @@ const DialogAgregarArticulo = () => {
             onChange={(e) => setArticuloSeleccionado({
               ...articuloSeleccionado,
               talle: e.target.value
+            })}
+            fullWidth
+          />
+          <TextField
+            label="Modelo"
+            value={articuloSeleccionado.modelo}
+            onChange={(e) => setArticuloSeleccionado({
+              ...articuloSeleccionado,
+              modelo: e.target.value
             })}
             fullWidth
           />

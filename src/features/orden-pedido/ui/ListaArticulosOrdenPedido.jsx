@@ -39,6 +39,7 @@ const ListaArticulosOrdenPedido = () => {
             <TableRow>
               <TableCell padding="none" sx={{ py: 0.5 }}>Código de Artículo</TableCell>
               <TableCell padding="none" sx={{ py: 0.5 }}>Talla</TableCell>
+              <TableCell padding="none" sx={{ py: 0.5 }}>Modelo</TableCell>
               <TableCell padding="none" sx={{ py: 0.5 }}>Cantidad</TableCell>
               <TableCell padding="none" sx={{ py: 0.5 }}>Acciones</TableCell>
             </TableRow>
@@ -47,7 +48,8 @@ const ListaArticulosOrdenPedido = () => {
             {articulosPedido.map((articulo, index) => (
               <TableRow key={index}>
                 <TableCell padding="none" sx={{ py: 0.5 }}>{articulo.codigoArticulo}</TableCell>
-                <TableCell padding="none" sx={{ py: 0.5 }}>{articulo.talle}</TableCell>
+                <TableCell padding="none" sx={{ py: 0.5 }}>{articulo.talle}</TableCell> 
+                <TableCell padding="none" sx={{ py: 0.5 }}>{articulo.modelo}</TableCell>
                 <TableCell padding="none" sx={{ py: 0.5 }}>{articulo.cantidad}</TableCell>
                 <TableCell padding="none" sx={{ py: 0.5 }}>
                   <IconButton

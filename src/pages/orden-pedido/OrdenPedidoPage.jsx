@@ -31,7 +31,6 @@ export const OrdenPedidoPage = () => {
       });
       return;
     }
-    console.log(orden, articulos)
     dispatch(subirOrdenPedido({orden, articulos}));
   };
 

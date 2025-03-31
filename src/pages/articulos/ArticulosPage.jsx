@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography, CircularProgress } from '@mui/material';
 import { Title } from '../../shared/ui/Title/Title';
-import { ArticulosList } from './ui/ArticulosList';
+import { ArticulosSinComposicionList } from './ui/ArticulosSinComposicionList';
+import { ArticulosConComposicionList } from './ui/ArticulosConComposicionList';
+import { ArticulosInactivosList } from './ui/ArticulosInactivosList';
 import { fetchArticulos } from './api/articulosApi';
 import {
   selectArticulosSinComposicion,
@@ -11,7 +13,7 @@ import {
   selectIsLoading,
   selectError
 } from './model/selectors/articulosSelectors';
-
+    
 export const ArticulosPage = () => {
   const dispatch = useDispatch();
   const articulosSinComposicion = useSelector(selectArticulosSinComposicion);
@@ -68,17 +70,17 @@ export const ArticulosPage = () => {
           flexDirection: 'column',
           gap: 3 // Espacio entre las listas
         }}>
-          <ArticulosList 
+          <ArticulosSinComposicionList 
             items={articulosSinComposicion} 
             title="Artículos Sin Composición"
             emptyMessage="Ningún artículo para generar composición"
           />
-          <ArticulosList 
+          <ArticulosConComposicionList 
             items={articulosConComposicion} 
             title="Artículos Con Composición"
             emptyMessage="Ningún artículo en producción"
           />
-          <ArticulosList 
+          <ArticulosInactivosList 
             items={articulosInactivos} 
             title="Artículos Inactivos"
             emptyMessage="Ningún artículo desactivado"

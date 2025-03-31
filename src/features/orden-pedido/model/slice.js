@@ -33,7 +33,7 @@ export const subirOrdenPedido = createAsyncThunk(
         numeroPO: pedido.orden.numeroPO,
         clienteId: pedido.orden.clienteId,
         fecha: pedido.orden.fecha,
-        articulos: pedido.articulosPedido,
+        articulos: pedido.articulos,
         tipoMovimientoArticulo: 'pedido'
       };
 
