@@ -13,6 +13,7 @@ import ProduccionDiariaPage from '../pages/produccion-diaria';
 import EtiquetasPage from '../pages/etiquetas';
 import { OrdenPedidoPage } from '../pages/orden-pedido/OrdenPedidoPage';
 import { ArticulosPage } from '../pages/articulos/ArticulosPage';
+import { PlanProduccionPage } from '../pages/plan-produccion/PlanProduccionPage';
 
 export const App = () => {
   return (
@@ -30,6 +31,7 @@ export const App = () => {
         <Route path="/deposito_dw_front/etiquetas" element={<EtiquetasPage />} />
         <Route path="/deposito_dw_front/orden-pedido" element={<OrdenPedidoPage />} />
         <Route path="/deposito_dw_front/articulos" element={<ArticulosPage />} />
+        <Route path="/deposito_dw_front/plan-produccion" element={<PlanProduccionPage />} />
         <Route exact path="/deposito_dw_front/" element={<Login />} />
         <Route path="*" element={<Navigate to="/deposito_dw_front/" replace />} />
       </Routes>

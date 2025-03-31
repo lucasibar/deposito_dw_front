@@ -22,6 +22,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import LabelIcon from '@mui/icons-material/Label';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useNavigate } from 'react-router-dom';
 import styles from './Title.module.css';
 
@@ -34,6 +35,7 @@ const rutas = [
   { nombre: 'Producción Diaria', path: '/deposito_dw_front/produccion-diaria', icon: <ProductionQuantityLimitsIcon /> },
   { nombre: 'Orden de pedido', path: '/deposito_dw_front/orden-pedido', icon: <LocalShippingIcon /> },
   { nombre: 'Artículos', path: '/deposito_dw_front/articulos', icon: <InventoryIcon /> },
+  { nombre: 'Plan de Producción', path: '/deposito_dw_front/plan-produccion', icon: <CalendarMonthIcon /> },
 ];
 
 const SideMenu = ({ open, onClose, onNavigate }) => {

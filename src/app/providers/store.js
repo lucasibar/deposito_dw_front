@@ -9,6 +9,7 @@ import movimientosReducer from '../../features/movimientos/model/slice';
 import produccionReducer from '../../features/produccion/model/slice';
 import ordenPedidoReducer from '../../features/orden-pedido/model/slice';
 import articulosReducer from '../../pages/articulos/model/slice/articulosSlice';
+import planProduccionReducer from '../../pages/plan-produccion/model/slice/planProduccionSlice';
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
     produccion: produccionReducer,
     ordenPedido: ordenPedidoReducer,
     articulos: articulosReducer,
+    planProduccion: planProduccionReducer,
   },
 }); 
