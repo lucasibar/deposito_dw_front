@@ -14,6 +14,8 @@ import EtiquetasPage from '../pages/etiquetas';
 import { OrdenPedidoPage } from '../pages/orden-pedido/OrdenPedidoPage';
 import { ArticulosPage } from '../pages/articulos/ArticulosPage';
 import { PlanProduccionPage } from '../pages/plan-produccion/PlanProduccionPage';
+import { MatchLotePOPage } from '../pages/match-lote-po/MatchLotePOPage';
+import { MatchLoteStockPage } from '../pages/match-lote-stock/MatchLoteStockPage';
 
 export const App = () => {
   return (
@@ -32,6 +34,8 @@ export const App = () => {
         <Route path="/deposito_dw_front/orden-pedido" element={<OrdenPedidoPage />} />
         <Route path="/deposito_dw_front/articulos" element={<ArticulosPage />} />
         <Route path="/deposito_dw_front/plan-produccion" element={<PlanProduccionPage />} />
+        <Route path="/deposito_dw_front/match-lote-po" element={<MatchLotePOPage />} />
+        <Route path="/deposito_dw_front/match-lote-stock" element={<MatchLoteStockPage />} />
         <Route exact path="/deposito_dw_front/" element={<Login />} />
         <Route path="*" element={<Navigate to="/deposito_dw_front/" replace />} />
       </Routes>

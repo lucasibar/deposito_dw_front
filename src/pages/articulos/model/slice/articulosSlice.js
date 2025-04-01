@@ -20,7 +20,6 @@ const articulosSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchArticulos.fulfilled, (state, action) => {
-        console.log(action.payload, "QUEEEEEE")
         state.isLoading = false;
         state.articulosSinComposicion = action.payload.filter(articulo => articulo.composicionHilado.length === 0);
         state.articulosConComposicion = action.payload.filter(articulo => articulo.composicionHilado.length > 0);
