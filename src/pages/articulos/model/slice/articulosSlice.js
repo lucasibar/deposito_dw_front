@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchArticulos, addYarnComposition } from '../../api/articulosApi';
+import { fetchArticulos, addYarnComposition, updateOrCreateComposiciones } from '../../api/articulosApi';
 
 const initialState = {
   articulosSinComposicion: [],
@@ -37,6 +37,21 @@ const articulosSlice = createSlice({
         state.articulosConComposicion.push(updatedArticulo);
       })
       .addCase(addYarnComposition.rejected, (state, action) => {
+        state.error = action.error.message;
+      })
+      .addCase(updateOrCreateComposiciones.fulfilled, (state, action) => {
+        // Update the composiciones in the corresponding articulo
+        const updatedComposiciones = action.payload;
+        const articuloId = updatedComposiciones[0]?.articulo?.id;
+        
+        if (articuloId) {
+          const articuloIndex = state.articulosConComposicion.findIndex(a => a.id === articuloId);
+          if (articuloIndex !== -1) {
+            state.articulosConComposicion[articuloIndex].composicionHilado = updatedComposiciones;
+          }
+        }
+      })
+      .addCase(updateOrCreateComposiciones.rejected, (state, action) => {
         state.error = action.error.message;
       });
   }

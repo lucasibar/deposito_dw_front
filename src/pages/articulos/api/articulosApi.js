@@ -35,3 +35,20 @@ export const addYarnComposition = createAsyncThunk(
     }
   }
 );
+
+export const updateOrCreateComposiciones = createAsyncThunk(
+  'articulos/updateOrCreateComposiciones',
+  async (composiciones, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        'https://derwill-deposito-backend.onrender.com/composicion-hilado/update-or-create',
+        composiciones
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || error.message || 'Error al actualizar las composiciones'
+      );
+    }
+  }
+);

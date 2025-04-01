@@ -24,7 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch } from 'react-redux';
-import { addYarnComposition } from '../api/articulosApi';
+import { addYarnComposition, updateOrCreateComposiciones, fetchArticulos } from '../api/articulosApi';
 
 export const ArticulosConComposicionList = ({ items = [], title, emptyMessage }) => {
   const [expandedArticulo, setExpandedArticulo] = useState(null);
@@ -106,13 +106,19 @@ export const ArticulosConComposicionList = ({ items = [], title, emptyMessage })
         return hiladoEditado.cantidadHilado !== hiladoOriginal.cantidadHilado;
       });
 
-      console.log('Composiciones modificadas y nuevas:', composicionesModificadas);
+      // Preparar las composiciones para enviar al servidor
+      const composicionesParaEnviar = composicionesModificadas.map(hilado => ({
+        id: hilado.id, // Si es null, el servidor lo creará como nuevo
+        nombreHilado: hilado.nombreHilado,
+        cantidadHilado: hilado.cantidadHilado,
+        articulo: { id: articulo.id }
+      }));
+
+      // Enviar las composiciones al servidor
+      await dispatch(updateOrCreateComposiciones(composicionesParaEnviar)).unwrap();
       
-      // Aquí podrás hacer la llamada PUT con las composiciones modificadas y nuevas
-      // await dispatch(updateYarnComposition({
-      //   articuloId: articulo.id,
-      //   composicionesModificadas
-      // })).unwrap();
+      // Actualizar la lista de artículos
+      await dispatch(fetchArticulos()).unwrap();
       
       setEditingComposicion(null);
     } catch (error) {
