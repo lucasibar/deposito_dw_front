@@ -69,6 +69,7 @@ const partidasSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchPartidasEnCuarentena.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.status = 'succeeded';
         state.partidas = action.payload.map(partida => {
           // Formatear la fecha
