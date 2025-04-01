@@ -84,8 +84,8 @@ export const ListaPartidasRemito = () => {
             <TableBody>
               {partidas.map((partida, index) => (
                 <TableRow key={index}>
-                  <TableCell>{partida.itemNombre}</TableCell>
-                  <TableCell>{partida.partidaNumero}</TableCell>
+                  <TableCell>{partida.item.descripcion} {partida.item.categoria}</TableCell>
+                  <TableCell>{partida.numeroPartida}</TableCell>
                   <TableCell align="right">{partida.kilos}</TableCell>
                   <TableCell align="right">{partida.unidades}</TableCell>
                   <TableCell align="center">
