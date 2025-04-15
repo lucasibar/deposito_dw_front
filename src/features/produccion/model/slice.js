@@ -1,5 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { produccionService } from '../api/produccionService';
+import { TIPOS_MOVIMIENTO } from '../../movimientos_articulos/model/types';
+
+export const createProducciones = createAsyncThunk(
+  'produccion/createProducciones',
+  async (producciones, { rejectWithValue }) => {
+    try {
+      const response = await produccionService.createProducciones(producciones);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 export const createProduccion = createAsyncThunk(
   'produccion/create',
@@ -38,20 +51,17 @@ export const getProduccionByFecha = createAsyncThunk(
 );
 
 const initialState = {
+  produccionesTemporales: [],
   loading: false,
   error: null,
   produccionDiaria: [],
-  currentProduccion: null,
-  produccionesTemporales: []
+  currentProduccion: null
 };
 
 const produccionSlice = createSlice({
   name: 'produccion',
   initialState,
   reducers: {
-    clearError: (state) => {
-      state.error = null;
-    },
     addProduccionTemporal: (state, action) => {
       state.produccionesTemporales.push(action.payload);
     },
@@ -63,13 +73,27 @@ const produccionSlice = createSlice({
     clearProduccionesTemporales: (state) => {
       state.produccionesTemporales = [];
     },
-    updateProduccionTemporal: (state, action) => {
-      const { index, produccion } = action.payload;
-      state.produccionesTemporales[index] = produccion;
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
     }
   },
   extraReducers: (builder) => {
     builder
+      .addCase(createProducciones.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createProducciones.fulfilled, (state) => {
+        state.loading = false;
+        state.produccionesTemporales = [];
+      })
+      .addCase(createProducciones.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(createProduccion.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -110,12 +134,17 @@ const produccionSlice = createSlice({
   }
 });
 
-export const { 
-  clearError, 
-  addProduccionTemporal, 
-  removeProduccionTemporal, 
+export const {
+  addProduccionTemporal,
+  removeProduccionTemporal,
   clearProduccionesTemporales,
-  updateProduccionTemporal 
+  setLoading,
+  setError
 } = produccionSlice.actions;
+
+// Selectors
+export const selectProduccionesTemporales = (state) => state.produccion.produccionesTemporales;
+export const selectProduccionLoading = (state) => state.produccion.loading;
+export const selectProduccionError = (state) => state.produccion.error;
 
 export default produccionSlice.reducer; 

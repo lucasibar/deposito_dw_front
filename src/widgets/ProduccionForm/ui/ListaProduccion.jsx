@@ -11,14 +11,15 @@ import {
   IconButton,
   Typography,
   Tooltip,
-  Box
+  Box,
+  Button
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { removeProduccionTemporal } from '../../../features/produccion/model/slice';
 import Swal from 'sweetalert2';
 
-export const ListaProduccion = ({ onEdit }) => {
+export const ListaProduccion = ({ onEdit, articulos, onSaveAll, loading }) => {
   const dispatch = useDispatch();
   const producciones = useSelector(state => state.produccion?.produccionesTemporales || []);
 
@@ -45,65 +46,74 @@ export const ListaProduccion = ({ onEdit }) => {
   };
 
   return (
-    <Box sx={{ 
-      height: '100%', 
-      display: 'flex', 
-      flexDirection: 'column',
-      mb: 2
-    }}>
+    <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
+      <Typography variant="h5" component="h2" gutterBottom>
+        Producciones Agregadas
+      </Typography>
       {producciones.length === 0 ? (
         <Typography variant="body2" color="text.secondary" sx={{ p: 2 }}>
           No hay producciones agregadas
         </Typography>
       ) : (
-        <TableContainer sx={{ 
-          flex: 1,
-          maxHeight: 'calc(100vh - 300px)'
-        }}>
-          <Table stickyHeader>
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ fontWeight: 'bold' }}>Máquina</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Legajo</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Artículo</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} align="right">Unidades</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Lote</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} align="center">Acciones</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {producciones.map((produccion, index) => (
-                <TableRow key={index} sx={{ '&:hover': { bgcolor: '#e0e0e0' } }}>
-                  <TableCell>{`${produccion.maquina}`}</TableCell>
-                  <TableCell>{`${produccion.legajo}`}</TableCell>
-                  <TableCell>{`${produccion.articulo}`}</TableCell>
-                  <TableCell align="right">{produccion.unidades}</TableCell>
-                  <TableCell>{produccion.numeroLoteProduccion}</TableCell>
-                  <TableCell align="center">
-                    <Tooltip title="Editar">
-                      <IconButton
-                        size="small"
-                        onClick={() => onEdit(produccion, index)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Eliminar">
-                      <IconButton
-                        size="small"
-                        onClick={() => handleDelete(index)}
-                        color="error"
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
+        <>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Artículo</TableCell>
+                  <TableCell>Cantidad</TableCell>
+                  <TableCell>Número de Lote</TableCell>
+                  <TableCell>PO</TableCell>
+                  <TableCell align="center">Acciones</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {producciones.map((produccion, index) => {
+                  const articulo = articulos.find(a => a.id === produccion.articulo);
+                  return (
+                    <TableRow key={index}>
+                      <TableCell>{articulo?.codigoArticulo} - {articulo?.talle}</TableCell>
+                      <TableCell>{produccion.cantidad}</TableCell>
+                      <TableCell>{produccion.numeroLoteProduccion}</TableCell>
+                      <TableCell>{produccion.numeroPO}</TableCell>
+                      <TableCell align="center">
+                        <Tooltip title="Editar">
+                          <IconButton
+                            size="small"
+                            onClick={() => onEdit(produccion, index)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Eliminar">
+                          <IconButton
+                            size="small"
+                            onClick={() => handleDelete(index)}
+                            color="error"
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Box sx={{ mt: 2 }}>
+            <Button 
+              variant="contained" 
+              color="success" 
+              fullWidth
+              onClick={onSaveAll}
+              disabled={loading}
+            >
+              {loading ? 'Guardando...' : 'Guardar Todas las Producciones'}
+            </Button>
+          </Box>
+        </>
       )}
-    </Box>
+    </Paper>
   );
 }; 
