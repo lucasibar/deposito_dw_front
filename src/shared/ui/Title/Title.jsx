@@ -24,7 +24,7 @@ import LabelIcon from '@mui/icons-material/Label';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styles from './Title.module.css';
 
 const rutas = [
@@ -32,7 +32,7 @@ const rutas = [
   { nombre: 'Remito entrada', path: '/deposito_dw_front/remito-entrada', icon: <ReceiptIcon /> },
   { nombre: 'Cuarentena', path: '/deposito_dw_front/calidad', icon: <WarningIcon /> },
   { nombre: 'Stock', path: '/deposito_dw_front/stock', icon: <AssessmentIcon /> },
-  { nombre: 'Stock 2', path: '/deposito_dw_front/stock2', icon: <AssessmentIcon /> },
+  { nombre: 'Posiciones', path: '/deposito_dw_front/posiciones', icon: <AssessmentIcon /> },
   { nombre: 'Informe consumos', path: '/deposito_dw_front/consumos', icon: <AssessmentIcon /> },
   { nombre: 'Orden de pedido', path: '/deposito_dw_front/orden-pedido', icon: <LocalShippingIcon /> },
   { nombre: 'Artículos', path: '/deposito_dw_front/articulos', icon: <InventoryIcon /> },

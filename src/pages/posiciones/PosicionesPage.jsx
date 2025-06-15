@@ -1,75 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import * as XLSX from 'xlsx';
-import styles from './PosicionesPage.module.css';
-import { SearchBar } from '../../shared/ui/SearchBar/SearchBar';
-import { PosicionesList } from '../../widgets/stock/PosicionesList/PosicionesList';
 import { fetchPosiciones } from '../../features/posicion/model/slice';
 import { usePosicionFilter } from '../../features/posicion/hooks/usePosicionFilter';
+import { SearchPosition } from '../../shared/ui/SearchPosition/SearchPosition';
+import { ItemList } from '../../widgets/stock/ItemList/ItemList';
+import styles from './PosicionesPage.module.css';
+import * as XLSX from 'xlsx';
 import { Title } from '../../shared/ui/Title/Title';
-import { ChartCarousel } from '../../widgets/charts/ChartCarousel/ChartCarousel';
 
 export const PosicionesPage = () => {
   const dispatch = useDispatch();
-  const [searchTerms, setSearchTerms] = useState([]);
-  const { filteredData, loading, error } = usePosicionFilter(searchTerms);
+  const [filters, setFilters] = useState({
+    rack: '',
+    fila: '',
+    nivel: '',
+    pasillo: ''
+  });
+  const { filteredData, loading, error } = usePosicionFilter([], filters);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(fetchPosiciones());
   }, [dispatch]);
 
-  const handleSearch = (terms) => {
-    setSearchTerms(terms);
+  const handlePositionSearch = (newFilters) => {
+    setFilters(newFilters);
   };
 
   const exportToExcel = () => {
-    // Transform the data for Excel
-    const excelData = filteredData.flatMap(posicion => 
-      posicion.items.map(item => ({
-        Proveedor: item.proveedor?.nombre || '',
-        Descripcion: item.descripcion || '',
-        Categoria: item.categoria || '',
-        Partida: item.partida || '',
-        'Estado Partida': item.partidaEstado || '',
-        Kilos: item.kilos || 0,
-        Unidades: item.unidades || 0,
-        Fila: posicion.fila || '',
-        Rack: posicion.rack || '',
-        AB: posicion.AB || '',
-        Pasillo: posicion.pasillo || '',
-        Entrada: posicion.entrada ? 'Sí' : 'No'
-      }))
-    );
+    const data = filteredData.map(posicion => ({
+      'Rack': posicion.rack,
+      'Fila': posicion.fila,
+      'Nivel': posicion.AB,
+      'Pasillo': posicion.pasillo,
+      'Estado': posicion.entrada ? 'En Cuarentena' : 'Disponible',
+      'Items': posicion.items.length
+    }));
 
-    // Create worksheet
-    const ws = XLSX.utils.json_to_sheet(excelData);
-    
-    // Create workbook
+    const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Posiciones");
-    
-    // Generate & Download Excel file
-    XLSX.writeFile(wb, "posiciones.xlsx");
+    XLSX.utils.book_append_sheet(wb, ws, 'Posiciones');
+    XLSX.writeFile(wb, 'posiciones.xlsx');
   };
 
   return (
     <div className={styles.container}>
-      <Title>Stock 2</Title>
+      <Title>Posiciones</Title>
       <div className={styles.controls}>
-        <SearchBar onSearch={handleSearch} />
-        <button 
-          className={styles.exportButton}
-          onClick={exportToExcel}
-        >
+        <SearchPosition onSearch={handlePositionSearch} />
+        <button onClick={exportToExcel} className={styles.exportButton}>
           Exportar a Excel
         </button>
       </div>
       <div className={styles.mainContent}>
         <div className={styles.listContainer}>
-          <PosicionesList posiciones={filteredData} loading={loading} error={error} />
-        </div>
-        <div className={styles.chartContainer}>
-          <ChartCarousel posiciones={filteredData} />
+          <ItemList
+            posiciones={filteredData}
+            loading={loading}
+            error={error}
+          />
         </div>
       </div>
     </div>
