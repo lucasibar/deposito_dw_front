@@ -16,7 +16,7 @@ import { ArticulosPage } from '../pages/articulos/ArticulosPage';
 import { PlanProduccionPage } from '../pages/plan-produccion/PlanProduccionPage';
 import { MatchLotePOPage } from '../pages/match-lote-po/MatchLotePOPage';
 import { MatchLoteStockPage } from '../pages/match-lote-stock/MatchLoteStockPage';
-
+//que onda quiero ver si funciona 
 export const App = () => {
   return (
     <div className="App">
