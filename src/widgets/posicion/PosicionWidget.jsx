@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Box, SpeedDial, SpeedDialIcon } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { ListaItems } from '../../../../features/posicion/ui/ListaItems';
-import { MovimientoModal } from '../../../../features/posicion/ui/MovimientoModal';
-import { AjusteModal } from '../../../../features/posicion/ui/AjusteModal';
-import { RemitoSalidaModal } from '../../../../features/posicion/ui/RemitoSalidaModal';
-import { DevolucionModal } from '../../../../features/posicion/ui/DevolucionModal';
-import { BarraPosicion } from '../../../../features/posicion/ui/BarraPosicion';
+import { ListaItems } from '../../features/posicion/ui/ListaItems';
+import { MovimientoModal } from '../../features/posicion/ui/MovimientoModal';
+import { AjusteModal } from '../../features/posicion/ui/AjusteModal';
+import { RemitoSalidaModal } from '../../features/posicion/ui/RemitoSalidaModal';
+import { DevolucionModal } from '../../features/posicion/ui/DevolucionModal';
+import { BarraPosicion } from '../../features/posicion/ui/BarraPosicion';
 
 export const PosicionWidget = () => {
   const { id, rack, fila, AB } = useParams();

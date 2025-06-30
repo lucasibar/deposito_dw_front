@@ -17,8 +17,8 @@ export const SearchPosition = ({ onSearch }) => {
   };
 
   // Generar opciones para los selectores
-  const rackOptions = Array.from({ length: 10 }, (_, i) => i + 1);
-  const filaOptions = Array.from({ length: 10 }, (_, i) => i + 1);
+  const rackOptions = Array.from({ length: 20 }, (_, i) => i + 1);
+  const filaOptions = Array.from({ length: 14 }, (_, i) => i + 1);
   const nivelOptions = ['A', 'B'];
   const pasilloOptions = Array.from({ length: 11 }, (_, i) => i + 1);
 

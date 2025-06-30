@@ -1,1 +1,0 @@
-export { PosicionWidget } from './ui/PosicionWidget'; 

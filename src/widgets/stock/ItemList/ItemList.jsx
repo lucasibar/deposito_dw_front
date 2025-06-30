@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { FaFlask, FaCheckCircle, FaExchangeAlt, FaFileExport } from 'react-icons/fa';
+import { Fab, Tooltip } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import styles from './ItemList.module.css';
 import RemitoSalidaModal from '../PosicionesList/RemitoSalidaModal';
 import MovimientoModal from '../PosicionesList/MovimientoModal';
+import { AdicionRapidaModal } from './AdicionRapidaModal';
 
 export const ItemList = ({ posiciones, loading, error }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [openRemitoModal, setOpenRemitoModal] = useState(false);
   const [openMovimientoModal, setOpenMovimientoModal] = useState(false);
+  const [openAdicionModal, setOpenAdicionModal] = useState(false);
+  const [selectedPosicion, setSelectedPosicion] = useState(null);
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -34,6 +39,16 @@ export const ItemList = ({ posiciones, loading, error }) => {
     setSelectedItem(null);
   };
 
+  const handleOpenAdicionModal = (posicion) => {
+    setSelectedPosicion(posicion);
+    setOpenAdicionModal(true);
+  };
+
+  const handleCloseAdicionModal = () => {
+    setOpenAdicionModal(false);
+    setSelectedPosicion(null);
+  };
+
   return (
     <div className={styles.container}>
       {posiciones.map(posicion => (
@@ -45,6 +60,24 @@ export const ItemList = ({ posiciones, loading, error }) => {
                 : `Rack ${posicion.rack} - Fila ${posicion.fila} - Nivel ${posicion.AB}`
               }
             </h3>
+            <Tooltip title="Agregar item rápidamente">
+              <Fab
+                size="small"
+                color="primary"
+                onClick={() => handleOpenAdicionModal(posicion)}
+                sx={{
+                  width: 36,
+                  height: 36,
+                  minHeight: 36,
+                  backgroundColor: '#2ecc71',
+                  '&:hover': {
+                    backgroundColor: '#27ae60'
+                  }
+                }}
+              >
+                <AddIcon />
+              </Fab>
+            </Tooltip>
           </div>
           <div className={styles.items}>
             {posicion.items.map(item => (
@@ -116,6 +149,12 @@ export const ItemList = ({ posiciones, loading, error }) => {
           />
         </>
       )}
+
+      <AdicionRapidaModal
+        open={openAdicionModal}
+        onClose={handleCloseAdicionModal}
+        posicion={selectedPosicion}
+      />
     </div>
   );
 }; 

@@ -21,7 +21,7 @@ const URL = "https://derwill-deposito-backend.onrender.com";
 
 // Agregamos las categorías como una constante
 const CATEGORIAS = [
-  "costura", "algodon", "algodon-color", "nylon", "nylon-color", "lycra", 
+  "costura", "algodon", "algodon-color", "nylon", "nylon REC", "nylon-color", "lycra", "lycra REC", 
   "goma", "tarugo", "etiqueta", "bolsa", "percha", "ribbon", "caja", 
   "cinta", "plantilla", "film", "consumibes(aceite y parafina)", "faja", "caballete"
 ];
