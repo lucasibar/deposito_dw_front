@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 120px;
+}
+
+.selectGroup label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: white;
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: #4CAF50;
+}
+
+.select:hover {
+  border-color: #4CAF50;
+}
+
+/* Estilo para el placeholder */
+.select option[value=""] {
+  color: #666;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-left: auto;
+}
+
+.searchIcon {
+  background-color: #4CAF50 !important;
+  color: white !important;
+  transition: background-color 0.2s !important;
+}
+
+.searchIcon:hover {
+  background-color: #45a049 !important;
+} 
