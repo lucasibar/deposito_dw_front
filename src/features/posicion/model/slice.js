@@ -121,6 +121,8 @@ export const adicionRapida = (adicion) => async (dispatch) => {
       text: "La mercadería se agregó correctamente",
       icon: "success"
     });
+    // Recargar las posiciones después de una adición exitosa
+    dispatch(fetchPosiciones());
   } catch (error) {
     Swal.fire({
       title: "Error",

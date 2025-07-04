@@ -53,10 +53,6 @@ export const ListaPartidasRemito = () => {
     setEditingIndex(index);
   };
 
-  const handleSubirRemito = () => {
-    console.log('Subiendo remito...');
-  };
-
   return (
     <Paper 
       sx={{ 
