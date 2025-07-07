@@ -1,43 +1,27 @@
 import React, { useState } from 'react';
 import { FaFlask, FaCheckCircle, FaExchangeAlt, FaFileExport } from 'react-icons/fa';
-import { Fab, Tooltip } from '@mui/material';
+import { Fab, Tooltip, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import styles from './ItemList.module.css';
 import RemitoSalidaModal from '../PosicionesList/RemitoSalidaModal';
 import MovimientoModal from '../PosicionesList/MovimientoModal';
 import { AdicionRapidaModal } from './AdicionRapidaModal';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useDispatch } from 'react-redux';
+import { adicionRapida } from '../../../features/posicion/model/slice';
 
 export const ItemList = ({ posiciones, loading, error }) => {
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [openRemitoModal, setOpenRemitoModal] = useState(false);
-  const [openMovimientoModal, setOpenMovimientoModal] = useState(false);
+  const dispatch = useDispatch();
   const [openAdicionModal, setOpenAdicionModal] = useState(false);
   const [selectedPosicion, setSelectedPosicion] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
   
   if (!posiciones.length) return <div>No hay posiciones disponibles</div>;
 
-  const handleOpenRemitoModal = (item, posicionId) => {
-    setSelectedItem({ ...item, posicionId });
-    setOpenRemitoModal(true);
-  };
-
-  const handleCloseRemitoModal = () => {
-    setOpenRemitoModal(false);
-    setSelectedItem(null);
-  };
-
-  const handleOpenMovimientoModal = (item, posicionId) => {
-    setSelectedItem({ ...item, posicionId });
-    setOpenMovimientoModal(true);
-  };
-
-  const handleCloseMovimientoModal = () => {
-    setOpenMovimientoModal(false);
-    setSelectedItem(null);
-  };
+ 
 
   const handleOpenAdicionModal = (posicion) => {
     setSelectedPosicion(posicion);
@@ -47,6 +31,36 @@ export const ItemList = ({ posiciones, loading, error }) => {
   const handleCloseAdicionModal = () => {
     setOpenAdicionModal(false);
     setSelectedPosicion(null);
+  };
+
+  const handleAdicionRapida = async (item, posicion, tipoMovimiento) => {
+    try {
+      if (tipoMovimiento === 'ajusteSUMA') {
+        // Para agregar, abrimos el modal de adición rápida
+        setSelectedPosicion(posicion);
+        setOpenAdicionModal(true);
+      } else {
+        // Para eliminar, necesitamos el item específico
+        if (!item) {
+          console.error('Item requerido para eliminación');
+          return;
+        }
+
+        const adicionData = {
+          proveedor: item.proveedor,
+          tipoMovimiento: tipoMovimiento, // 'ajusteRESTA'
+          item: item,
+          kilos: item.kilos,
+          unidades: item.unidades,
+          partida: item.partida,
+          posicion: posicion.posicionId
+        };
+
+        await dispatch(adicionRapida(adicionData));
+      }
+    } catch (error) {
+      console.error('Error en adición rápida:', error);
+    }
   };
 
   return (
@@ -61,22 +75,18 @@ export const ItemList = ({ posiciones, loading, error }) => {
               }
             </h3>
             <Tooltip title="Agregar item rápidamente">
-              <Fab
-                size="small"
-                color="primary"
-                onClick={() => handleOpenAdicionModal(posicion)}
+              <IconButton
+                onClick={() => handleAdicionRapida(null, posicion, 'ajusteSUMA')}
                 sx={{
-                  width: 36,
-                  height: 36,
-                  minHeight: 36,
                   backgroundColor: '#2ecc71',
+                  color: 'white',
                   '&:hover': {
                     backgroundColor: '#27ae60'
                   }
                 }}
               >
                 <AddIcon />
-              </Fab>
+              </IconButton>
             </Tooltip>
           </div>
           <div className={styles.items}>
@@ -105,27 +115,20 @@ export const ItemList = ({ posiciones, loading, error }) => {
                   </div>
                 </div>
                 <div className={styles.sideContent}>
-                  <div className={styles.actionButtons}>
-                    <button 
-                      className={styles.actionButton} 
-                      onClick={() => handleOpenRemitoModal(item, posicion.posicionId)}
-                      title="Remito de Salida"
+                  <Tooltip title="Eliminar item rápidamente">
+                    <IconButton
+                      onClick={() => handleAdicionRapida(item, posicion, 'ajusteRESTA')}
+                      sx={{
+                        backgroundColor: '#e74c3c',
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: '#c0392b'
+                        }
+                      }}
                     >
-                      <FaFileExport />
-                    </button>
-                    <button 
-                      className={styles.actionButton} 
-                      onClick={() => handleOpenMovimientoModal(item, posicion.posicionId)}
-                      title="Movimiento Interno"
-                    >
-                      <FaExchangeAlt />
-                    </button>
-                  </div>
-                  {posicion.estado === 'CUARENTENA' ? (
-                    <FaFlask className={styles.testIcon} title="En cuarentena" />
-                  ) : posicion.estado === 'CUARENTENA_REVISION' ? (
-                    <FaCheckCircle className={styles.approveIcon} title="Pendiente de aprobación" />
-                  ) : null}
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
                 </div>
               </div>
             ))}
@@ -133,22 +136,6 @@ export const ItemList = ({ posiciones, loading, error }) => {
         </div>
       ))}
 
-      {selectedItem && (
-        <>
-          <RemitoSalidaModal 
-            open={openRemitoModal} 
-            onClose={handleCloseRemitoModal} 
-            item={selectedItem} 
-            id={selectedItem.posicionId} 
-          />
-          <MovimientoModal 
-            open={openMovimientoModal} 
-            onClose={handleCloseMovimientoModal} 
-            item={selectedItem} 
-            id={selectedItem?.posicionId} 
-          />
-        </>
-      )}
 
       <AdicionRapidaModal
         open={openAdicionModal}
