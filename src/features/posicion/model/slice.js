@@ -115,25 +115,35 @@ export const agregarAlRemitoSalida = (selectedItem, proveedor, kilos, unidades, 
 
 export const adicionRapida = (adicion) => async (dispatch) => {
   try {
+    console.log('Enviando datos a adicionRapida:', adicion);
     const response = await axios.post(`${URL}/movimientos/adicion-rapida`, adicion);
+    
+    // Mostrar mensaje según el tipo de movimiento
+    const mensaje = adicion.tipoMovimiento === 'ajusteRESTA' 
+      ? 'La mercadería se eliminó correctamente'
+      : 'La mercadería se agregó correctamente';
+      
     Swal.fire({
       title: "Éxito",
-      text: "La mercadería se agregó correctamente",
+      text: mensaje,
       icon: "success"
     });
-    // Recargar las posiciones después de una adición exitosa
+    // Recargar las posiciones después de una operación exitosa
     dispatch(fetchPosiciones());
   } catch (error) {
+    console.error('Error en adición rápida:', error);
+    console.error('Respuesta del servidor:', error.response?.data);
+    
+    const errorMessage = error.response?.data?.message || 
+                        error.response?.data || 
+                        "No se pudo realizar la operación";
+    
     Swal.fire({
       title: "Error",
-      text: "No se pudo realizar la adición",
+      text: errorMessage,
       icon: "error"
     });
   }
-};
-
-export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => {
-  try {
     await axios.put(`${URL}/posiciones/${id}/items/${selectedItem.id}`, data);
     dispatch(fetchItemsPosicion(id));
   } catch (error) {
