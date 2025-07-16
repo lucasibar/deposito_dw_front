@@ -12,7 +12,8 @@ import {
   MenuItem,
   Box,
   Typography,
-  Alert
+  Alert,
+  Autocomplete
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { adicionRapida } from '../../../features/posicion/model/slice';
@@ -157,6 +158,154 @@ const ModalNuevoItem = ({ open, onClose, proveedor, onItemCreado }) => {
   );
 };
 
+// Modal para eliminación rápida
+export const EliminacionRapidaModal = ({ open, onClose, item, posicion }) => {
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    kilos: '',
+    unidades: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSubmit = async () => {
+    // Validación básica
+    if (!formData.kilos || !formData.unidades) {
+      setError('Por favor complete todos los campos');
+      return;
+    }
+
+    // Validar que no se elimine más de lo disponible
+    if (parseInt(formData.kilos) > item.kilos) {
+      setError(`No puede eliminar más de ${item.kilos} kilos disponibles`);
+      return;
+    }
+
+    if (parseInt(formData.unidades) > item.unidades) {
+      setError(`No puede eliminar más de ${item.unidades} unidades disponibles`);
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const adicionData = {
+        proveedor: item.proveedor,
+        tipoMovimiento: 'ajusteRESTA',
+        item: item,
+        kilos: parseInt(formData.kilos),
+        unidades: parseInt(formData.unidades),
+        partida: item.partida,
+        posicion: posicion?.posicionId || posicion?.id || ''
+      };
+
+      await dispatch(adicionRapida(adicionData));
+      onClose();
+      setFormData({
+        kilos: '',
+        unidades: ''
+      });
+    } catch (error) {
+      setError('Error al eliminar el item. Por favor intente nuevamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClose = () => {
+    if (!loading) {
+      onClose();
+      setFormData({
+        kilos: '',
+        unidades: ''
+      });
+      setError('');
+    }
+  };
+
+  return (
+    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+      <DialogTitle>
+        Eliminación Rápida - {item?.descripcion}
+      </DialogTitle>
+      <DialogContent>
+        <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
+          
+          <Typography variant="body2" color="textSecondary">
+            <strong>Proveedor:</strong> {item?.proveedor?.nombre}
+          </Typography>
+          
+          <Typography variant="body2" color="textSecondary">
+            <strong>Partida:</strong> {item?.partida}
+          </Typography>
+          
+          <Typography variant="body2" color="textSecondary">
+            <strong>Disponible:</strong> {item?.kilos} kilos, {item?.unidades} unidades
+          </Typography>
+          
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <TextField
+              fullWidth
+              label="Kilos a eliminar"
+              type="number"
+              inputProps={{ step: 1, min: 0, max: item?.kilos }}
+              value={formData.kilos}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === '' || /^\d+$/.test(value)) {
+                  handleInputChange('kilos', value);
+                }
+              }}
+              required
+            />
+            
+            <TextField
+              fullWidth
+              label="Unidades a eliminar"
+              type="number"
+              inputProps={{ step: 1, min: 0, max: item?.unidades }}
+              value={formData.unidades}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === '' || /^\d+$/.test(value)) {
+                  handleInputChange('unidades', value);
+                }
+              }}
+              required
+            />
+          </Box>
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} disabled={loading}>
+          Cancelar
+        </Button>
+        <Button 
+          onClick={handleSubmit} 
+          variant="contained" 
+          color="error"
+          disabled={loading}
+        >
+          {loading ? 'Eliminando...' : 'Eliminar'}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
 export const AdicionRapidaModal = ({ open, onClose, posicion }) => {
   const dispatch = useDispatch();
   const proveedores = useSelector((state) => state.remitos.proveedores);
@@ -283,54 +432,100 @@ export const AdicionRapidaModal = ({ open, onClose, posicion }) => {
               </Alert>
             )}
             
-            <FormControl fullWidth required>
-              <InputLabel>Proveedor</InputLabel>
-              <Select
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <Autocomplete
+                options={proveedores || []}
+                getOptionLabel={(option) => option ? option.nombre || '' : ''}
                 value={formData.proveedor}
-                label="Proveedor"
-                onChange={(e) => handleInputChange('proveedor', e.target.value)}
-                disabled={!proveedores || proveedores.length === 0}
-              >
-                <MenuItem value="" onClick={() => setOpenNuevoProveedor(true)}>
-                  <em>+ Agregar nuevo proveedor</em>
-                </MenuItem>
-                {proveedores?.map((prov) => (
-                  <MenuItem key={prov.id} value={prov}>
-                    {prov.nombre}
-                  </MenuItem>
-                ))}
-              </Select>
-              {(!proveedores || proveedores.length === 0) && (
-                <Typography variant="caption" color="textSecondary" sx={{ mt: 1 }}>
-                  Cargando proveedores...
-                </Typography>
-              )}
-            </FormControl>
-            
-            <FormControl fullWidth required>
-              <InputLabel>Item</InputLabel>
-              <Select
-                value={formData.item}
-                label="Item"
-                onChange={(e) => handleInputChange('item', e.target.value)}
-                disabled={!formData.proveedor}
-              >
-                <MenuItem value="" onClick={() => setOpenNuevoItem(true)}>
-                  <em>+ Agregar nuevo item</em>
-                </MenuItem>
-                {itemsProveedor.length > 0 ? (
-                  itemsProveedor.map((item) => (
-                    <MenuItem key={item.id} value={item}>
-                      {`${item.categoria} - ${item.descripcion}`}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem disabled>
-                    No hay items disponibles para este proveedor
-                  </MenuItem>
+                onChange={(event, newValue) => handleInputChange('proveedor', newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Proveedor"
+                    required
+                    placeholder="Buscar proveedor..."
+                  />
                 )}
-              </Select>
-            </FormControl>
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    {option.nombre}
+                  </Box>
+                )}
+                noOptionsText="No se encontraron proveedores"
+                loading={!proveedores || proveedores.length === 0}
+                loadingText="Cargando proveedores..."
+                filterOptions={(options, { inputValue }) => {
+                  const filtered = options.filter(option =>
+                    option.nombre.toLowerCase().includes(inputValue.toLowerCase())
+                  );
+                  return filtered;
+                }}
+              />
+              <Button 
+                size="small" 
+                onClick={() => setOpenNuevoProveedor(true)}
+                sx={{ 
+                  color: '#2ecc71', 
+                  alignSelf: 'flex-start',
+                  textTransform: 'none'
+                }}
+              >
+                + Agregar nuevo proveedor
+              </Button>
+            </Box>
+            
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <Autocomplete
+                options={itemsProveedor}
+                getOptionLabel={(option) => option ? `${option.categoria || ''} - ${option.descripcion || ''}` : ''}
+                value={formData.item}
+                onChange={(event, newValue) => handleInputChange('item', newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Item"
+                    required
+                    placeholder="Buscar item..."
+                    disabled={!formData.proveedor}
+                  />
+                )}
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    <Box>
+                      <Typography variant="body2" fontWeight="bold">
+                        {option.categoria}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {option.descripcion}
+                      </Typography>
+                    </Box>
+                  </Box>
+                )}
+                noOptionsText={
+                  formData.proveedor ? "No se encontraron items" : "Seleccione un proveedor primero"
+                }
+                filterOptions={(options, { inputValue }) => {
+                  const filtered = options.filter(option =>
+                    option.categoria.toLowerCase().includes(inputValue.toLowerCase()) ||
+                    option.descripcion.toLowerCase().includes(inputValue.toLowerCase())
+                  );
+                  return filtered;
+                }}
+              />
+              {formData.proveedor && (
+                <Button 
+                  size="small" 
+                  onClick={() => setOpenNuevoItem(true)}
+                  sx={{ 
+                    color: '#2ecc71', 
+                    alignSelf: 'flex-start',
+                    textTransform: 'none'
+                  }}
+                >
+                  + Agregar nuevo item
+                </Button>
+              )}
+            </Box>
             
             <TextField
               fullWidth

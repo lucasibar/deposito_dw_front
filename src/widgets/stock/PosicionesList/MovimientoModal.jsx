@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -21,6 +21,14 @@ export default function MovimientoModal({ open, onClose, item, id }) {
   const [pasillo, setPasillo] = useState('');
   const [kilos, setKilos] = useState(item?.kilos || 0);
   const [unidades, setUnidades] = useState(item?.unidades || 0);
+
+  // Actualizar valores cuando cambie el item
+  useEffect(() => {
+    if (item) {
+      setKilos(item.kilos || 0);
+      setUnidades(item.unidades || 0);
+    }
+  }, [item]);
 
   const isLocationSelected = () => {
     return ((rack && fila && nivel) || pasillo) && kilos > 0 && unidades > 0;
@@ -63,7 +71,7 @@ export default function MovimientoModal({ open, onClose, item, id }) {
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, flexWrap: 'wrap', mt: 2 }}>
           <TextField
-            label="Fila"
+            label="Rack"
             value={rack}
             onChange={(e) => setRack(e.target.value)}
             disabled={pasillo !== ''}
@@ -86,7 +94,7 @@ export default function MovimientoModal({ open, onClose, item, id }) {
             ))}
           </TextField>
           <TextField
-            label="Rack"
+            label="Fila"
             value={fila}
             onChange={(e) => setFila(e.target.value)}
             disabled={pasillo !== ''}
