@@ -144,6 +144,10 @@ export const adicionRapida = (adicion) => async (dispatch) => {
       icon: "error"
     });
   }
+};
+
+export const actualizarKilosUnidades = (selectedItem, data, id) => async (dispatch) => {
+  try {
     await axios.put(`${URL}/posiciones/${id}/items/${selectedItem.id}`, data);
     dispatch(fetchItemsPosicion(id));
   } catch (error) {
