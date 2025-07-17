@@ -376,7 +376,15 @@ export const AdicionRapidaModal = ({ open, onClose, posicion }) => {
       const adicionData = {
         proveedor: formData.proveedor,
         tipoMovimiento: formData.tipoMovimiento,
-        item: formData.item,
+        item: {
+          itemId: formData.item.id,
+          categoria: formData.item.categoria,
+          descripcion: formData.item.descripcion,
+          proveedor: formData.item.proveedor,
+          partida: formData.partida,
+          kilos: 0,
+          unidades: 0
+        },
         kilos: parseInt(formData.kilos),
         unidades: parseInt(formData.unidades),
         partida: formData.partida,
