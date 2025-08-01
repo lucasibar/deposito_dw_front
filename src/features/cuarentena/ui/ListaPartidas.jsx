@@ -187,8 +187,8 @@ export const ListaPartidas = ({ onAsignarPosicion }) => {
               </Typography>
               <Typography variant="body2" mt={2}>
                 {partida.item
-                  ? `${partida.item.proveedor.nombre} ${partida.item.categoria} ${partida.item.descripcion}`
-                  : null}
+                  ? `${partida.item.proveedor?.nombre || ''} ${partida.item.categoria || ''} ${partida.item.descripcion || ''}`
+                  : 'Sin información del ítem'}
               </Typography>
               <Typography variant="body2" mt={2}>
                 Kilos: {partida.kilos} - Unidades: {partida.unidades}

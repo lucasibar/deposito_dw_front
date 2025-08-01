@@ -82,11 +82,11 @@ const partidasSlice = createSlice({
             id: partida.id, 
             numeroPartida: partida.numeroPartida,
             item: partida.item,
-            descripcionItem: `${partida.item.descripcion} ${partida.item.categoria}`||"QUE PASO?!",
+            descripcionItem: partida.item ? `${partida.item.descripcion || ''} ${partida.item.categoria || ''}`.trim() || "Sin descripción" : "Sin descripción",
             kilos: partida.kilos,
             unidades: partida.unidades,
             estado: partida.estado,
-            proveedor: partida.item.proveedor.nombre,
+            proveedor: partida.item?.proveedor?.nombre || "Sin proveedor",
             fecha: fechaFormateada,
             fechaModificacion: null
           };

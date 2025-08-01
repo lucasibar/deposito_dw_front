@@ -168,7 +168,7 @@ export default function MovimientoModal({ open, onClose, item, id }) {
           </TextField>
         </Box>
 
-        <Typography variant="h6" component="h6" sx={{ mt: 2 }}>
+        <Typography variant="h6" component="div" sx={{ mt: 2 }}>
           Kilos {kilos}
         </Typography>
         <TextField

@@ -137,7 +137,7 @@ export const ModalPosicion = ({ open, handleClose, partida }) => {
         }}
       >
         <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
-          {`${partida.item.proveedor.nombre} ${partida.item?.categoria} ${partida.item?.descripcion}`}
+          {partida.item ? `${partida.item.proveedor?.nombre || ''} ${partida.item?.categoria || ''} ${partida.item?.descripcion || ''}` : 'Sin información del ítem'}
         </Typography>
 
         <Typography variant="body2" gutterBottom>

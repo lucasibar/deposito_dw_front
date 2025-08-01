@@ -115,7 +115,7 @@ export const MovimientoModal = ({ open, onClose, item, posicionId }) => {
           </TextField>
         </Box>
 
-        <Typography variant="h6" component="h6">
+        <Typography variant="h6" component="div">
           Kilos {kilos}
         </Typography>
         <TextField
